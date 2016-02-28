@@ -16,6 +16,7 @@ Utils for AWS Lambda
 
 1. __aws-lambda-get__ - Download a lambda function
 2. __aws-lambda-upload__ - Upload the function code
+3. __aws-lambda-create__ - Create and upload the function code
 
 ### 1. __aws-lambda-get__ - Download a lambda function
 
@@ -27,16 +28,25 @@ $ aws-lambda-get <function-name>
 
 ### 2. __aws-lambda-upload__ - Upload the function code
 
-Update the function code to AWS Lambda.
+Update the function to upload a zip file which is created in automatic
+and contains all the files in subdirectory of the same name as the
+function.
 
 ```
 $ aws-lambda-upload <sub-directory-name>
 ```
 
-All the contents of the subdirectory is to be zipped and uploaded.
-
 * Note: this cannot create a new function.
 
+### 2. __aws-lambda-create__ - Create and upload the function code
+
+Create the function to upload a zip file which is created in automatic
+and contains all the files in subdirectory of the same name as the
+function.
+
+```
+$ aws-lambda-create <sub-directory-name>
+```
 
 Utils for Amazon Dynamo
 -----------------------
