@@ -1,5 +1,5 @@
 DSTBIN=~/bin
-NODE_MODULE=~/node_module
+NODE_MODULE=~/node_modules
 install aws-lambda-get.sh ${DSTBIN}/aws-lambda-get
 install aws-lambda-create.sh ${DSTBIN}/aws-lambda-create
 install aws-lambda-upload.sh ${DSTBIN}/aws-lambda-upload
