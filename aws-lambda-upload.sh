@@ -1,13 +1,22 @@
 #!/bin/sh
-if [ "$1" = "" ]; then
+# remove slash from function-name
+fname=`echo "$1" | sed -e "s|/||g"`
+
+if [ "${fname}" = "" ]; then
     echo "usage: aws-lambda-upload <function-name>"
     exit
 fi
-cd $1
+
+# Check the function-name exists as directory
+if [ ! -e ${fname} ]; then
+    echo "error: directory ${fname} not found"
+    exit
+fi
+cd ${fname}
 if [ -e .onupload.sh ]; then
     sh .onupload.sh
 fi
-zip -r ../$1.zip *
+zip -r ../${fname}.zip *
 cd ..
-aws lambda update-function-code --function-name $1 --zip-file fileb://$1.zip
-rm $1.zip
+aws lambda update-function-code --function-name ${fname} --zip-file fileb://${fname}.zip
+rm ${fname}.zip
