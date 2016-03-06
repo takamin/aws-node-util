@@ -48,6 +48,22 @@ function.
 $ aws-lambda-create <sub-directory-name>
 ```
 
+Utils for AWS API Gateway
+-------------------------
+
+1. __aws-apigw-create-rest-api__
+2. __aws-apigw-create-resource__ 
+3. __aws-apigw-describe-methods__ 
+4. __aws-apigw-list-resources__ 
+
+Utils for AWS IAM
+-----------------
+
+1. __aws-iam-list-roles__ - list names and created date of all the role
+2. __aws-iam-get-role__ - print role's JSON document to stdout
+3. __aws-iam-create-role__ - create role by the name and a JSON file that describes an assume-role-policy-document
+4. __aws-iam-attach-role-policy__ - attach a policy represented by arn to the role
+
 Utils for Amazon Dynamo
 -----------------------
 
