@@ -48,6 +48,14 @@ function.
 $ aws-lambda-create <sub-directory-name>
 ```
 
+Utils for AWS API Gateway
+-------------------------
+
+1. __aws-apigw-create-rest-api__
+2. __aws-apigw-create-resource__ 
+3. __aws-apigw-describe-methods__ 
+4. __aws-apigw-list-resources__ 
+
 Utils for AWS IAM
 -----------------
 
