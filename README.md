@@ -4,12 +4,19 @@ AWS-Node-Util
 DESCRIPTION
 -----------
 
-The utilities to manipulate AWS Lambda and Amazon DynamoDB.
+The command sets to manipulate AWS with the local command line interface.
+
+These are wrapper for the AWS CLI with shell script or Node.js.
 
 REQUIREMENT
 -----------
 
-For this utility, following utilities are required: AWS CLI, Curl, Zip/Unzip, and Node.js.
+For this utility, following utilities are required:
+
+* AWS CLI
+* Node.js
+* Curl
+* Zip/Unzip
 
 Utils for AWS Lambda
 -------------------
@@ -51,10 +58,10 @@ $ aws-lambda-create <sub-directory-name> <role-arn>
 Utils for AWS API Gateway
 -------------------------
 
-1. __aws-apigw-create-rest-api__
-2. __aws-apigw-create-resource__ 
-3. __aws-apigw-describe-methods__ 
-4. __aws-apigw-list-resources__ 
+1. __aws-apigw-describe-api__ - describe an api content to json. it includes all the resources and all the methods.
+2. __aws-apigw-create-rest-api__
+3. __aws-apigw-create-resource__
+4. aws-apigw-list-resources
 
 Utils for AWS IAM
 -----------------

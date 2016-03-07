@@ -15,6 +15,7 @@
     "aws-iam-create-role": "./bin/aws-iam-create-role.js",
     "aws-iam-attach-role-policy": "./bin/aws-iam-attach-role-policy.js",
     "aws-apigw-describe-all": "./bin/aws-apigw-describe-all.js",
+    "aws-apigw-describe-api": "./bin/aws-apigw-describe-api.js",
     "aws-apigw-create-rest-api": "./bin/aws-apigw-create-rest-api.js",
     "aws-apigw-create-resource": "./bin/aws-apigw-create-resource.js",
     "aws-apigw-describe-methods": "./bin/aws-apigw-describe-methods.js",
