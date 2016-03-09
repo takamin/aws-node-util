@@ -45,7 +45,7 @@ and contains all the files in subdirectory of the same name as the
 function.
 
 ```
-$ aws-lambda-create <sub-directory-name>
+$ aws-lambda-create <sub-directory-name> <role-arn>
 ```
 
 Utils for AWS API Gateway
@@ -70,3 +70,9 @@ Utils for Amazon Dynamo
 1. __aws-dynamodb-tbldesc2create__ - Get JSON to create the table from its description JSON
 2. __aws-dynamodb-create-table__ - Create a table from specified JSON 
 3. __aws-dynamodb-delete-table__ - Delete table by its name
+
+
+LICENSE
+-------
+
+This software is released under the MIT License, see [LICENSE](LICENSE)
