@@ -1,5 +1,5 @@
 #!/usr/bin/node
-var iam = require("aws-iam");
+var iam = require("../lib/aws-iam");
 iam.attachRolePolicy(
         process.argv[2],
         process.argv[3],

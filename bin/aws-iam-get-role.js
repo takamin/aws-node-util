@@ -1,5 +1,5 @@
 #!/usr/bin/node
-var iam = require("aws-iam");
+var iam = require("../lib/aws-iam");
 iam.getRole(process.argv[2], function(err, data) {
     if(err) {
         console.error("Error:", err);

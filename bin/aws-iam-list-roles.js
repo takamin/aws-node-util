@@ -1,18 +1,15 @@
 #!/usr/bin/node
-var cli = require("cli");
-var iam = require("aws-iam");
+var listit = require("list-it");
+var iam = require("../lib/aws-iam");
 iam.listRoles(function(err, data) {
     if(err) {
         console.error("Error:", err);
         return;
     }
     var i = 0;
-    var list = new cli.List();
+    var list = new listit.buffer();
     data.Roles.forEach(function(role) {
-        list.newLine();
-        list.addCol("" + ++i + ".");
-        list.addCol(role.RoleName);
-        list.addCol(role.CreateDate);
+        list.d([ ++i, role.RoleName, role.CreateDate ]);
     });
     console.log(list.toString());
     console.log("----");
