@@ -21,7 +21,11 @@
     "aws-apigw-list-resources": "./bin/aws-apigw-list-resources.js",
     "aws-dynamodb-tbldesc2create": "./bin/aws-dynamodb-tbldesc2create.sh",
     "aws-dynamodb-create-table": "./bin/aws-dynamodb-create-table.sh",
-    "aws-dynamodb-delete-table": "./bin/aws-dynamodb-delete-table.sh"
+    "aws-dynamodb-delete-table": "./bin/aws-dynamodb-delete-table.sh",
+    "aws-iot-create-thing": "./bin/aws-iot-create-thing.js",
+    "aws-iot-describe-thing": "./bin/aws-iot-describe-thing.js",
+    "aws-iot-delete-thing": "./bin/aws-iot-delete-thing.js",
+    "aws-iot-get-policy": "./bin/aws-iot-get-policy.js"
   },
   "dependencies": {
     "list-it": "^0.3.1"
