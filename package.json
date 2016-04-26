@@ -1,0 +1,48 @@
+{
+  "name": "aws-node-util",
+  "version": "0.0.0",
+  "description": "AWS cli utilities",
+  "directries": {
+    "lib": "./lib"
+  },
+  "main": "./bin/aws-node.js",
+  "bin": {
+    "aws-lambda-get": "./bin/aws-lambda-get.sh",
+    "aws-lambda-create": "./bin/aws-lambda-create.sh",
+    "aws-lambda-upload": "./bin/aws-lambda-upload.sh",
+    "aws-iam-list-roles": "./bin/aws-iam-list-roles.js",
+    "aws-iam-get-role": "./bin/aws-iam-get-role.js",
+    "aws-iam-create-role": "./bin/aws-iam-create-role.js",
+    "aws-iam-attach-role-policy": "./bin/aws-iam-attach-role-policy.js",
+    "aws-apigw-describe-all": "./bin/aws-apigw-describe-all.js",
+    "aws-apigw-describe-api": "./bin/aws-apigw-describe-api.js",
+    "aws-apigw-create-rest-api": "./bin/aws-apigw-create-rest-api.js",
+    "aws-apigw-create-resource": "./bin/aws-apigw-create-resource.js",
+    "aws-apigw-describe-methods": "./bin/aws-apigw-describe-methods.js",
+    "aws-apigw-list-resources": "./bin/aws-apigw-list-resources.js",
+    "aws-dynamodb-tbldesc2create": "./bin/aws-dynamodb-tbldesc2create.sh",
+    "aws-dynamodb-create-table": "./bin/aws-dynamodb-create-table.sh",
+    "aws-dynamodb-delete-table": "./bin/aws-dynamodb-delete-table.sh"
+  },
+  "dependencies": {
+    "list-it": "^0.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/takamin/aws-node-util.git"
+  },
+  "keywords": [
+    "aws",
+    "cli"
+  ],
+  "author": "Koji Takami",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/takamin/aws-node-util/issues"
+  },
+  "homepage": "https://github.com/takamin/aws-node-util#readme"
+}

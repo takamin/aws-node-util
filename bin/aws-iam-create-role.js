@@ -1,5 +1,5 @@
 #!/usr/bin/node
-var iam = require("aws-iam");
+var iam = require("../lib/aws-iam");
 var fs = require("fs");
 fs.readFile(process.argv[3], function(err, data) {
     if(err) {

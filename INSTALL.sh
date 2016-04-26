@@ -9,10 +9,9 @@ install aws-iam-get-role.js ${DSTBIN}/aws-iam-get-role
 install aws-iam-create-role.js ${DSTBIN}/aws-iam-create-role
 install aws-iam-attach-role-policy.js ${DSTBIN}/aws-iam-attach-role-policy
 
-install aws-apigw-describe-all.js ${DSTBIN}/aws-apigw-describe-all
+install aws-apigw-describe-api.js ${DSTBIN}/aws-apigw-describe-api
 install aws-apigw-create-rest-api.js ${DSTBIN}/aws-apigw-create-rest-api
 install aws-apigw-create-resource.js ${DSTBIN}/aws-apigw-create-resource
-install aws-apigw-describe-methods.js ${DSTBIN}/aws-apigw-describe-methods
 install aws-apigw-list-resources.js ${DSTBIN}/aws-apigw-list-resources
 
 install aws-dynamodb-tbldesc2create.sh ${DSTBIN}/aws-dynamodb-tbldesc2create
