@@ -1,6 +1,6 @@
 {
   "name": "aws-node-util",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "AWS cli utilities",
   "directries": {
     "lib": "./lib"
@@ -29,6 +29,7 @@
     "aws-iot-get-policy": "./bin/aws-iot-get-policy.js"
   },
   "dependencies": {
+    "hash-arg": "0.0.4",
     "list-it": "^0.3.1"
   },
   "devDependencies": {},
