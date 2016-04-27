@@ -1,5 +1,5 @@
 #!/usr/bin/node
-var awsIoT = require('../lib/aws-iot');
+var aws = require('../lib/awscli');
 var args = require('hash-arg').get([
     "thingName",
     "attributePayload"
@@ -8,7 +8,7 @@ if(!args.thingName) {
     console.error("ERROR: thingName is required");
     process.exit(1);
 } else {
-    awsIoT.createThing(
+    aws.iot.createThing(
             args.thingName, args.attributePayload,
             function(err, data) {
                 if(!err) {

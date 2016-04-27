@@ -29,6 +29,7 @@
     "aws-iot-get-policy": "./bin/aws-iot-get-policy.js"
   },
   "dependencies": {
+    "camelcase": "^2.1.1",
     "hash-arg": "0.0.4",
     "list-it": "^0.3.1"
   },
