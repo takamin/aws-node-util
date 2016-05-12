@@ -26,12 +26,14 @@
     "aws-iot-create-thing": "./bin/aws-iot-create-thing.js",
     "aws-iot-describe-thing": "./bin/aws-iot-describe-thing.js",
     "aws-iot-delete-thing": "./bin/aws-iot-delete-thing.js",
-    "aws-iot-get-policy": "./bin/aws-iot-get-policy.js"
+    "aws-iot-get-policy": "./bin/aws-iot-get-policy.js",
+    "aws-iot-list-all-resources": "./bin/aws-iot-list-all-resources.js"
   },
   "dependencies": {
     "camelcase": "^2.1.1",
     "hash-arg": "0.0.4",
-    "list-it": "^0.3.1"
+    "list-it": "^0.3.1",
+    "promise": "^7.1.1"
   },
   "devDependencies": {},
   "scripts": {
