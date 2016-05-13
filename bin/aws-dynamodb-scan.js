@@ -33,7 +33,7 @@
     }
     var sortItemPath = getopt.options['sort-item'];
     var sortDesc = getopt.options['desc'];
-    dynamodb.scan(arg.tableName, maxItems, function(err, data) {
+    dynamodb.scan(arg.tableName, maxItems, startingToken, function(err, data) {
         if(err) {
             console.error("Error:", err);
             process.exit(1);
