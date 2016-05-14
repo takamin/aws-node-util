@@ -82,6 +82,7 @@ Utils for AWS IoT
 
 1. __aws-iot-list-all-resources__ - list all the IoT resouces
 2. __aws-iot-create-thing__ - create a thing
+2. __aws-iot-create-policy__ - create a policy
 3. __aws-iot-delete-thing__ - delete the thing
 4. __aws-iot-describe-thing__ - describe the thing
 5. __aws-iot-get-policy__ - print the policy
