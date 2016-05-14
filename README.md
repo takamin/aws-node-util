@@ -45,7 +45,7 @@ $ aws-lambda-upload <sub-directory-name>
 
 * Note: this cannot create a new function.
 
-### 2. __aws-lambda-create__ - Create and upload the function code
+### 3. __aws-lambda-create__ - Create and upload the function code
 
 Create the function to upload a zip file which is created in automatic
 and contains all the files in subdirectory of the same name as the
@@ -75,6 +75,16 @@ Utils for Amazon Dynamo
 -----------------------
 
 1. __aws-dynamodb-desc2create__ - Convert a JSON to create the table from its description
+
+
+Utils for AWS IoT
+-----------------
+
+1. __aws-iot-list-all-resources__ - list all the IoT resouces
+2. __aws-iot-create-thing__ - create a thing
+3. __aws-iot-delete-thing__ - delete the thing
+4. __aws-iot-describe-thing__ - describe the thing
+5. __aws-iot-get-policy__ - print the policy
 
 
 LICENSE
