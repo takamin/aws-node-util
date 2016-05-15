@@ -1,4 +1,4 @@
-#!/usr/bin/node
+#!/bin/env node
 var apigateway = require("../lib/aws-apigateway");
 apigateway.getRestApis(function(err, data) {
     if(err) {

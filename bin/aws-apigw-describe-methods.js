@@ -1,4 +1,4 @@
-#!/usr/bin/node
+#!/bin/env node
 var apigw = require('../lib/aws-apigateway');
 var restApiId = process.argv[2];
 var output = {
