@@ -31,7 +31,7 @@ Utils for AWS Lambda
 $ aws-lambda-get <function-name>
 ```
 
-* A Zip file is downloaded from AWS Lamnda and extracted to a sub directory named same to the function.
+* A Zip file is downloaded from AWS Lambda and extracted to a sub directory named same to the function.
 
 ### 2. __aws-lambda-upload__ - Upload the function code
 
@@ -82,11 +82,11 @@ Utils for AWS IoT
 
 1. __aws-iot-list-all-resources__ - list all the IoT resouces
 2. __aws-iot-create-keys-and-certificate__ - create certificate and attach the thing and/or policy
-2. __aws-iot-create-policy__ - create a policy
-2. __aws-iot-create-thing__ - create a thing
-3. __aws-iot-delete-thing__ - delete the thing
-4. __aws-iot-describe-thing__ - describe the thing
-5. __aws-iot-get-policy__ - print the policy
+3. __aws-iot-create-policy__ - create a policy
+4. __aws-iot-create-thing__ - create a thing
+5. __aws-iot-delete-thing__ - delete the thing
+6. __aws-iot-describe-thing__ - describe the thing
+7. __aws-iot-get-policy__ - print the policy
 
 
 LICENSE

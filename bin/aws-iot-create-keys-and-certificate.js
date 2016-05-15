@@ -30,26 +30,34 @@
             }
         }
         fs.writeFileSync(fn, JSON.stringify(data, null, "    "));
+        console.error("The created keys and certificate " + 
+                "were saved to the file '" + fn + "'.");
         if(cmdlin.options["thing-name"]) {
             aws.iot.attachThingPrincipal(
                     cmdlin.options["thing-name"],
                     data.certificateArn,
-                    function(err, data) {
+                    function(err, blank) {
                         if(err) {
                             console.error("Error: ", err);
                             process.exit(1);
                         }
+                        console.error("The thing '" +
+                                cmdlin.options["thing-name"] +
+                                "' was attached.");
                     });
         }
         if(cmdlin.options["policy-name"]) {
             aws.iot.attachPrincipalPolicy(
                     cmdlin.options["policy-name"],
                     data.certificateArn,
-                    function(err, data) {
+                    function(err, blank) {
                         if(err) {
                             console.error("Error: ", err);
                             process.exit(1);
                         }
+                        console.error("The policy '" +
+                                cmdlin.options["policy-name"] +
+                                "' was attached.");
                     });
         }
     });
