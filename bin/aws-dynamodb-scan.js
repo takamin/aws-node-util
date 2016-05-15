@@ -64,19 +64,7 @@
                     namePath.pop();
                 });
             };
-            var refItemValue = function(obj, path) {
-                var dataitem = obj;
-                var pathes = path.split('.');
-                pathes.forEach(function(path) {
-                    dataitem = dataitem[path];
-                    var types = Object.keys(dataitem);
-                    if(types.length > 0) {
-                        dataitem = dataitem[types[0]];
-                    }
-                });
-                return dataitem;
-            }
-            
+
             // Traverse column names
             data.Items.forEach(function(item) {
                 scanColumns(item);
@@ -87,7 +75,7 @@
             data.Items.forEach(function(item) {
                 var cols = [];
                 colNames.forEach(function(pathItem) {
-                    var value = refItemValue(item, pathItem);
+                    var value = dynamodb.refAttrByPath(item, pathItem);
                     if(value == null) {
                         value = "";
                     }
@@ -96,6 +84,26 @@
                 rows.push(cols);
             });
 
+            // Sorting
+            if(sortItemPath) {
+                var col = colNames.indexOf(sortItemPath);
+                if(col >= 0) {
+                    for(var i0 = 0; i0 < rows.length; i0++) {
+                        for(var i1 = i0 + 1; i1 < rows.length; i1++) {
+                            if(rows[i0][col] > rows[i1][col]) {
+                                var tmp = rows[i0];
+                                rows[i0] = rows[i1];
+                                rows[i1] = tmp;
+                            }
+                        }
+                    }
+                }
+                if(sortDesc) {
+                    rows = rows.reverse();
+                }
+            }
+
+            // format table
             var buf = listit.buffer();
             var rownum = 0;
             buf.d("ROWNUM");
