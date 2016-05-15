@@ -1,4 +1,4 @@
-#!/usr/bin/node
+#!/bin/env node
 (function() {
     var aws = require('../lib/awscli');
     var args = require('hash-arg').get([

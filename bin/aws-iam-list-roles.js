@@ -1,4 +1,4 @@
-#!/usr/bin/node
+#!/bin/env node
 var listit = require("list-it");
 var iam = require("../lib/aws-iam");
 iam.listRoles(function(err, data) {

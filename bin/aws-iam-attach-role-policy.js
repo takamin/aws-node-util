@@ -1,4 +1,4 @@
-#!/usr/bin/node
+#!/bin/env node
 var iam = require("../lib/aws-iam");
 iam.attachRolePolicy(
         process.argv[2],

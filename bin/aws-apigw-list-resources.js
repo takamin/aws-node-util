@@ -1,4 +1,4 @@
-#!/usr/bin/node
+#!/bin/env node
 var listit = require("list-it");
 var apigw = require("../lib/aws-apigateway");
 apigw.getRestApis(function(err, restApis) {

@@ -1,4 +1,4 @@
-#!/usr/bin/node
+#!/bin/env node
 var dynamodb = require("../lib/aws-dynamodb");
 if(process.argv.length <= 2) {
     console.log("ERROR: no table name specified");

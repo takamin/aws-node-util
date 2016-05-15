@@ -1,4 +1,4 @@
-#!/usr/bin/node
+#!/bin/env node
 var apigw = require('../lib/aws-apigateway');
 if(process.argv.length <= 4) {
     console.error("error: invalid parameters");
