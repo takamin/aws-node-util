@@ -74,7 +74,12 @@ Utils for AWS IAM
 Utils for Amazon Dynamo
 -----------------------
 
+1. __aws-dynamodb-create-table__ - create table with a json file. the file desc2create output can use.
+1. __aws-dynamodb-delete-table__ - delete the table
 1. __aws-dynamodb-desc2create__ - Convert a JSON to create the table from its description
+1. __aws-dynamodb-describe-table__ - describe the table
+1. __aws-dynamodb-list-tables__ - display the table names
+1. __aws-dynamodb-scan__ - scan and display items in the table
 
 
 Utils for AWS IoT
