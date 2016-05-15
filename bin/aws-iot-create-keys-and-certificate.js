@@ -1,4 +1,4 @@
-#!/bin/node
+#!/bin/env node
 (function() {
     "use strict";
     var fs = require("fs");
