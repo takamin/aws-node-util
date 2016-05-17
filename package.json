@@ -27,6 +27,7 @@
     "aws-dynamodb-list-tables": "./bin/aws-dynamodb-list-tables.js",
     "aws-dynamodb-describe-table": "./bin/aws-dynamodb-describe-table.js",
     "aws-dynamodb-scan": "./bin/aws-dynamodb-scan.js",
+    "aws-dynamodb-query": "./bin/aws-dynamodb-query.js",
     "aws-iot-create-keys-and-certificate": "./bin/aws-iot-create-keys-and-certificate.js",
     "aws-iot-create-policy": "./bin/aws-iot-create-policy.js",
     "aws-iot-create-thing": "./bin/aws-iot-create-thing.js",
