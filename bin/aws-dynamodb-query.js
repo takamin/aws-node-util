@@ -8,9 +8,10 @@
     var getopt = require('node-getopt').create([
         ['c', 'max-items=ARG',          'The total number of items to return'],
         ['n', 'starting-token=ARG',     'A token to specify where to start paginating'],
-        ['s', 'sort-item=ARG',     'JSON path to the sort item'],
+        ['s', 'sort-item=ARG',          'JSON path to the sort item'],
         ['p', 'projection-expression=ARG', 'camma separated attribute names to project'],
-        ['f', 'filter-expression=ARG',  'filter expression'],
+        ['k', 'key-condition-expression=ARG',  'key condition expression of query'],
+        ['f', 'filter-expression=ARG',  'filter expression applied after query'],
         ['d', 'desc',                   'Sorting direction to descendent'],
         ['j', 'output-json',            'output a json to read'],
         ['J', 'output-json-oneline',    'output a json in oneline'],
@@ -46,6 +47,7 @@
     var filterExpression = "";
     var expressionAttributeNames = {};
     var expressionAttributeValues = {};
+    var select = "ALL_ATTRIBUTES";
 
     //
     // projection expression
@@ -55,6 +57,18 @@
         extraOptions["projection-expression"] =
             dynamodb.parseProjectionExpression(
                     projexpr, expressionAttributeNames);
+        select = "ALL_PROJECTED_ATTRIBUTES";
+    }
+
+    //
+    // Query expression
+    //
+    if(getopt.options["key-condition-expression"]) {
+        extraOptions["key-condition-expression"] =
+            dynamodb.parseConditionExpression(
+                getopt.options["key-condition-expression"],
+                expressionAttributeNames,
+                expressionAttributeValues);
     }
 
     //
@@ -84,7 +98,7 @@
             aws.jsonAsQuotedString(expressionAttributeValues);
     }
 
-    dynamodb.scan(arg.tableName, maxItems, startingToken, extraOptions,
+    dynamodb.query(arg.tableName, maxItems, startingToken, extraOptions,
     function(err, data) {
         if(err) {
             console.error("Error:", err);

@@ -80,6 +80,7 @@ Utils for Amazon Dynamo
 1. __aws-dynamodb-describe-table__ - describe the table
 1. __aws-dynamodb-list-tables__ - display the table names
 1. __aws-dynamodb-scan__ - scan and display items in the table
+1. __aws-dynamodb-query__ - query and display items in the table
 
 
 Utils for AWS IoT
