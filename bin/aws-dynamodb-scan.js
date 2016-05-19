@@ -2,6 +2,7 @@
 (function() {
     "use strict";
     var aws = require('../lib/awscli');
+    var DynamoDB = aws.getService("DynamoDB");
     //aws.setDebug();
     var dynamodb = require('../lib/aws-dynamodb');
     var getopt = require('node-getopt').create([
@@ -37,10 +38,13 @@
     var sortItemPath = getopt.options['sort-item'];
     var sortDesc = getopt.options['desc'];
 
+    var scanOpts = {};
+    scanOpts["TableName"] = arg.tableName;
+    scanOpts["Limit"] = arg.maxItems;
+
     //
-    // Extra options
+    // Options
     //
-    var extraOptions = {};
     var projectionExpression = [];
     var filterExpression = "";
     var expressionAttributeNames = {};
@@ -51,7 +55,7 @@
     //
     var projexpr = getopt.options["projection-expression"];
     if(projexpr) {
-        extraOptions["projection-expression"] =
+        scanOpts["ProjectionExpression"] = 
             dynamodb.parseProjectionExpression(
                     projexpr, expressionAttributeNames);
     }
@@ -60,7 +64,7 @@
     // Filter expression
     //
     if(getopt.options["filter-expression"]) {
-        extraOptions["filter-expression"] =
+        scanOpts["FilterExpression"] = 
             dynamodb.parseConditionExpression(
                 getopt.options["filter-expression"],
                 expressionAttributeNames,
@@ -71,19 +75,18 @@
     // Expression attribute names
     //
     if(Object.keys(expressionAttributeNames).length > 0) {
-        extraOptions["expression-attribute-names"] =
-            aws.jsonAsQuotedString(expressionAttributeNames);
+        scanOpts["ExpressionAttributeNames"] = 
+            expressionAttributeNames;
     }
 
     //
     // Expression attribute values
     //
     if(Object.keys(expressionAttributeValues).length > 0) {
-        extraOptions["expression-attribute-values"] =
-            aws.jsonAsQuotedString(expressionAttributeValues);
+        scanOpts["ExpressionAttributeValues"] = 
+            expressionAttributeValues;
     }
-
-    dynamodb.scan(arg.tableName, maxItems, startingToken, extraOptions,
+    DynamoDB.scan(scanOpts,
     function(err, data) {
         if(err) {
             console.error("Error:", err);
