@@ -4,7 +4,6 @@
     var aws = require('../lib/awscli');
     //aws.setDebug();
     var dynamodb = require('../lib/aws-dynamodb');
-    var listit = require('list-it');
     var getopt = require('node-getopt').create([
         ['c', 'max-items=ARG',          'The total number of items to return'],
         ['n', 'starting-token=ARG',     'A token to specify where to start paginating'],
@@ -95,7 +94,7 @@
         } else if(getopt.options['output-json-oneline']) {
             console.log(JSON.stringify(data));
         } else {
-            dynamodb.printScanResult(data);
+            dynamodb.printScanResult(data, sortItemPath, sortDesc);
         }
     });
 }());
