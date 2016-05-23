@@ -1,4 +1,4 @@
-#!/usr/bin/node
+#!/bin/env node
 (function() {
     "use strict";
     var aws = require('../lib/awscli');
