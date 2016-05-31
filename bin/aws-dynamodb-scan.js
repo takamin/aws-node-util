@@ -40,7 +40,7 @@
 
     var scanOpts = {};
     scanOpts["TableName"] = arg.tableName;
-    scanOpts["Limit"] = arg.maxItems;
+    scanOpts["Limit"] = maxItems;
 
     //
     // Options
