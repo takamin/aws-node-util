@@ -108,7 +108,9 @@ Comamnd line:
 $ aws-dynamodb-put-item testTable 'id="123",timestamp=145678900,test.name="foo",test.pass=true,value.version="0.6.6"'
 ```
 
-Item to be added to the table:
+You don't need consider the placeholder for these expressions.
+
+Then Item to be added to the table:
 
 ```
 {
@@ -126,27 +128,43 @@ Item to be added to the table:
 
 ### aws-dynamodb-query / scan
 
-__$ aws-dynamodb-query `<table-name>` `[options]`__
+
+__$ aws-dynamodb-query `<table-name>` `<key-condition-expression>` `[options]`__
 __$ aws-dynamodb-scan `<table-name>` `[options]`__
+
+* `table-name` - target table name
+* `key-condition-expression` - query condition about key of the table.
 
 __OPTIONS__
 
 * --filter-expression / --key-condition-expression
 
 The conditional expression for the query.
+The option `--key-condition-expression` is not supported to scan.
+
 
 * --projection-expression
 
 Specify a comma separated attribute names to retrieve specific attributes.
 
+__EXAMPLE__
 
-__No Need To Consider The Placeholders__
+Comamnd line:
 
-For these expression,
+```bash
+
+$ aws-dynamodb-query planetTable "mainStar='theSun' AND orbitOrder BETWEEN 1 AND 9" \
+    --projection-expression "name, mass, diameter" --sort-item orbitOrder
+
+```
+
+### Don't Worry The Placeholders
+
+For the expressions of dynamodb commands,
+You can write field names or its values directly.
+Because,
 __the placeholders are recognized and created in automatic__ by the commands
 So, you don't need to worry about it.
-
-The option `--key-condition-expression` is not supported to scan.
 
 ----
 

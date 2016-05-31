@@ -18,7 +18,8 @@
         ['h', 'help',                   'display this help']
         ]).bindHelp().parseSystem();
     var arg = require('hash-arg').get([
-        "tableName"
+        "tableName",
+        "keyConditionExpression"
     ], getopt.argv);
     if(arg.tableName == null) {
         console.error("Error: tableName required");
@@ -67,13 +68,29 @@
     //
     // Query expression
     //
-    if(getopt.options["key-condition-expression"]) {
-        scanOpts["KeyConditionExpression"] = 
-            dynamodb.parseConditionExpression(
-                getopt.options["key-condition-expression"],
-                expressionAttributeNames,
-                expressionAttributeValues);
-    }
+    (function() {
+        var keyConditionExpr = null;
+        var argExpr = arg.keyConditionExpression;
+        var optExpr = getopt.options["key-condition-expression"];
+        if(argExpr) {
+           if(optExpr) {
+               console.error("Error:",
+                       "Key condition expression is specified",
+                       "at both command line and option.");
+               process.exit(1);
+           }
+           keyConditionExpr = argExpr;
+        } else if(optExpr) {
+           keyConditionExpr = optExpr;
+        } else {
+           console.error("Error:",
+                   "The key condition expression is required.");
+           process.exit(1);
+        }
+        scanOpts["KeyConditionExpression"] =
+            dynamodb.parseConditionExpression(keyConditionExpr,
+                expressionAttributeNames, expressionAttributeValues);
+    }());
 
     //
     // Filter expression
