@@ -1,6 +1,6 @@
 {
   "name": "aws-node-util",
-  "version": "0.6.7",
+  "version": "0.6.8",
   "description": "AWS cli utilities",
   "directries": {
     "lib": "./lib"
