@@ -11,33 +11,34 @@
         ['h', 'help',                   'display this help']
         ]).bindHelp().parseSystem();
     var arg = require('hash-arg').get([
-        "tableName",
-        "item"
+        "string tableName",
+        "string[] item"
     ], getopt.argv);
     if(arg.tableName == null) {
         console.error("Error: tableName is required.");
         process.exit(1);
     }
-    if(arg.item == null) {
+    if(arg.item == null || arg.item.length == 0) {
         console.error("Error: item is required to put.");
         process.exit(1);
     }
-    var params = {};
-    params["TableName"] = arg.tableName;
-    params["Item"] = dynamodb.parseItemListToMap(arg.item);
-    DynamoDB.putItem(params,
-    function(err, data) {
-        if(err) {
-            console.error("Error:", err);
-            process.exit(1);
-        }
-        if(getopt.options['output-json']) {
-            console.log(JSON.stringify(data, null, "    "));
-        } else if(getopt.options['output-json-oneline']) {
-            console.log(JSON.stringify(data));
-        } else {
-            console.log("OK.");
-        }
+    arg.item.forEach(function(item) {
+        var params = {};
+        params["TableName"] = arg.tableName;
+        params["Item"] = dynamodb.parseItemListToMap(item);
+        DynamoDB.putItem(params, function(err, data) {
+            if(err) {
+                console.error("Error:", err);
+                process.exit(1);
+            }
+            if(getopt.options['output-json']) {
+                console.log(JSON.stringify(data, null, "    "));
+            } else if(getopt.options['output-json-oneline']) {
+                console.log(JSON.stringify(data));
+            } else {
+                console.log("putItem: ", JSON.stringify(params["Item"]));
+            }
+        });
     });
 }());
 

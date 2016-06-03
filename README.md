@@ -21,52 +21,49 @@ Utils for Amazon Dynamo
 1. __aws-dynamodb-describe-table__ - describe the table
 1. __aws-dynamodb-list-tables__ - display the table names
 
+These commands are designed to recognize the placeholders
+in expressions and to generate in automatically.
+
 ### 1. aws-dynamodb-put-item
 
-__$ aws-dynamodb-put-item `<table-name>` `<item>`__
+Put -- insert or update the item to the table from command line.
 
-* __table-name__
+```bash
+$ aws-dynamodb-put-item `<table-name>` `<item-expression>` ...
+```
 
-target table name
+__Parameters__
 
-* __item__
+|Parameter          |Content                     |
+|:------------------|:---------------------------|
+| table-name        | Target table name          |
+| item-expression   | Items to put to the table  |
 
-Specify a comma separated string.
-Each element of the string is assignment expression where
-the attribute is set like `<attr> = <value>`.
+* __item-expression__ is comma separated strings representing
+attribute names and values
+like `<attr-name1> = <value>, <attr-name2> = <value>, ...`.
+* All the keys must be included to specify whether the items
+will be inserted or updated.
+* The attribute name can be `path.to.the.item` (See the example below).
+* The value type will be determined automatically from its notation.
 
-To specify whether the item will be inserted or updated,
-All the keys of the table must be specified at the `item`
-parameter. This is a specification for AWS Dynamo.
-
-For the `<attr>`, it can be specified as a full path for the item
-including dot like `path.to.the.item`.
-
-The value type will be determined automatically.
-But, available type is `string`, `number` and `boolean`.
-
-The type is simply determined from its notation:
-
-| value        | type       |
-|:------------:|:-----------|
-| true / false | boolean    |
-| "ABC" / '123'| string     |
-| 123.4        | number     |
-
-
-__EXAMPLE__
+__Example__
 
 Comamnd line:
 
+```bash
+$ aws-dynamodb-put-item testTable '
+    id="123",
+    timestamp=145678900,
+    test.name="foo",
+    test.pass=true,
+    value.version="0.6.6"
+'
 ```
-$ aws-dynamodb-put-item testTable 'id="123",timestamp=145678900,test.name="foo",test.pass=true,value.version="0.6.6"'
-```
-
-__NOTE__: You don't need consider the placeholder for these expressions.
 
 Then Item to be added to the table:
 
-```
+```javascript
 {
     "id":       {"S": "123"},
     "timestamp":{"N": "145678900"},
@@ -79,6 +76,15 @@ Then Item to be added to the table:
     "value" : {"M" : {"version": {"S": "0.6.6"}}}
 }
 ```
+
+__Available Types Assumed In Automatic__
+
+| value        | type       |
+|:------------:|:-----------|
+| true / false | boolean    |
+| "ABC" / '123'| string     |
+| 123.4        | number     |
+
 
 ### 2. aws-dynamodb-query
 
