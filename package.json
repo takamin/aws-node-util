@@ -37,12 +37,12 @@
     "aws-iot-list-all-resources": "./bin/aws-iot-list-all-resources.js"
   },
   "dependencies": {
-    "aws-sdk": "^2.3.13",
-    "camelcase": "^2.1.1",
+    "aws-sdk": "^2.3.17",
+    "camelcase": "^3.0.0",
     "hash-arg": "0.0.4",
     "home-dir": "^1.0.0",
     "ini": "^1.3.4",
-    "list-it": "^0.3.1",
+    "list-it": "^0.3.3",
     "node-getopt": "^0.2.3",
     "promise": "^7.1.1"
   },
