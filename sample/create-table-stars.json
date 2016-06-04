@@ -1,0 +1,27 @@
+{
+    "AttributeDefinitions": [
+        {
+            "AttributeName": "mainStar",
+            "AttributeType": "S"
+        },
+        {
+            "AttributeName": "orbitOrder",
+            "AttributeType": "N"
+        }
+    ],
+    "ProvisionedThroughput": {
+        "WriteCapacityUnits": 5,
+        "ReadCapacityUnits": 5
+    },
+    "TableName": "stars",
+    "KeySchema": [
+        {
+            "KeyType": "HASH",
+            "AttributeName": "mainStar"
+        },
+        {
+            "KeyType": "RANGE",
+            "AttributeName": "orbitOrder"
+        }
+    ]
+}
