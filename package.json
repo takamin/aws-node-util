@@ -59,7 +59,19 @@
   },
   "keywords": [
     "aws",
-    "cli"
+    "cli",
+    "aws-sdk",
+    "dynamo",
+    "dynamodb",
+    "query",
+    "scan",
+    "put-item",
+    "putItem",
+    "key-condition-expression",
+    "projection-expression",
+    "placeholder",
+    "lambda",
+    "upload"
   ],
   "author": "Koji Takami",
   "license": "MIT",

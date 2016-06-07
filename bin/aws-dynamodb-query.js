@@ -9,7 +9,7 @@
         ['c', 'max-items=ARG',          'The total number of items to return'],
         ['n', 'starting-token=ARG',     'A token to specify where to start paginating'],
         ['s', 'sort-item=ARG',          'JSON path to the sort item'],
-        ['p', 'projection-expression=ARG', 'camma separated attribute names to project'],
+        ['p', 'projection-expression=ARG', 'comma separated attribute names to project'],
         ['k', 'key-condition-expression=ARG',  'key condition expression of query'],
         ['f', 'filter-expression=ARG',  'filter expression applied after query'],
         ['d', 'desc',                   'Sorting direction to descendent'],
