@@ -12,6 +12,7 @@ So, this command set needs AWS CLI and Node.js.
 Utils for Amazon Dynamo
 -----------------------
 
+1. __aws-dynamodb-delete-item__ - delete item on the table
 1. __aws-dynamodb-put-item__ - put item to the table
 1. __aws-dynamodb-query__ - query and display items in the table
 1. __aws-dynamodb-scan__ - scan and display items in the table
@@ -23,6 +24,27 @@ Utils for Amazon Dynamo
 
 These commands are designed to recognize the placeholders
 in expressions and to generate in automatically.
+
+### 1. aws-dynamodb-delete-item
+
+Put -- delete the item from the table.
+
+```bash
+$ aws-dynamodb-delete-item `<table-name>` `<item-expression>`
+```
+
+__Parameters__
+
+|Parameter          |Content                         |
+|:------------------|:-------------------------------|
+| table-name        | Target table name              |
+| key               | Item to delete from the table  |
+
+* __key__ is a comma separated string representing
+key attribute names and values
+like `<attr-name1> = <value>, <attr-name2> = <value>, ...`.
+* All the keys must be included
+* The value type will be determined automatically from its notation.
 
 ### 1. aws-dynamodb-put-item
 

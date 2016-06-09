@@ -23,6 +23,7 @@
     "aws-dynamodb-desc2create": "./bin/aws-dynamodb-desc2create.js",
     "aws-dynamodb-create-table": "./bin/aws-dynamodb-create-table.sh",
     "aws-dynamodb-delete-table": "./bin/aws-dynamodb-delete-table.sh",
+    "aws-dynamodb-delete-item": "./bin/aws-dynamodb-delete-item.js",
     "aws-dynamodb-list-tables": "./bin/aws-dynamodb-list-tables.js",
     "aws-dynamodb-describe-table": "./bin/aws-dynamodb-describe-table.js",
     "aws-dynamodb-scan": "./bin/aws-dynamodb-scan.js",
