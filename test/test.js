@@ -12,21 +12,196 @@
     describe("aws-dynamodb", function() {
         var dynamodb = require("../lib/aws-dynamodb.js");
         describe("#parseItemListToMap", function() {
-            it('interpret an integer', function() {
-                var item = dynamodb.parseItemListToMap("x=123");
-                assert.equal(item.x.N, "123");
+            describe("interpret a literal with its type in automatically", function() {
+                describe("integer", function() {
+                    it('positive', function() {
+                        var item = dynamodb.parseItemListToMap("x=123");
+                        assert.equal(item.x.N, "123");
+                    });
+                    it('zero', function() {
+                        var item = dynamodb.parseItemListToMap("x=0");
+                        assert.equal(item.x.N, "0");
+                    });
+                    it('negative', function() {
+                        var item = dynamodb.parseItemListToMap("x=-123");
+                        assert.equal(item.x.N, "-123");
+                    });
+                });
+                describe("real", function() {
+                    it('positive', function() {
+                        var item = dynamodb.parseItemListToMap("x=123.456");
+                        assert.equal(item.x.N, "123.456");
+                    });
+                    it('zero', function() {
+                        var item = dynamodb.parseItemListToMap("x=0.0");
+                        assert.equal(item.x.N, "0.0");
+                    });
+                    /*
+                    it('zero point zero', function() {
+                        var item = dynamodb.parseItemListToMap("x=0.0");
+                        assert.equal(item.x.N, "0");
+                    });
+                    describe('omit fraction zero', function() {
+                        describe('non zero value', function() {
+                            it('positive', function() {
+                                var item = dynamodb.parseItemListToMap("x=1.");
+                                assert.equal(item.x.N, "1");
+                            });
+                            it('negative', function() {
+                                var item = dynamodb.parseItemListToMap("x=-1.");
+                                assert.equal(item.x.N, "1");
+                            });
+                        });
+                        it('zero zero', function() {
+                            var item = dynamodb.parseItemListToMap("x=0.");
+                            assert.equal(item.x.N, "0");
+                        });
+                    });
+                    describe('omit integer zero', function() {
+                        describe('non zero value', function() {
+                            it('positive', function() {
+                                var item = dynamodb.parseItemListToMap("x=.0");
+                                assert.equal(item.x.N, "0.5");
+                            });
+                            it('negative', function() {
+                                var item = dynamodb.parseItemListToMap("x=-.0");
+                                assert.equal(item.x.N, "0.5");
+                            });
+                        });
+                        it('zero', function() {
+                            var item = dynamodb.parseItemListToMap("x=.0");
+                            assert.equal(item.x.N, "0");
+                        });
+                    });
+                    */
+                    it('negative', function() {
+                        var item = dynamodb.parseItemListToMap("x=-123.456");
+                        assert.equal(item.x.N, "-123.456");
+                    });
+                });
+                describe("string", function() {
+                    it("with double quotation", function() {
+                        var item = dynamodb.parseItemListToMap("x=\"123\"");
+                        assert.equal(item.x.S, "123");
+                    });
+                    it("with single quotation", function() {
+                        var item = dynamodb.parseItemListToMap("x='123'");
+                        assert.equal(item.x.S, "123");
+                    });
+                });
+                describe("boolean", function() {
+                    it("true", function() {
+                        var item = dynamodb.parseItemListToMap("x=true");
+                        assert.equal(item.x.BOOL, true);
+                    });
+                    it("false", function() {
+                        var item = dynamodb.parseItemListToMap("x=false");
+                        assert.equal(item.x.BOOL, false);
+                    });
+                });
             });
-            it('interpret a float', function() {
-                var item = dynamodb.parseItemListToMap("x=123.456");
-                assert.equal(item.x.N, "123.456");
+            describe("interpret a map by its name", function() {
+                describe("integer", function() {
+                    it('positive', function() {
+                        var item = dynamodb.parseItemListToMap("m.x=123");
+                        assert.equal(item.m.M.x.N, "123");
+                    });
+                    it('zero', function() {
+                        var item = dynamodb.parseItemListToMap("m.x=0");
+                        assert.equal(item.m.M.x.N, "0");
+                    });
+                    it('negative', function() {
+                        var item = dynamodb.parseItemListToMap("m.x=-123");
+                        assert.equal(item.m.M.x.N, "-123");
+                    });
+                });
+                describe("real", function() {
+                    it('positive', function() {
+                        var item = dynamodb.parseItemListToMap("m.x=123.456");
+                        assert.equal(item.m.M.x.N, "123.456");
+                    });
+                    it('zero', function() {
+                        var item = dynamodb.parseItemListToMap("m.x=0.0");
+                        assert.equal(item.m.M.x.N, "0.0");
+                    });
+                    /*
+                    it('zero point zero', function() {
+                        var item = dynamodb.parseItemListToMap("m.x=0.0");
+                        assert.equal(item.m.M.x.N, "0");
+                    });
+                    describe('omit fraction zero', function() {
+                        describe('non zero value', function() {
+                            it('positive', function() {
+                                var item = dynamodb.parseItemListToMap("m.x=1.");
+                                assert.equal(item.m.M.x.N, "1");
+                            });
+                            it('negative', function() {
+                                var item = dynamodb.parseItemListToMap("m.x=-1.");
+                                assert.equal(item.m.M.x.N, "1");
+                            });
+                        });
+                        it('zero zero', function() {
+                            var item = dynamodb.parseItemListToMap("m.x=0.");
+                            assert.equal(item.m.M.x.N, "0");
+                        });
+                    });
+                    describe('omit integer zero', function() {
+                        describe('non zero value', function() {
+                            it('positive', function() {
+                                var item = dynamodb.parseItemListToMap("m.x=.0");
+                                assert.equal(item.m.M.x.N, "0.5");
+                            });
+                            it('negative', function() {
+                                var item = dynamodb.parseItemListToMap("m.x=-.0");
+                                assert.equal(item.m.M.x.N, "0.5");
+                            });
+                        });
+                        it('zero', function() {
+                            var item = dynamodb.parseItemListToMap("m.x=.0");
+                            assert.equal(item.m.M.x.N, "0");
+                        });
+                    });
+                    */
+                    it('negative', function() {
+                        var item = dynamodb.parseItemListToMap("m.x=-123.456");
+                        assert.equal(item.m.M.x.N, "-123.456");
+                    });
+                });
+                describe("string", function() {
+                    it("with double quotation", function() {
+                        var item = dynamodb.parseItemListToMap("m.x=\"123\"");
+                        assert.equal(item.m.M.x.S, "123");
+                    });
+                    it("with single quotation", function() {
+                        var item = dynamodb.parseItemListToMap("m.x='123'");
+                        assert.equal(item.m.M.x.S, "123");
+                    });
+                });
+                describe("boolean", function() {
+                    it("true", function() {
+                        var item = dynamodb.parseItemListToMap("m.x=true");
+                        assert.equal(item.m.M.x.BOOL, true);
+                    });
+                    it("false", function() {
+                        var item = dynamodb.parseItemListToMap("m.x=false");
+                        assert.equal(item.m.M.x.BOOL, false);
+                    });
+                });
             });
-            it('interpret an negative integer', function() {
-                var item = dynamodb.parseItemListToMap("x=-123");
-                assert.equal(item.x.N, "-123");
-            });
-            it('interpret an negative float', function() {
-                var item = dynamodb.parseItemListToMap("x=-123.456");
-                assert.equal(item.x.N, "-123.456");
+        });
+        describe("#parseProjectionExpression", function() {
+            describe("recognize placeholder", function() {
+                var exprAttrNames = {};
+                var projExpr = dynamodb.parseProjectionExpression(
+                        "abort", exprAttrNames);
+                it("projectionExpression", function() {
+                    assert.equal(projExpr, "#abort");
+                });
+                it("expressionAttributeNames", function() {
+                    assert.equal(
+                            JSON.stringify(exprAttrNames),
+                            JSON.stringify({"#abort" : "abort"}));
+                });
             });
         });
     });

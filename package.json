@@ -23,6 +23,7 @@
     "aws-dynamodb-desc2create": "./bin/aws-dynamodb-desc2create.js",
     "aws-dynamodb-create-table": "./bin/aws-dynamodb-create-table.sh",
     "aws-dynamodb-delete-table": "./bin/aws-dynamodb-delete-table.sh",
+    "aws-dynamodb-delete-item": "./bin/aws-dynamodb-delete-item.js",
     "aws-dynamodb-list-tables": "./bin/aws-dynamodb-list-tables.js",
     "aws-dynamodb-describe-table": "./bin/aws-dynamodb-describe-table.js",
     "aws-dynamodb-scan": "./bin/aws-dynamodb-scan.js",
@@ -39,7 +40,7 @@
   "dependencies": {
     "aws-sdk": "^2.3.17",
     "camelcase": "^3.0.0",
-    "hash-arg": "0.0.4",
+    "hash-arg": "0.1.0",
     "home-dir": "^1.0.0",
     "ini": "^1.3.4",
     "list-it": "^0.3.3",
@@ -59,7 +60,19 @@
   },
   "keywords": [
     "aws",
-    "cli"
+    "cli",
+    "aws-sdk",
+    "dynamo",
+    "dynamodb",
+    "query",
+    "scan",
+    "put-item",
+    "putItem",
+    "key-condition-expression",
+    "projection-expression",
+    "placeholder",
+    "lambda",
+    "upload"
   ],
   "author": "Koji Takami",
   "license": "MIT",
