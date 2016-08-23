@@ -22,8 +22,8 @@ Utils for Amazon Dynamo
 1. __aws-dynamodb-describe-table__ - describe the table
 1. __aws-dynamodb-list-tables__ - display the table names
 
-These commands are designed to recognize the placeholders
-in expressions and to generate in automatically.
+These commands are designed to recognize the keywords
+in the expressions and to generate placeholders automatically.
 
 ### 1. aws-dynamodb-delete-item
 
@@ -46,7 +46,7 @@ like `<attr-name1> = <value>, <attr-name2> = <value>, ...`.
 * All the keys must be included
 * The value type will be determined automatically from its notation.
 
-### 1. aws-dynamodb-put-item
+### 2. aws-dynamodb-put-item
 
 Put -- insert or update the item to the table from command line.
 
@@ -108,7 +108,7 @@ __Available Types Assumed In Automatic__
 | 123.4        | number     |
 
 
-### 2. aws-dynamodb-query
+### 3. aws-dynamodb-query
 
 
 __$ aws-dynamodb-query `<table-name>` `<key-condition-expression>` `[options]`__
@@ -139,7 +139,7 @@ $ aws-dynamodb-query \
 
 ```
 
-### 3. aws-dynamodb-scan
+### 4. aws-dynamodb-scan
 
 __$ aws-dynamodb-scan `<table-name>` `[options]`__
 
