@@ -22,8 +22,8 @@ Utils for Amazon Dynamo
 1. __aws-dynamodb-describe-table__ - describe the table
 1. __aws-dynamodb-list-tables__ - display the table names
 
-These commands are designed to recognize the placeholders
-in expressions and to generate in automatically.
+These commands are designed to recognize the keywords
+in the expressions and to generate placeholders automatically.
 
 ### 1. aws-dynamodb-delete-item
 
