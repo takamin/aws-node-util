@@ -14,6 +14,7 @@
         ['d', 'desc',                   'Sorting direction to descendent'],
         ['j', 'output-json',            'output a json to read'],
         ['J', 'output-json-oneline',    'output a json in oneline'],
+        ['t', 'dry-run',                'Print options of the scan and exit'],
         ['h', 'help',                   'display this help']
         ]).bindHelp().parseSystem();
     var arg = require('hash-arg').get([
@@ -86,6 +87,16 @@
         scanOpts["ExpressionAttributeValues"] = 
             expressionAttributeValues;
     }
+
+    //
+    // Dry-run Option
+    //
+    if(getopt.options["dry-run"]) {
+        console.log("// opts for aws.dynamodb.scan:");
+        console.log(JSON.stringify(scanOpts, null, "    "));
+        process.exit(0);
+    }
+
     DynamoDB.scan(scanOpts,
     function(err, data) {
         if(err) {

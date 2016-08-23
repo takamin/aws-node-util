@@ -8,6 +8,7 @@
     var getopt = require('node-getopt').create([
         ['j', 'output-json',            'output a json to read'],
         ['J', 'output-json-oneline',    'output a json in oneline'],
+        ['t', 'dry-run',                'Print options of the putItem and exit'],
         ['h', 'help',                   'display this help']
         ]).bindHelp().parseSystem();
     var arg = require('hash-arg').get([
@@ -26,19 +27,28 @@
         var params = {};
         params["TableName"] = arg.tableName;
         params["Item"] = dynamodb.parseItemListToMap(item);
-        DynamoDB.putItem(params, function(err, data) {
-            if(err) {
-                console.error("Error:", err);
-                process.exit(1);
-            }
-            if(getopt.options['output-json']) {
-                console.log(JSON.stringify(data, null, "    "));
-            } else if(getopt.options['output-json-oneline']) {
-                console.log(JSON.stringify(data));
-            } else {
-                console.log("putItem: ", JSON.stringify(params["Item"]));
-            }
-        });
+
+        //
+        // Dry-run Option
+        //
+        if(getopt.options["dry-run"]) {
+            console.log("// opts for aws.dynamodb.putItem:");
+            console.log(JSON.stringify(params, null, "    "));
+        } else {
+            DynamoDB.putItem(params, function(err, data) {
+                if(err) {
+                    console.error("Error:", err);
+                    process.exit(1);
+                }
+                if(getopt.options['output-json']) {
+                    console.log(JSON.stringify(data, null, "    "));
+                } else if(getopt.options['output-json-oneline']) {
+                    console.log(JSON.stringify(data));
+                } else {
+                    console.log("putItem: ", JSON.stringify(params["Item"]));
+                }
+            });
+        }
     });
 }());
 
