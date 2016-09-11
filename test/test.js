@@ -1,9 +1,7 @@
 #!/bin/env node
 (function() {
     "use strict";
-    var msysMochaAlt = require("../lib/msys-mocha-alt");
-    var describe = msysMochaAlt.get_describe();
-    var it = msysMochaAlt.get_it();
+    var msysMochaAlt = require("minty-mocha");
     var chai = require('chai');
     var should = chai.should();
     var assert = chai.assert;
