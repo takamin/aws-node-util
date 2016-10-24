@@ -1,0 +1,27 @@
+{
+    "AttributeDefinitions": [
+        {
+            "AttributeName": "id",
+            "AttributeType": "S"
+        },
+        {
+            "AttributeName": "timestamp",
+            "AttributeType": "N"
+        }
+    ],
+    "ProvisionedThroughput": {
+        "WriteCapacityUnits": 5,
+        "ReadCapacityUnits": 5
+    },
+    "TableName": "testTable2",
+    "KeySchema": [
+        {
+            "KeyType": "HASH",
+            "AttributeName": "id"
+        },
+        {
+            "KeyType": "RANGE",
+            "AttributeName": "timestamp"
+        }
+    ]
+}

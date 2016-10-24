@@ -28,7 +28,12 @@
     //
     var apiOpts = {};
     apiOpts["TableName"] = arg.tableName;
-    apiOpts["Key"] = dynamodb.parseItemListToMap(arg.key);
+    try {
+        apiOpts["Key"] = dynamodb.parseItemListToMap(arg.key);
+    } catch (err) {
+        console.error("Error in parameter " + arg.key + ":", err.message);
+        process.exit(1);
+    }
     DynamoDB.deleteItem(apiOpts, function(err, data) {
         if(err) {
             console.error("Error:", err);

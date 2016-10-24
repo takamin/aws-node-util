@@ -1,6 +1,6 @@
 {
   "name": "aws-node-util",
-  "version": "0.6.12",
+  "version": "0.6.13",
   "description": "AWS cli utilities",
   "directries": {
     "lib": "./lib"
@@ -50,10 +50,10 @@
   "devDependencies": {
     "ansi-escape-sequences": "^2.2.2",
     "chai": "^3.5.0",
-    "minty-mocha": "^1.0.0"
+    "mocha": "^3.4.2"
   },
   "scripts": {
-    "test": "node test/test.js"
+    "test": "./node_modules/.bin/mocha"
   },
   "repository": {
     "type": "git",

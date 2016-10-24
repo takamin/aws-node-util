@@ -27,7 +27,7 @@ in the expressions and to generate placeholders automatically.
 
 ### 1. aws-dynamodb-delete-item
 
-Put -- delete the item from the table.
+Delete -- delete the item from the table.
 
 ```bash
 $ aws-dynamodb-delete-item `<table-name>` `<item-expression>`
@@ -110,6 +110,8 @@ __Available Types Assumed In Automatic__
 
 ### 3. aws-dynamodb-query
 
+Query -- This reports the retrieved data that matches key-conditions given
+from command-line without consideration about the placeholder.
 
 __$ aws-dynamodb-query `<table-name>` `<key-condition-expression>` `[options]`__
 
@@ -132,10 +134,22 @@ Comamnd line:
 
 ```bash
 
-$ aws-dynamodb-query \
-    planetTable "mainStar='theSun' AND orbitOrder BETWEEN 1 AND 9" \
-    --projection-expression "name, mass, diameter" \
-    --sort-item orbitOrder
+$ aws-dynamodb-query stars \
+> "mainStar='SUN' AND orbitOrder BETWEEN 1 AND 9" \
+> --projection-expression "name, mass, diameter" \
+> --sort-item orbitOrder
+Count: 9
+ROWNUM diameter mass      name
+     1     4879    0.33   MERCURY
+     2    12104    4.87   VENUS
+     3    12756    5.97   MARS
+     4     6792    0.642  MARS
+     5   142984 1898.0    JUPITER
+     6   120536  568.0    SATURN
+     7    51118   86.8    URANUS
+     8    49528  102.0    NEPTUNE
+     9     2370    0.0146 PLUTO
+ScannedCount: 9
 
 ```
 
@@ -154,6 +168,29 @@ The conditional expression for the query.
 * --projection-expression
 
 Specify a comma separated attribute names to retrieve specific attributes.
+
+__EXAMPLE__
+
+Comamnd line:
+
+```bash
+
+$ aws-dynamodb-scan stars
+Count: 10
+ROWNUM diameter rotation role      mass      gravity density escapeVelocity name    orbitOrder mainStar
+     1     3475    655.7 satellite    0.0073     1.6    3340            2.4 MOON             1 EARTH
+     2     4879   1407.6 planet       0.33       3.7    5427            4.3 MERCURY          1 SUN
+     3    12104  -5832.0 planet       4.87       8.9    5243           10.4 VENUS            2 SUN
+     4    12756     23.9 planet       5.97       9.8    5514           11.2 MARS             3 SUN
+     5     6792     24.6 planet       0.642      3.7    3933            5.0 MARS             4 SUN
+     6   142984      9.9 planet    1898.0       23.1    1326           59.5 JUPITER          5 SUN
+     7   120536     10.7 planet     568.0        9.0     687           35.5 SATURN           6 SUN
+     8    51118    -17.2 planet      86.8        8.7    1271           21.3 URANUS           7 SUN
+     9    49528     16.1 planet     102.0       11.0    1638           23.5 NEPTUNE          8 SUN
+    10     2370   -153.3 planet       0.0146     0.7    2095            1.3 PLUTO            9 SUN
+ScannedCount: 10
+
+```
 
 ### Don't Worry The Placeholders
 

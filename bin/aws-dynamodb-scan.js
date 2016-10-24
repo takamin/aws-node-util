@@ -56,27 +56,37 @@
     //
     var projexpr = getopt.options["projection-expression"];
     if(projexpr) {
-        scanOpts["ProjectionExpression"] = 
-            dynamodb.parseProjectionExpression(
-                    projexpr, expressionAttributeNames);
+        try {
+            scanOpts["ProjectionExpression"] =
+                dynamodb.parseProjectionExpression(
+                        projexpr, expressionAttributeNames);
+        } catch (err) {
+            console.error("Error in projection-expression:", err.message);
+            process.exit(1);
+        }
     }
 
     //
     // Filter expression
     //
     if(getopt.options["filter-expression"]) {
-        scanOpts["FilterExpression"] = 
-            dynamodb.parseConditionExpression(
-                getopt.options["filter-expression"],
-                expressionAttributeNames,
-                expressionAttributeValues);
+        try {
+            scanOpts["FilterExpression"] =
+                dynamodb.parseConditionExpression(
+                    getopt.options["filter-expression"],
+                    expressionAttributeNames,
+                    expressionAttributeValues);
+        } catch (err) {
+            console.error("Error in filter-expression:", err.message);
+            process.exit(1);
+        }
     }
 
     //
     // Expression attribute names
     //
     if(Object.keys(expressionAttributeNames).length > 0) {
-        scanOpts["ExpressionAttributeNames"] = 
+        scanOpts["ExpressionAttributeNames"] =
             expressionAttributeNames;
     }
 
