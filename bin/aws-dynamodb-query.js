@@ -60,10 +60,15 @@
     //
     var projexpr = getopt.options["projection-expression"];
     if(projexpr) {
-        scanOpts["ProjectionExpression"] = 
-            dynamodb.parseProjectionExpression(
-                    projexpr, expressionAttributeNames);
-        select = "ALL_PROJECTED_ATTRIBUTES";
+        try {
+            scanOpts["ProjectionExpression"] =
+                dynamodb.parseProjectionExpression(
+                        projexpr, expressionAttributeNames);
+            select = "ALL_PROJECTED_ATTRIBUTES";
+        } catch (err) {
+            console.error("Error in projection-expression:", err.message);
+            process.exit(1);
+        }
     }
 
     //
@@ -88,27 +93,37 @@
                    "The key condition expression is required.");
            process.exit(1);
         }
-        scanOpts["KeyConditionExpression"] =
-            dynamodb.parseConditionExpression(keyConditionExpr,
-                expressionAttributeNames, expressionAttributeValues);
+        try {
+            scanOpts["KeyConditionExpression"] =
+                dynamodb.parseConditionExpression(keyConditionExpr,
+                    expressionAttributeNames, expressionAttributeValues);
+        } catch (err) {
+            console.error("Error in key-condition-expression:", err.message);
+            process.exit(1);
+        }
     }());
 
     //
     // Filter expression
     //
     if(getopt.options["filter-expression"]) {
-        scanOpts["FilterExpression"] = 
-            dynamodb.parseConditionExpression(
-                getopt.options["filter-expression"],
-                expressionAttributeNames,
-                expressionAttributeValues);
+        try {
+            scanOpts["FilterExpression"] =
+                dynamodb.parseConditionExpression(
+                    getopt.options["filter-expression"],
+                    expressionAttributeNames,
+                    expressionAttributeValues);
+        } catch (err) {
+            console.error("Error in filter-expression:", err.message);
+            process.exit(1);
+        }
     }
 
     //
     // Expression attribute names
     //
     if(Object.keys(expressionAttributeNames).length > 0) {
-        scanOpts["ExpressionAttributeNames"] = 
+        scanOpts["ExpressionAttributeNames"] =
             expressionAttributeNames;
     }
 

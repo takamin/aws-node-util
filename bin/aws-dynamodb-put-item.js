@@ -26,7 +26,12 @@
     arg.item.forEach(function(item) {
         var params = {};
         params["TableName"] = arg.tableName;
-        params["Item"] = dynamodb.parseItemListToMap(item);
+        try {
+            params["Item"] = dynamodb.parseItemListToMap(item);
+        } catch (err) {
+            console.error("Error in parameter " + item + ":", err.message);
+            process.exit(1);
+        }
 
         //
         // Dry-run Option

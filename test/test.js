@@ -1,7 +1,6 @@
 #!/bin/env node
 (function() {
     "use strict";
-    var msysMochaAlt = require("minty-mocha");
     var chai = require('chai');
     var should = chai.should();
     var assert = chai.assert;
