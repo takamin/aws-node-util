@@ -1,10 +1,9 @@
 #!/bin/env node
 (function() {
     "use strict";
-    var aws = require('../lib/awscli');
-    var DynamoDB = aws.getService("DynamoDB");
     //aws.setDebug();
     var dynamodb = require('../lib/aws-dynamodb');
+    var Statement = require("../lib/dynamodb-statement");
     var getopt = require('node-getopt').create([
         ['c', 'max-items=ARG',          'The total number of items to return'],
         ['n', 'starting-token=ARG',     'A token to specify where to start paginating'],
@@ -39,87 +38,42 @@
     var sortItemPath = getopt.options['sort-item'];
     var sortDesc = getopt.options['desc'];
 
+    var statement = new Statement();
     var scanOpts = {};
-    scanOpts["TableName"] = arg.tableName;
-    scanOpts["Limit"] = maxItems;
+    statement.setTableName(arg.tableName);
+    statement.setLimit(maxItems);
 
-    //
-    // Options
-    //
-    var projectionExpression = [];
-    var filterExpression = "";
-    var expressionAttributeNames = {};
-    var expressionAttributeValues = {};
-
-    //
     // projection expression
-    //
     var projexpr = getopt.options["projection-expression"];
     if(projexpr) {
-        try {
-            scanOpts["ProjectionExpression"] =
-                dynamodb.parseProjectionExpression(
-                        projexpr, expressionAttributeNames);
-        } catch (err) {
-            console.error("Error in projection-expression:", err.message);
-            process.exit(1);
-        }
+        statement.setProjectionExpression(projexpr);
     }
 
-    //
     // Filter expression
-    //
     if(getopt.options["filter-expression"]) {
-        try {
-            scanOpts["FilterExpression"] =
-                dynamodb.parseConditionExpression(
-                    getopt.options["filter-expression"],
-                    expressionAttributeNames,
-                    expressionAttributeValues);
-        } catch (err) {
-            console.error("Error in filter-expression:", err.message);
-            process.exit(1);
-        }
+        statement.setFilterExpression(getopt.options["filter-expression"]);
     }
 
-    //
-    // Expression attribute names
-    //
-    if(Object.keys(expressionAttributeNames).length > 0) {
-        scanOpts["ExpressionAttributeNames"] =
-            expressionAttributeNames;
-    }
-
-    //
-    // Expression attribute values
-    //
-    if(Object.keys(expressionAttributeValues).length > 0) {
-        scanOpts["ExpressionAttributeValues"] = 
-            expressionAttributeValues;
-    }
-
-    //
     // Dry-run Option
-    //
     if(getopt.options["dry-run"]) {
+        var parameters = statement.getScanParameters();
         console.log("// opts for aws.dynamodb.scan:");
-        console.log(JSON.stringify(scanOpts, null, "    "));
+        console.log(JSON.stringify(parameters, null, "    "));
         process.exit(0);
+    } else {
+        statement.scanAll(function(err, data) {
+            if(err) {
+                console.error("Error:", err);
+                process.exit(1);
+            }
+            if(getopt.options['output-json']) {
+                console.log(JSON.stringify(data, null, "    "));
+            } else if(getopt.options['output-json-oneline']) {
+                console.log(JSON.stringify(data));
+            } else {
+                dynamodb.printScanResult(data, sortItemPath, sortDesc);
+            }
+        });
     }
-
-    DynamoDB.scan(scanOpts,
-    function(err, data) {
-        if(err) {
-            console.error("Error:", err);
-            process.exit(1);
-        }
-        if(getopt.options['output-json']) {
-            console.log(JSON.stringify(data, null, "    "));
-        } else if(getopt.options['output-json-oneline']) {
-            console.log(JSON.stringify(data));
-        } else {
-            dynamodb.printScanResult(data, sortItemPath, sortDesc);
-        }
-    });
 }());
 
