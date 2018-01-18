@@ -1,8 +1,9 @@
 #!/bin/env node
 (function() {
     "use strict";
-    var dynamodb = require('../lib/aws-dynamodb');
+    var dynamodb = require("../lib/aws-dynamodb");
     var Statement = require("../lib/dynamodb-statement");
+    var ResultSet = require("../lib/dynamodb-result-set");
     var getopt = require('node-getopt').create([
         ['c', 'max-items=ARG',          'The total number of items to return'],
         ['n', 'starting-token=ARG',     'A token to specify where to start paginating'],
@@ -46,7 +47,12 @@
     // projection expression
     var projexpr = getopt.options["projection-expression"];
     if(projexpr) {
-        statement.setProjectionExpression(projexpr);
+        try {
+            statement.setProjectionExpression(projexpr);
+        } catch (err) {
+            console.error("Error in projection-expression:", err.message);
+            process.exit(1);
+        }
     }
 
     // Query expression
@@ -67,20 +73,32 @@
     } else if(optExpr) {
        keyConditionExpr = optExpr;
     }
-    statement.setKeyConditionExpression(keyConditionExpr);
+    try {
+        statement.setKeyConditionExpression(keyConditionExpr);
+    } catch (err) {
+        console.error("Error in key-condition-expression:", err.message);
+        process.exit(1);
+    }
 
     // Filter expression
     if(getopt.options["filter-expression"]) {
-        statement.setFilterExpression(getopt.options["filter-expression"]);
+        try {
+            statement.setFilterExpression(getopt.options["filter-expression"]);
+        } catch (err) {
+            console.error("Error in filter-expression:", err.message);
+            process.exit(1);
+        }
     }
+
+    // Query
 
     // Dry-run Option
     if(getopt.options["dry-run"]) {
-        var parameter = statement.getQueryParameter();
+        var queryParam = statement.getQueryParameter();
         console.log("// opts for aws.dynamodb.query:");
-        console.log(JSON.stringify(parameter, null, "    "));
+        console.log(JSON.stringify(queryParam, null, "    "));
     } else {
-        statement.queryAll(function(err, data) {
+        dynamodb.runQueryStatemnt(statement, function(err, data) {
             if(err) {
                 console.error("Error:", err);
                 process.exit(1);
@@ -90,7 +108,7 @@
             } else if(getopt.options['output-json-oneline']) {
                 console.log(JSON.stringify(data));
             } else {
-                dynamodb.printScanResult(data, sortItemPath, sortDesc);
+                ResultSet.printScanResult(data, sortItemPath, sortDesc);
             }
         });
     }
