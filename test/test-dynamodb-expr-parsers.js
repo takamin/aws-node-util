@@ -1,6 +1,6 @@
 "use strict";
 var assert = require("chai").assert;
-var dynamodb = require('../lib/aws-dynamodb');
+var dynamodb = require('../lib/aws-dynamodb-expr-parsers');
 describe("dynamodbExprParsers", function() {
     describe("parseProjectionExpression", function() {
         it("should parse non-keyword names", function() {
