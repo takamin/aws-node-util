@@ -2,9 +2,10 @@
 (function() {
     "use strict";
     var aws = require('../lib/awscli');
-    var DynamoDB = aws.getService("DynamoDB");
     //aws.setDebug();
     var dynamodb = require('../lib/aws-dynamodb');
+    dynamodb.connect();
+    var DynamoDB = aws.getService("DynamoDB");
     var parser = require('../lib/aws-dynamodb-expr-parsers');
     var getopt = require('node-getopt').create([
         ['j', 'output-json',            'output a json to read'],
@@ -36,7 +37,6 @@
         process.exit(1);
     }
 
-    dynamodb.connect();
     DynamoDB.deleteItem(apiOpts, function(err, data) {
         if(err) {
             console.error("Error:", err);
