@@ -1,6 +1,7 @@
 #!/bin/env node
 (function() {
     "use strict";
+    var awscli = require('../lib/awscli');
     var dynamodb = require('../lib/aws-dynamodb');
     var listit = require('list-it');
     var getopt = require('node-getopt').create([
@@ -15,8 +16,6 @@
         console.error("Error: tableName required");
         process.exit(1);
     }
-    //Use AWS.DynamoDB().describeTable({TableName:<table-name>}, function(err,data){...});
-    //Then remove "describe-table" key of services table declared in lib/awscli.js
     dynamodb.describeTable(arg.tableName, function(err, data) {
         if(err) {
             console.error("Error:", err);

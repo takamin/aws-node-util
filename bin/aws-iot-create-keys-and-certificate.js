@@ -2,7 +2,7 @@
 (function() {
     "use strict";
     var fs = require("fs");
-    var aws = require("../lib/awscli");
+    var aws_iot = require("../lib/aws-iot");
     var cmdlin = require("node-getopt").create([
             ["a",   "activate", "set as activate"],
             ["t",   "thing-name=ARG", "attach the thing"],
@@ -10,7 +10,7 @@
             ["h",   "help",     "display this help"]
             ]).bindHelp().parseSystem();
     var activate = cmdlin.options["activate"];
-    aws.iot.createKeysAndCertificate(activate, function(err, data) {
+    aws_iot.createKeysAndCertificate(activate, function(err, data) {
         if(err) {
             console.error("Error: ", err);
             process.exit(1);
@@ -33,7 +33,7 @@
         console.error("The created keys and certificate " + 
                 "were saved to the file '" + fn + "'.");
         if(cmdlin.options["thing-name"]) {
-            aws.iot.attachThingPrincipal(
+            aws_iot.attachThingPrincipal(
                     cmdlin.options["thing-name"],
                     data.certificateArn,
                     function(err, blank) {
@@ -47,7 +47,7 @@
                     });
         }
         if(cmdlin.options["policy-name"]) {
-            aws.iot.attachPrincipalPolicy(
+            aws_iot.attachPrincipalPolicy(
                     cmdlin.options["policy-name"],
                     data.certificateArn,
                     function(err, blank) {
