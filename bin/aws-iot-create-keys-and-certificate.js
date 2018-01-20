@@ -10,6 +10,8 @@
             ["h",   "help",     "display this help"]
             ]).bindHelp().parseSystem();
     var activate = cmdlin.options["activate"];
+
+    aws_iot.connect();
     aws_iot.createKeysAndCertificate(activate, function(err, data) {
         if(err) {
             console.error("Error: ", err);

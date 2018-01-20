@@ -9,6 +9,8 @@ var output = {
 process.on("exit", function() {
     console.log(JSON.stringify(output, null, "    "));
 });
+
+apigw.connect();
 apigw.getRestApi(restApiId, function(err, restApi) {
     if(err) {
         console.error(err);

@@ -24,6 +24,7 @@
         console.error("Error: item is required to put.");
         process.exit(1);
     }
+    dynamodb.connect();
     arg.item.forEach(function(item) {
         var params = {};
         params["TableName"] = arg.tableName;

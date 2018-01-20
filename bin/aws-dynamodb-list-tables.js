@@ -3,6 +3,8 @@
     "use strict";
     var dynamodb = require('../lib/aws-dynamodb');
     var listit = require('list-it');
+
+    dynamodb.connect();
     dynamodb.listTables(function(err, data) {
         if(err) {
             console.error("Error:", err);

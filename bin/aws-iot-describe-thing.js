@@ -3,6 +3,8 @@
     "use strict";
     var aws_iot = require('../lib/aws-iot');
     var args = require('hash-arg').get([ "thingName" ]);
+
+    aws_iot.connect();
     if(!args.thingName) {
         console.error("ERROR: thingName is required");
         aws_iot.listThings(function(err, data) {

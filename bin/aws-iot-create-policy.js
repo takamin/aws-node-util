@@ -20,6 +20,8 @@
                 }
             ]
         }).replace(/"/g, '\\"'))) + '"';
+
+    aws_iot.connect();
     aws_iot.createPolicy(
             args.policyName, policyDocument,
             function(err, data) {

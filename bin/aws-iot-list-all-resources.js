@@ -2,6 +2,7 @@
 (function() {
     "use_strict";
     var aws_iot = require('../lib/aws-iot');
+    aws_iot.connect();
     var Promise = require('promise');
     const camelCase = require('camelcase');
     var listit = require('list-it');

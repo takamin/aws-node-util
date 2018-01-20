@@ -7,6 +7,7 @@ fs.readFile(process.argv[3], function(err, data) {
         return;
     }
     var pdoc = JSON.parse(data);
+    iam.connect();
     iam.createRole(process.argv[2],
         JSON.stringify(pdoc),
         function(err, data)

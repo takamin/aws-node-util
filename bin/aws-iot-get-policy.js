@@ -1,6 +1,7 @@
 #!/bin/env node
 var aws_iot = require('../lib/aws-iot');
 var args = require('hash-arg').get([ "policyName" ]);
+aws_iot.connect();
 if(!args.policyName) {
     console.error("ERROR: policyName is required");
     aws_iot.listPolicies(function(err, data) {

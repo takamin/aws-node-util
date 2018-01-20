@@ -16,6 +16,8 @@
         console.error("Error: tableName required");
         process.exit(1);
     }
+
+    dynamodb.connect();
     dynamodb.describeTable(arg.tableName, function(err, data) {
         if(err) {
             console.error("Error:", err);

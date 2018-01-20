@@ -9,6 +9,7 @@
         console.error("ERROR: thingName is required");
         process.exit(1);
     } else {
+        aws_iot.connect();
         aws_iot.createThing(
                 args.thingName, args.attributePayload,
                 function(err, data) {
