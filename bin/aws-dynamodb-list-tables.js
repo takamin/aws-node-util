@@ -1,11 +1,11 @@
 #!/bin/env node
 (function() {
     "use strict";
-    var aws = require('../lib/awscli');
+    var dynamodb = require('../lib/aws-dynamodb');
     var listit = require('list-it');
-    //Use AWS.DynamoDB().listTable({}, function(err,data){...});
-    //Then remove "list-tables" key of services table declared in lib/awscli.js
-    aws.dynamodb.listTables(function(err, data) {
+
+    dynamodb.connect();
+    dynamodb.listTables(function(err, data) {
         if(err) {
             console.error("Error:", err);
             process.exit(1);

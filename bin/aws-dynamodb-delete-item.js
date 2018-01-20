@@ -35,6 +35,8 @@
         console.error("Error in parameter " + arg.key + ":", err.message);
         process.exit(1);
     }
+
+    dynamodb.connect();
     DynamoDB.deleteItem(apiOpts, function(err, data) {
         if(err) {
             console.error("Error:", err);

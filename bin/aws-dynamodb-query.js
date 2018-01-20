@@ -2,6 +2,8 @@
 (function() {
     "use strict";
     var dynamodb = require("../lib/aws-dynamodb");
+    dynamodb.connect();
+
     var Statement = require("../lib/dynamodb-statement");
     var ResultSet = require("../lib/dynamodb-result-set");
     var getopt = require('node-getopt').create([

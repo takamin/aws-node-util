@@ -68,6 +68,7 @@
         console.log(JSON.stringify(scanParam, null, "    "));
         process.exit(0);
     } else {
+        dynamodb.connect();
         dynamodb.runScanStatemnt(statement, function(err, data) {
             if(err) {
                 console.error("Error:", err);
