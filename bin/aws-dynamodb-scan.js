@@ -1,125 +1,129 @@
 #!/bin/env node
-(function() {
-    "use strict";
-    var aws = require('../lib/awscli');
-    var DynamoDB = aws.getService("DynamoDB");
-    //aws.setDebug();
-    var dynamodb = require('../lib/aws-dynamodb');
-    var getopt = require('node-getopt').create([
-        ['c', 'max-items=ARG',          'The total number of items to return'],
-        ['n', 'starting-token=ARG',     'A token to specify where to start paginating'],
-        ['s', 'sort-item=ARG',     'JSON path to the sort item'],
-        ['p', 'projection-expression=ARG', 'comma separated attribute names to project'],
-        ['f', 'filter-expression=ARG',  'filter expression'],
-        ['d', 'desc',                   'Sorting direction to descendent'],
-        ['j', 'output-json',            'output a json to read'],
-        ['J', 'output-json-oneline',    'output a json in oneline'],
-        ['t', 'dry-run',                'Print options of the scan and exit'],
-        ['h', 'help',                   'display this help']
-        ]).bindHelp().parseSystem();
-    var arg = require('hash-arg').get([
+"use strict";
+var dynamodb = require("../lib/aws-dynamodb");
+dynamodb.connect();
+
+var Statement = require("../lib/dynamodb-statement");
+var ResultSet = require("../lib/dynamodb-result-set");
+var Getopt = require('node-getopt');
+var optdef = new Getopt([
+    ['c', 'max-items=ARG',          'The total number of items to return'],
+    ['n', 'starting-token=ARG',     'A token to specify where to start paginating'],
+    ['s', 'sort-item=ARG',          'JSON path to the sort item'],
+    ['p', 'projection-expression=ARG', 'comma separated attribute names to project'],
+    ['f', 'filter-expression=ARG',  'filter expression'],
+    ['d', 'desc',                   'Sorting direction to descendent'],
+    ['j', 'output-json',            'output a json to read'],
+    ['J', 'output-json-oneline',    'output a json in oneline'],
+    ['t', 'dry-run',                'Print options of the scan and exit'],
+    ['q', 'sql-ish',                'Query by SQL-ish-statement(beta)'],
+    ['h', 'help',                   'display this help']
+    ]);
+
+optdef.setHelp(
+        "Usage:\n" +
+        "1) aws-dynamodb-scan [OPTIONS] <tableName>\n" +
+        "2) aws-dynamodb-scan [OPTIONS] -q <SQL-ish-statement>\n" +
+        "\n" +
+        "[[OPTIONS]]\n" +
+        "\n" +
+        "PARAMETERS:\n" +
+        "\n" +
+        "  tableName              The table name defined in DynamoDB.\n" +
+        "  SQL-ish-statement      SQL-ish text that represents a scan\n" +
+        "\n" +
+        "  1) In all expression parameter, option value or SQL-ish," +
+        "the field names could be represented as is for " +
+        "its declared name in the table without considering " +
+        "the placeholder of AWS DynamoDB.\n" +
+        "\n" +
+        "  2) Here is an examples showing a syntax for SQL-ish-statement of scan.\n" +
+        "\n" +
+        "    [ SELECT <projection-expression> ]\n" +
+        "    FROM <tableName>\n" +
+        "    [ WHERE <filter-expression> ]\n" +
+        "    [ LIMIT <max-items> ]\n" +
+        "\n" +
+        "  This says the FROM clauses is mandatory and " +
+        "the SELECT, WHERE and LIMIT are optional."
+);
+
+var getopt = optdef.bindHelp().parseSystem();
+
+var arg = {};
+if(getopt.options["sql-ish"]) {
+    arg = require('hash-arg').get([ "sqlish" ], getopt.argv);
+} else {
+    arg = require('hash-arg').get([
         "tableName"
     ], getopt.argv);
-    if(arg.tableName == null) {
-        console.error("Error: tableName required");
-        process.exit(1);
-    }
-    var maxItems = 20;
-    if(getopt.options['max-items'] != null) {
-        maxItems = parseInt(getopt.options['max-items']);
-        if(isNaN(maxItems) || maxItems <= 0) {
-            console.error("Error: invalid max-items", getopt.options['max-items']);
-            process.exit(1);
+}
+try {
+
+    var param;
+    if(getopt.options["sql-ish"]) {
+        param = arg.sqlish;
+    } else {
+        param = {
+            TableName: null
+        };
+
+        // TableName
+        if(!("tableName" in arg)) {
+           console.error("Error:",
+                   "tableName is required.");
+           process.exit(1);
         }
-    }
-    var startingToken = null;
-    if(getopt.options['starting-token'] != null) {
-        startingToken = getopt.options['starting-token'];
-    }
-    var sortItemPath = getopt.options['sort-item'];
-    var sortDesc = getopt.options['desc'];
+        param.TableName = arg.tableName;
 
-    var scanOpts = {};
-    scanOpts["TableName"] = arg.tableName;
-    scanOpts["Limit"] = maxItems;
+        // FilterExpression
+        if("filter-expression" in getopt.options) {
+            param.FilterExpression = getopt.options["filter-expression"];
+        }
 
-    //
-    // Options
-    //
-    var projectionExpression = [];
-    var filterExpression = "";
-    var expressionAttributeNames = {};
-    var expressionAttributeValues = {};
+        // ProjectionExpression
+        if("projection-expression" in getopt.options) {
+            param.ProjectionExpression = getopt.options["projection-expression"];
+        }
 
-    //
-    // projection expression
-    //
-    var projexpr = getopt.options["projection-expression"];
-    if(projexpr) {
-        try {
-            scanOpts["ProjectionExpression"] =
-                dynamodb.parseProjectionExpression(
-                        projexpr, expressionAttributeNames);
-        } catch (err) {
-            console.error("Error in projection-expression:", err.message);
-            process.exit(1);
+        // Limit
+        if('max-items' in getopt.options) {
+            param.Limit = parseInt(getopt.options['max-items']);
+        }
+
+        var startingToken = null;
+        if('starting-token' in getopt.options) {
+            startingToken = getopt.options['starting-token'];
         }
     }
 
-    //
-    // Filter expression
-    //
-    if(getopt.options["filter-expression"]) {
-        try {
-            scanOpts["FilterExpression"] =
-                dynamodb.parseConditionExpression(
-                    getopt.options["filter-expression"],
-                    expressionAttributeNames,
-                    expressionAttributeValues);
-        } catch (err) {
-            console.error("Error in filter-expression:", err.message);
-            process.exit(1);
-        }
-    }
+    var statement = Statement.prepareScan(param);
 
-    //
-    // Expression attribute names
-    //
-    if(Object.keys(expressionAttributeNames).length > 0) {
-        scanOpts["ExpressionAttributeNames"] =
-            expressionAttributeNames;
-    }
-
-    //
-    // Expression attribute values
-    //
-    if(Object.keys(expressionAttributeValues).length > 0) {
-        scanOpts["ExpressionAttributeValues"] = 
-            expressionAttributeValues;
-    }
-
-    //
-    // Dry-run Option
-    //
     if(getopt.options["dry-run"]) {
+        var queryParam = statement.getScanParameter();
         console.log("// opts for aws.dynamodb.scan:");
-        console.log(JSON.stringify(scanOpts, null, "    "));
-        process.exit(0);
+        console.log(JSON.stringify(queryParam, null, "    "));
+    } else {
+
+        // Scan
+        dynamodb.runScanStatemnt(statement, function(err, data) {
+            if(err) {
+                console.error("Error:", err);
+                process.exit(1);
+            }
+            if(getopt.options['output-json']) {
+                console.log(JSON.stringify(data, null, "    "));
+            } else if(getopt.options['output-json-oneline']) {
+                console.log(JSON.stringify(data));
+            } else {
+                ResultSet.printScanResult(data,
+                        getopt.options['sort-item'],
+                        getopt.options['desc']);
+            }
+        });
     }
-
-    DynamoDB.scan(scanOpts,
-    function(err, data) {
-        if(err) {
-            console.error("Error:", err);
-            process.exit(1);
-        }
-        if(getopt.options['output-json']) {
-            console.log(JSON.stringify(data, null, "    "));
-        } else if(getopt.options['output-json-oneline']) {
-            console.log(JSON.stringify(data));
-        } else {
-            dynamodb.printScanResult(data, sortItemPath, sortDesc);
-        }
-    });
-}());
-
+} catch(err) {
+    console.error("Error: ", err.message);
+    console.error("Error: ", err.stack);
+    process.exit(1);
+}

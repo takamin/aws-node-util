@@ -1,5 +1,6 @@
 #!/bin/env node
 var apigw = require("../lib/aws-apigateway");
+
 if(process.argv.length <= 2) {
     console.error("Error: no rest-api-id specified.");
     console.error("usage:");
@@ -7,6 +8,8 @@ if(process.argv.length <= 2) {
     return 1;
 }
 var restApiId = process.argv[2];
+
+apigw.connect();
 apigw.getRestApi(restApiId, function(err, restApi) {
     if(err) {
         console.error(err);

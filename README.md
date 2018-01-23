@@ -113,27 +113,48 @@ __Available Types Assumed In Automatic__
 Query -- This reports the retrieved data that matches key-conditions given
 from command-line without consideration about the placeholder.
 
-__$ aws-dynamodb-query `<table-name>` `<key-condition-expression>` `[options]`__
+```
+Usage:
+1) aws-dynamodb-query [OPTIONS] <tableName> <keyConditionExpression>
+2) aws-dynamodb-query [OPTIONS] -q <SQL-ish-statement>
 
-* `table-name` - target table name
-* `key-condition-expression` - query condition about key of the table.
+  -c, --max-items=ARG                 The total number of items to return
+  -n, --starting-token=ARG            A token to specify where to start paginating
+  -s, --sort-item=ARG                 JSON path to the sort item
+  -p, --projection-expression=ARG     comma separated attribute names to project
+  -k, --key-condition-expression=ARG  key condition expression of query
+  -f, --filter-expression=ARG         filter expression applied after query
+  -d, --desc                          Sorting direction to descendent
+  -j, --output-json                   output a json to read
+  -J, --output-json-oneline           output a json in oneline
+  -t, --dry-run                       Print options of the query and exit
+  -q, --sql-ish                       Query by SQL-ish-statement(beta)
+  -h, --help                          display this help
 
-__OPTIONS__
+PARAMETERS:
 
-* --filter-expression / --key-condition-expression
+  tableName              The table name defined in DynamoDB.
+  keyConditionExpression KeyConditionExpression for the DynamoDB table.
+  SQL-ish-statement      SQL-ish text that represents a query
 
-The conditional expression for the query.
+  1) In all expression parameter, option value or SQL-ish,the field names could be represented as is for its declared name in the table without considering the placeh
+older of AWS DynamoDB.
 
-* --projection-expression
+  2) Here is an examples showing a syntax for SQL-ish-statement of query.
 
-Specify a comma separated attribute names to retrieve specific attributes.
+    [ SELECT <projection-expression> ]
+    FROM <tableName>
+    WHERE <keyConditionExpression>
+    [ FILTER <filter-expression> ]
+    [ LIMIT <max-items> ]
+
+  This says the FROM and WHERE clauses are mandatory and the SELECT, FILTER and LIMIT are optional.
+
+```
 
 __EXAMPLE__
 
-Comamnd line:
-
 ```bash
-
 $ aws-dynamodb-query stars \
 > "mainStar='SUN' AND orbitOrder BETWEEN 1 AND 9" \
 > --projection-expression "name, mass, diameter" \
@@ -150,24 +171,65 @@ ROWNUM diameter mass      name
      8    49528  102.0    NEPTUNE
      9     2370    0.0146 PLUTO
 ScannedCount: 9
+```
 
+SQL-ish statement:
+
+```bash
+$ aws-dynamodb-query -q "SELECT name, mass, diameter \
+> FROM stars \
+> WHERE mainStar='SUN' AND orbitOrder BETWEEN 1 AND 9" \
+> --sort-item orbitOrder
+Count: 9
+ROWNUM diameter mass      name
+     1     4879    0.33   MERCURY
+     2    12104    4.87   VENUS
+     3    12756    5.97   MARS
+     4     6792    0.642  MARS
+     5   142984 1898.0    JUPITER
+     6   120536  568.0    SATURN
+     7    51118   86.8    URANUS
+     8    49528  102.0    NEPTUNE
+     9     2370    0.0146 PLUTO
+ScannedCount: 9
 ```
 
 ### 4. aws-dynamodb-scan
 
-__$ aws-dynamodb-scan `<table-name>` `[options]`__
+```
+Usage:
+1) aws-dynamodb-scan [OPTIONS] <tableName>
+2) aws-dynamodb-scan [OPTIONS] -q <SQL-ish-statement>
 
-* `table-name` - target table name
+  -c, --max-items=ARG              The total number of items to return
+  -n, --starting-token=ARG         A token to specify where to start paginating
+  -s, --sort-item=ARG              JSON path to the sort item
+  -p, --projection-expression=ARG  comma separated attribute names to project
+  -f, --filter-expression=ARG      filter expression
+  -d, --desc                       Sorting direction to descendent
+  -j, --output-json                output a json to read
+  -J, --output-json-oneline        output a json in oneline
+  -t, --dry-run                    Print options of the scan and exit
+  -q, --sql-ish                    Query by SQL-ish-statement(beta)
+  -h, --help                       display this help
 
-__OPTIONS__
+PARAMETERS:
 
-* --filter-expression
+  tableName              The table name defined in DynamoDB.
+  SQL-ish-statement      SQL-ish text that represents a scan
 
-The conditional expression for the query.
+  1) In all expression parameter, option value or SQL-ish,the field names could be represented as is for its declared name in the table without considering the placeh
+older of AWS DynamoDB.
 
-* --projection-expression
+  2) Here is an examples showing a syntax for SQL-ish-statement of scan.
 
-Specify a comma separated attribute names to retrieve specific attributes.
+    [ SELECT <projection-expression> ]
+    FROM <tableName>
+    [ WHERE <filter-expression> ]
+    [ LIMIT <max-items> ]
+
+  This says the FROM clauses is mandatory and the SELECT, WHERE and LIMIT are optional.
+```
 
 __EXAMPLE__
 
@@ -176,6 +238,27 @@ Comamnd line:
 ```bash
 
 $ aws-dynamodb-scan stars
+Count: 10
+ROWNUM diameter rotation role      mass      gravity density escapeVelocity name    orbitOrder mainStar
+     1     3475    655.7 satellite    0.0073     1.6    3340            2.4 MOON             1 EARTH
+     2     4879   1407.6 planet       0.33       3.7    5427            4.3 MERCURY          1 SUN
+     3    12104  -5832.0 planet       4.87       8.9    5243           10.4 VENUS            2 SUN
+     4    12756     23.9 planet       5.97       9.8    5514           11.2 MARS             3 SUN
+     5     6792     24.6 planet       0.642      3.7    3933            5.0 MARS             4 SUN
+     6   142984      9.9 planet    1898.0       23.1    1326           59.5 JUPITER          5 SUN
+     7   120536     10.7 planet     568.0        9.0     687           35.5 SATURN           6 SUN
+     8    51118    -17.2 planet      86.8        8.7    1271           21.3 URANUS           7 SUN
+     9    49528     16.1 planet     102.0       11.0    1638           23.5 NEPTUNE          8 SUN
+    10     2370   -153.3 planet       0.0146     0.7    2095            1.3 PLUTO            9 SUN
+ScannedCount: 10
+
+```
+
+SQL-ish statement:
+
+```bash
+
+$ aws-dynamodb-scan -q "FROM stars"
 Count: 10
 ROWNUM diameter rotation role      mass      gravity density escapeVelocity name    orbitOrder mainStar
      1     3475    655.7 satellite    0.0073     1.6    3340            2.4 MOON             1 EARTH

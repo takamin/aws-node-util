@@ -1,6 +1,7 @@
 #!/bin/env node
 (function() {
     "use strict";
+    var awscli = require('../lib/awscli');
     var dynamodb = require('../lib/aws-dynamodb');
     var listit = require('list-it');
     var getopt = require('node-getopt').create([
@@ -15,6 +16,8 @@
         console.error("Error: tableName required");
         process.exit(1);
     }
+
+    dynamodb.connect();
     dynamodb.describeTable(arg.tableName, function(err, data) {
         if(err) {
             console.error("Error:", err);

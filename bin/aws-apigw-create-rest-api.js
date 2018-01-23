@@ -8,6 +8,8 @@ if(process.argv.length <= 2) {
     return 1;
 }
 var name = process.argv[2];
+
+apigw.connect();
 apigw.createRestApi(name, function(err, data) {
     console.log(JSON.stringify(data, null, "    "));
 });

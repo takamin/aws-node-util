@@ -1,6 +1,7 @@
 #!/bin/env node
 var listit = require("list-it");
 var iam = require("../lib/aws-iam");
+iam.connect();
 iam.listRoles(function(err, data) {
     if(err) {
         console.error("Error:", err);

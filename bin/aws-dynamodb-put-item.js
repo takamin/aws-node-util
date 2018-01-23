@@ -2,9 +2,11 @@
 (function() {
     "use strict";
     var aws = require('../lib/awscli');
-    var DynamoDB = aws.getService("DynamoDB");
     //aws.setDebug();
     var dynamodb = require('../lib/aws-dynamodb');
+    dynamodb.connect();
+    var DynamoDB = aws.getService("DynamoDB");
+    var parser = require('../lib/aws-dynamodb-expr-parsers');
     var getopt = require('node-getopt').create([
         ['j', 'output-json',            'output a json to read'],
         ['J', 'output-json-oneline',    'output a json in oneline'],
@@ -27,7 +29,7 @@
         var params = {};
         params["TableName"] = arg.tableName;
         try {
-            params["Item"] = dynamodb.parseItemListToMap(item);
+            params["Item"] = parser.parseItemListToMap(item);
         } catch (err) {
             console.error("Error in parameter " + item + ":", err.message);
             process.exit(1);

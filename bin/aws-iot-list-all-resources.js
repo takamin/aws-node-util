@@ -1,7 +1,8 @@
 #!/bin/env node
 (function() {
     "use_strict";
-    var aws = require('../lib/awscli');
+    var aws_iot = require('../lib/aws-iot');
+    aws_iot.connect();
     var Promise = require('promise');
     const camelCase = require('camelcase');
     var listit = require('list-it');
@@ -59,7 +60,7 @@
             }
         }
         resourceNames.forEach(function(key) {
-            aws.iot[camelCase("list-" + key)](function(err, list) {
+            aws_iot[camelCase("list-" + key)](function(err, list) {
                 if(err) {
                     console.error(err);
                     process.exit(1);
@@ -115,15 +116,15 @@
                 process.exit(1);
             }
             Promise.all([
-                getDetail(resources.things, aws.iot.describeThing, "thingName"),
-                getDetail(resources.policies, aws.iot.getPolicy, "policyName"),
-                getDetail(resources.certificates, aws.iot.describeCertificate, "certificateId"),
-                getDetail(resources.topicRules, aws.iot.getTopicRule, "ruleName")
+                getDetail(resources.things, aws_iot.describeThing, "thingName"),
+                getDetail(resources.policies, aws_iot.getPolicy, "policyName"),
+                getDetail(resources.certificates, aws_iot.describeCertificate, "certificateId"),
+                getDetail(resources.topicRules, aws_iot.getTopicRule, "ruleName")
             ]).then(function(results) {
                 return Promise.all(
                     resources.certificates.map(function (cert) {
                         return new Promise(function (resolve, reject) {
-                            aws.iot.listPrincipalPolicies(cert.certificateArn, function(err, data) {
+                            aws_iot.listPrincipalPolicies(cert.certificateArn, function(err, data) {
                                 if(err) {
                                     reject(err);
                                     return;
@@ -140,7 +141,7 @@
                 return Promise.all(
                     resources.certificates.map(function (cert) {
                         return new Promise(function (resolve, reject) {
-                            aws.iot.listPrincipalThings(cert.certificateArn, function(err, data) {
+                            aws_iot.listPrincipalThings(cert.certificateArn, function(err, data) {
                                 if(err) {
                                     reject(err);
                                     return;

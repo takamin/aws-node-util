@@ -1,6 +1,8 @@
 #!/bin/env node
 var listit = require("list-it");
 var apigw = require("../lib/aws-apigateway");
+
+apigw.connect();
 apigw.getRestApis(function(err, restApis) {
     if(err) {
         console.error("Error:", err);

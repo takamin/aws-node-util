@@ -1,6 +1,6 @@
 #!/bin/env node
 (function() {
-    var aws = require('../lib/awscli');
+    var aws_iot = require('../lib/aws-iot');
     var args = require('hash-arg').get([
         "policyName",
         "policyDocument"
@@ -20,7 +20,9 @@
                 }
             ]
         }).replace(/"/g, '\\"'))) + '"';
-    aws.iot.createPolicy(
+
+    aws_iot.connect();
+    aws_iot.createPolicy(
             args.policyName, policyDocument,
             function(err, data) {
                 if(!err) {
