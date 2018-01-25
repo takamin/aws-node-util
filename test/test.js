@@ -7,7 +7,7 @@
 
     // Tests
     describe("aws-dynamodb", function() {
-        var dynamodb = require('../lib/aws-dynamodb-expr-parsers');
+        var dynamodb = require('../lib/dynamodb-sqlish-parser');
         describe("#parseItemListToMap", function() {
             describe("interpret a literal with its type in automatically", function() {
                 describe("integer", function() {

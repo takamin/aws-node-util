@@ -4,13 +4,100 @@ AWS-Node-Util
 DESCRIPTION
 -----------
 
-The command sets to manipulate AWS with the local command line interface.
+This module provides __parameterized SQL-ish scan / query statements for DynamoDB.__
 
-These are wrapper for the AWS CLI with shell script or Node.js.
-So, this command set needs AWS CLI and Node.js.
+And also provides CLI commands that manipulate AWS services.
+Some of these are depending on AWS CLI or shell script.
 
-Utils for Amazon Dynamo
------------------------
+SQL-ish feature
+---------------
+
+On current version, only ScanStatement and QuerStatement are available.
+See the sample code below to use the classes.
+
+### Sample to scan and query
+
+```javascript
+"use strict";
+const awsNodeUtil = require("aws-node-util");
+const ScanStatement = awsNodeUtil.dynamodb.ScanStatement;
+const QueryStatement = awsNodeUtil.dynamodb.QueryStatement;
+const ResultSet = awsNodeUtil.dynamodb.ResultSet;
+
+// Connect (change each value for your account)
+awsNodeUtil.dynamodb.connect(
+    { accessKeyId: 'AKID', secretAccessKey: 'SECRET', region: 'us-west-2' }
+);
+
+// Handler to print result of scan / query
+function printResult(err, result) {
+    if(err) {
+        console.error("Error:", err.stack);
+    } else {
+        ResultSet.printScanResult(result);
+    }
+}
+
+// Prepare 'Scan' statement
+var scanStatement = new ScanStatement(
+        "SELECT mainStar, orbitOrder, name " +
+        "FROM stars " +
+        "WHERE mainStar=:mainStar");
+
+// Prepare 'Query' statement
+var queryStatement = new ScanStatement(
+        "SELECT mainStar, orbitOrder, name " +
+        "FROM stars " +
+        "WHERE mainStar=:mainStar");
+
+// Run the statements
+scanStatement.run({ ":mainStar": "SUN" }, printResult);
+scanStatement.run({ ":mainStar": "EARTH" }, printResult);
+queryStatement.run({ ":mainStar": "SUN" }, printResult);
+queryStatement.run({ ":mainStar": "EARTH" }, printResult);
+```
+
+__outputs__
+
+```
+Count: 10
+ROWNUM name orbitOrder mainStar
+     1 MOON          1 EARTH
+ScannedCount: 10
+Count: 10
+ROWNUM name    orbitOrder mainStar
+     1 MERCURY          1 SUN
+     2 VENUS            2 SUN
+     3 MARS             3 SUN
+     4 MARS             4 SUN
+     5 JUPITER          5 SUN
+     6 SATURN           6 SUN
+     7 URANUS           7 SUN
+     8 NEPTUNE          8 SUN
+     9 PLUTO            9 SUN
+ScannedCount: 10
+Count: 10
+ROWNUM name    orbitOrder mainStar
+     1 MERCURY          1 SUN
+     2 VENUS            2 SUN
+     3 MARS             3 SUN
+     4 MARS             4 SUN
+     5 JUPITER          5 SUN
+     6 SATURN           6 SUN
+     7 URANUS           7 SUN
+     8 NEPTUNE          8 SUN
+     9 PLUTO            9 SUN
+ScannedCount: 10
+Count: 10
+ROWNUM name orbitOrder mainStar
+     1 MOON          1 EARTH
+ScannedCount: 10
+
+```
+
+
+CLI-Commands for Amazon Dynamo
+------------------------------
 
 1. __aws-dynamodb-delete-item__ - delete item on the table
 1. __aws-dynamodb-put-item__ - put item to the table
@@ -285,8 +372,8 @@ So, you don't need to worry about it.
 
 ----
 
-Utils for AWS Lambda
--------------------
+CLI-commands for AWS Lambda
+---------------------------
 
 1. __aws-lambda-get__ - Download a lambda function
 2. __aws-lambda-upload__ - Upload the function code
@@ -329,8 +416,8 @@ $ aws-lambda-create <sub-directory-name> <role-arn>
 
 ----
 
-Utils for AWS IoT
------------------
+CLI-commands for AWS IoT
+------------------------
 
 1. __aws-iot-list-all-resources__ - list all the IoT resouces
 2. __aws-iot-create-keys-and-certificate__ - create certificate and attach the thing and/or policy
@@ -341,16 +428,16 @@ Utils for AWS IoT
 7. __aws-iot-get-policy__ - print the policy
 
 
-Utils for AWS API Gateway
--------------------------
+CLI-commands for AWS API Gateway
+--------------------------------
 
 1. __aws-apigw-describe-api__ - describe an api content to json. it includes all the resources and all the methods.
 2. __aws-apigw-create-rest-api__
 3. __aws-apigw-create-resource__
 4. __aws-apigw-list-resources__
 
-Utils for AWS IAM
------------------
+CLI-commands for AWS IAM
+------------------------
 
 1. __aws-iam-list-roles__ - list names and created date of all the role
 2. __aws-iam-get-role__ - print role's JSON document to stdout
