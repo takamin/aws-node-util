@@ -1,7 +1,7 @@
 {
   "name": "aws-node-util",
-  "version": "0.7.0",
-  "description": "AWS cli utilities",
+  "version": "0.8.0",
+  "description": "Accessing the DynamoDB with SQL-ish statement and AWS services from CLI",
   "directries": {
     "lib": "./lib"
   },
