@@ -6,7 +6,7 @@
     var dynamodb = require('../lib/aws-dynamodb');
     dynamodb.connect();
     var DynamoDB = aws.getService("DynamoDB");
-    var parser = require('../lib/aws-dynamodb-expr-parsers');
+    var parser = require('../lib/dynamodb-sqlish-parser');
     var getopt = require('node-getopt').create([
         ['j', 'output-json',            'output a json to read'],
         ['J', 'output-json-oneline',    'output a json in oneline'],

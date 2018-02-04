@@ -3,7 +3,7 @@
 var dynamodb = require("../lib/aws-dynamodb");
 dynamodb.connect();
 
-var Statement = require("../lib/dynamodb-statement");
+var Statement = require("../lib/dynamodb-statement.js");
 var ResultSet = require("../lib/dynamodb-result-set");
 var Getopt = require('node-getopt');
 var optdef = new Getopt([
@@ -18,6 +18,7 @@ var optdef = new Getopt([
     ['J', 'output-json-oneline',    'output a json in oneline'],
     ['t', 'dry-run',                'Print options of the query and exit'],
     ['q', 'sql-ish',                'Query by SQL-ish-statement(beta)'],
+    ['p', 'placeholder-values=JSON','Placeholder values. specify as JSON'],
     ['h', 'help',                   'display this help']
     ]);
 
@@ -120,16 +121,18 @@ try {
         }
     }
 
-    var statement = Statement.prepareQuery(param);
-
+    var statement = dynamodb.QueryStatement(param);
+    var placeholderValues = {};
+    if(getopt.options["placeholder-values"]) {
+        placeholderValues = JSON.parse(getopt.options["placeholder-values"]);
+    }
     if(getopt.options["dry-run"]) {
-        var queryParam = statement.getQueryParameter();
+        var queryParam = statement.getParameter();
+        queryParam = Statement.setParam(queryParam, placeholderValues);
         console.log("// opts for aws.dynamodb.query:");
         console.log(JSON.stringify(queryParam, null, "    "));
     } else {
-
-        // Query
-        dynamodb.runQueryStatemnt(statement, function(err, data) {
+        statement.run(placeholderValues, function(err, data) {
             if(err) {
                 console.error("Error:", err);
                 process.exit(1);
