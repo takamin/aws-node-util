@@ -25,9 +25,11 @@ const QueryStatement = awsNodeUtil.dynamodb.QueryStatement;
 const ResultSet = awsNodeUtil.dynamodb.ResultSet;
 
 // Connect (change each value for your account)
-awsNodeUtil.dynamodb.connect(
-    { accessKeyId: 'AKID', secretAccessKey: 'SECRET', region: 'us-west-2' }
-);
+awsNodeUtil.dynamodb.connect({
+    accessKeyId: 'AKID',
+    secretAccessKey: 'SECRET',
+    region: 'us-west-2'
+});
 
 // Handler to print result of scan / query
 function printResult(err, result) {
@@ -59,7 +61,7 @@ queryStatement.run({ ":mainStar": "EARTH" }, printResult);
 
 __outputs__
 
-```
+```bash
 Count: 10
 ROWNUM name orbitOrder mainStar
      1 MOON          1 EARTH
@@ -200,17 +202,20 @@ __Available Types Assumed In Automatic__
 Query -- This reports the retrieved data that matches key-conditions given
 from command-line without consideration about the placeholder.
 
-```
+```bash
 Usage:
 1) aws-dynamodb-query [OPTIONS] <tableName> <keyConditionExpression>
 2) aws-dynamodb-query [OPTIONS] -q <SQL-ish-statement>
 
   -c, --max-items=ARG                 The total number of items to return
-  -n, --starting-token=ARG            A token to specify where to start paginating
+  -n, --starting-token=ARG            A token to specify where to start
+                                      paginating
   -s, --sort-item=ARG                 JSON path to the sort item
-  -p, --projection-expression=ARG     comma separated attribute names to project
+  -p, --projection-expression=ARG     comma separated attribute names to
+                                      project
   -k, --key-condition-expression=ARG  key condition expression of query
-  -f, --filter-expression=ARG         filter expression applied after query
+  -f, --filter-expression=ARG         filter expression applied after
+                                      query
   -d, --desc                          Sorting direction to descendent
   -j, --output-json                   output a json to read
   -J, --output-json-oneline           output a json in oneline
@@ -224,8 +229,9 @@ PARAMETERS:
   keyConditionExpression KeyConditionExpression for the DynamoDB table.
   SQL-ish-statement      SQL-ish text that represents a query
 
-  1) In all expression parameter, option value or SQL-ish,the field names could be represented as is for its declared name in the table without considering the placeh
-older of AWS DynamoDB.
+  1) In all expression parameter, option value or SQL-ish,the field names
+  could be represented as is for its declared name in the table without
+  considering the placeh older of AWS DynamoDB.
 
   2) Here is an examples showing a syntax for SQL-ish-statement of query.
 
@@ -235,7 +241,8 @@ older of AWS DynamoDB.
     [ FILTER <filter-expression> ]
     [ LIMIT <max-items> ]
 
-  This says the FROM and WHERE clauses are mandatory and the SELECT, FILTER and LIMIT are optional.
+  This says the FROM and WHERE clauses are mandatory and the SELECT,
+  FILTER and LIMIT are optional.
 
 ```
 
@@ -283,15 +290,17 @@ ScannedCount: 9
 
 ### 4. aws-dynamodb-scan
 
-```
+```bash
 Usage:
 1) aws-dynamodb-scan [OPTIONS] <tableName>
 2) aws-dynamodb-scan [OPTIONS] -q <SQL-ish-statement>
 
   -c, --max-items=ARG              The total number of items to return
-  -n, --starting-token=ARG         A token to specify where to start paginating
+  -n, --starting-token=ARG         A token to specify where to start
+                                   paginating
   -s, --sort-item=ARG              JSON path to the sort item
-  -p, --projection-expression=ARG  comma separated attribute names to project
+  -p, --projection-expression=ARG  comma separated attribute names to
+                                   project
   -f, --filter-expression=ARG      filter expression
   -d, --desc                       Sorting direction to descendent
   -j, --output-json                output a json to read
@@ -305,8 +314,9 @@ PARAMETERS:
   tableName              The table name defined in DynamoDB.
   SQL-ish-statement      SQL-ish text that represents a scan
 
-  1) In all expression parameter, option value or SQL-ish,the field names could be represented as is for its declared name in the table without considering the placeh
-older of AWS DynamoDB.
+  1) In all expression parameter, option value or SQL-ish,the field names
+  could be represented as is for its declared name in the table without
+  considering the placeh older of AWS DynamoDB.
 
   2) Here is an examples showing a syntax for SQL-ish-statement of scan.
 
@@ -315,7 +325,8 @@ older of AWS DynamoDB.
     [ WHERE <filter-expression> ]
     [ LIMIT <max-items> ]
 
-  This says the FROM clauses is mandatory and the SELECT, WHERE and LIMIT are optional.
+  This says the FROM clauses is mandatory and the SELECT, WHERE and LIMIT
+  are optional.
 ```
 
 __EXAMPLE__
