@@ -87,6 +87,54 @@ describe("DynamoDbQueryStatement", () => {
                         "A = 1 OR B = 2 OR C = 3",
                         param.FilterExpression);
                 });
+                it("should parse attribute_exists function", () => {
+                    var param = QueryStatement.parse(["SELECT A FROM T",
+                        "WHERE PK=:pk FILTER attribute_exists(path.to.attribute)"
+                        ].join(" "));
+                    assert.equal(
+                        "attribute_exists ( path.to.attribute )",
+                        param.FilterExpression);
+                });
+                it("should parse attribute_not_exists function", () => {
+                    var param = QueryStatement.parse(["SELECT A FROM T",
+                        "WHERE PK=:pk FILTER attribute_not_exists(path.to.attribute)"
+                        ].join(" "));
+                    assert.equal(
+                        "attribute_not_exists ( path.to.attribute )",
+                        param.FilterExpression);
+                });
+                it("should parse attribute_type function", () => {
+                    var param = QueryStatement.parse(["SELECT A FROM T",
+                        "WHERE PK=:pk FILTER attribute_type(path.to.attribute, S)"
+                        ].join(" "));
+                    assert.equal(
+                        "attribute_type ( path.to.attribute , S )",
+                        param.FilterExpression);
+                });
+                it("should parse begins_with function", () => {
+                    var param = QueryStatement.parse(["SELECT A FROM T",
+                        "WHERE PK=:pk FILTER begins_with(path.to.attribute,:sk0)"
+                        ].join(" "));
+                    assert.equal(
+                        "begins_with ( path.to.attribute , :sk0 )",
+                        param.FilterExpression);
+                });
+                it("should parse contains function", () => {
+                    var param = QueryStatement.parse(["SELECT A FROM T",
+                        "WHERE PK=:pk FILTER contains(path.to.attribute,:sk0)"
+                        ].join(" "));
+                    assert.equal(
+                        "contains ( path.to.attribute , :sk0 )",
+                        param.FilterExpression);
+                });
+                it("should parse size function", () => {
+                    var param = QueryStatement.parse(["SELECT A FROM T",
+                        "WHERE PK=:pk FILTER size(path.to.attribute)"
+                        ].join(" "));
+                    assert.equal(
+                        "size ( path.to.attribute )",
+                        param.FilterExpression);
+                });
             });
             describe("braces", () => {
                 it("should parse (A=1 OR B=2) AND C=3", () => {
