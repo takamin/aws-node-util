@@ -39,12 +39,12 @@ describe("DynamoDbQueryStatement", () => {
                         "PK = :pk AND SK BETWEEN :sk0 AND :sk1",
                         param.KeyConditionExpression);
                 });
-                it("should parse begin_with function", () => {
+                it("should parse begins_with function", () => {
                     var param = QueryStatement.parse(["SELECT A FROM T",
-                        "WHERE PK=:pk AND begin_with(SK,:sk0)"
+                        "WHERE PK=:pk AND begins_with(SK,:sk0)"
                         ].join(" "));
                     assert.equal(
-                        "PK = :pk AND begin_with ( SK , :sk0 )",
+                        "PK = :pk AND begins_with ( SK , :sk0 )",
                         param.KeyConditionExpression);
                 });
             });
