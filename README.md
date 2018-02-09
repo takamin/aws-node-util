@@ -4,7 +4,16 @@ AWS-Node-Util
 DESCRIPTION
 -----------
 
-This module provides __parameterized SQL-ish scan / query statements for DynamoDB.__
+This module provides __SQL-ish statement classes to manipurate DynamoDB__.
+
+Statement classes:
+
+1. ScanStatement
+2. QueryStatement
+3. PutItemStatement `(*1)`
+4. DeleteItemStatement `(*1)`
+
+`(*1)` - Currently, These cannot be parameterized. So the prepared execution is unavailable.
 
 And also provides CLI commands that manipulate AWS services.
 Some of these are depending on AWS CLI or shell script.
