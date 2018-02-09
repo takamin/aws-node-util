@@ -153,6 +153,20 @@ describe("BNF", function() {
                 assert.equal(true, result.existsTerm("limit-clause"));
             });
         });
+        describe("#getWordsList", function() {
+            it("should returns the token list of the compare-expression", function() {
+                var result = bnf.parse("SELECT X,Y,Z FROM A WHERE B=0 AND C='DEF'");
+                assert.deepEqual([
+                        ["B", "=", "0"],
+                        ["C", "=", "'DEF'"],
+                    ], result.getWordsList("compare-expression"));
+            });
+            it("should returns the tokens list of the from-clause", function() {
+                var result = bnf.parse("SELECT X,Y,Z FROM A WHERE B=0 AND C='DEF'");
+                assert.deepEqual(["FROM", "A"],
+                    result.getTerm("from-clause").getTermsList());
+            });
+        });
         describe("#getTermsList", function() {
             it("should returns the tokens list of the select-clause", function() {
                 var result = bnf.parse("SELECT X,Y,Z FROM A WHERE B=0 AND C='DEF'");
