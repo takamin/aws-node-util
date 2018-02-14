@@ -5,12 +5,12 @@ describe("DynamoDbPutItemStatement", () => {
     describe("parse", () => {
         describe("without where-clause", () => {
             var param = PutItemStatement.parse(
-                "INSERT INTO T ( A,B,C ) VALUES (1,'2',true)");
+                "INSERT INTO T ( A,B,C ) VALUES (123.456,'2',true)");
             it("should parse the TableName", () => {
                 assert.equal("T", param.TableName);
             });
             it("should parse the Item parameter", () => {
-                assert.equal("A=1,B='2',C=true", param.Item);
+                assert.equal("A=123.456,B='2',C=true", param.Item);
             });
         });
         describe("with where-clause (ConditionExpression)", () => {
@@ -42,6 +42,34 @@ describe("DynamoDbPutItemStatement", () => {
                         param.ConditionExpression);
                 });
             });
+        });
+    });
+    describe("getParameter", () => {
+        var statement = new PutItemStatement([
+            "INSERT INTO T ( NAME,TIMESTAMP,OBJECT ) VALUES ('MY NAME', 123.456, true)",
+            "WHERE NAME=:NM AND TIMESTAMP=:TS AND OBJECT=:OB"].join(" "));
+        var param = statement.getParameter({
+            ":NM": "MY NAME", ":TS": 2, ":OB": true });
+        it("should set Item", () => {
+            assert.deepEqual({
+                "NAME": { "S": "MY NAME" },
+                "TIMESTAMP": { "N": "123.456" },
+                "OBJECT": { "BOOL": true },
+            }, param.Item);
+        });
+        it("should set ExpressionAttributeNames", () => {
+            assert.deepEqual({
+                "#NAME": "NAME",
+                "#TIMESTAMP": "TIMESTAMP",
+                "#OBJECT": "OBJECT",
+            }, param.ExpressionAttributeNames);
+        });
+        it("should set ExpressionAttributeValues", () => {
+            assert.deepEqual({
+                ":NM": { "S": "MY NAME" },
+                ":TS": { "N": "2" },
+                ":OB": { "BOOL": "true" },
+            }, param.ExpressionAttributeValues);
         });
     });
 });

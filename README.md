@@ -21,24 +21,36 @@ Some of these are depending on AWS CLI or shell script.
 SQL-ish feature
 ---------------
 
-On current version, only ScanStatement and QuerStatement are available.
-See the sample code below to use the classes.
+See the sample code below to use the SQL-ish classes.
 
-### Sample to scan and query
+### Sample of SQL-ish statements
+
+__sample/sqlish-sample.js__
+
+To run this sample, a DynamoDB table named 'stars' is required.
+
+On that table,
+the attribute named 'mainStar' is a HASH-key typed as String and
+'orbitOrder' is a RANGE-key typed as number.
+
 
 ```javascript
 "use strict";
 const awsNodeUtil = require("aws-node-util");
 const ScanStatement = awsNodeUtil.dynamodb.ScanStatement;
 const QueryStatement = awsNodeUtil.dynamodb.QueryStatement;
+const PutItemStatement = awsNodeUtil.dynamodb.PutItemStatement;
+const DeleteItemStatement = awsNodeUtil.dynamodb.DeleteItemStatement;
 const ResultSet = awsNodeUtil.dynamodb.ResultSet;
 
 // Connect (change each value for your account)
-awsNodeUtil.dynamodb.connect({
-    accessKeyId: 'AKID',
-    secretAccessKey: 'SECRET',
-    region: 'us-west-2'
-});
+awsNodeUtil.dynamodb.connect(
+//    {
+//        accessKeyId: 'AKID',
+//        secretAccessKey: 'SECRET',
+//        region: 'us-west-2'
+//    }
+);
 
 // Handler to print result of scan / query
 function printResult(err, result) {
@@ -49,44 +61,96 @@ function printResult(err, result) {
     }
 }
 
+// Prepare 'PutItem' statement
+var putItemStatement = PutItemStatement(
+    ["INSERT INTO stars (",
+        "mainStar, role, orbitOrder, name",
+    ") VALUES (",
+        "'SUN', 'planet', 10, 'X'",
+    ")"].join(" "));
+
 // Prepare 'Scan' statement
-var scanStatement = new ScanStatement(
-        "SELECT mainStar, orbitOrder, name " +
-        "FROM stars " +
-        "WHERE mainStar=:mainStar");
+var scanStatement = ScanStatement(
+        "FROM stars WHERE name=:name");
 
 // Prepare 'Query' statement
-var queryStatement = new ScanStatement(
+var queryStatement = QueryStatement(
         "SELECT mainStar, orbitOrder, name " +
         "FROM stars " +
         "WHERE mainStar=:mainStar");
 
+// Prepare 'DeleteItem' statement
+var deleteItemStatement = DeleteItemStatement([
+        "DELETE FROM stars",
+        "WHERE mainStar = 'SUN' AND",
+            "orbitOrder = 10",
+        ].join(" "));
+
 // Run the statements
-scanStatement.run({ ":mainStar": "SUN" }, printResult);
-scanStatement.run({ ":mainStar": "EARTH" }, printResult);
-queryStatement.run({ ":mainStar": "SUN" }, printResult);
-queryStatement.run({ ":mainStar": "EARTH" }, printResult);
+putItemStatement.run({}, (err, resp) => {
+    if(err) {
+        console.error(err.stack);
+        return;
+    }
+    scanStatement.run({ ":name": "X" }, (err, resp) => {
+        console.log("-------------------");
+        console.log("SCAN stars named X");
+        console.log("-------------------");
+        printResult(err, resp);
+
+        queryStatement.run({
+            ":mainStar": "SUN"
+        }, (err, resp) => {
+            console.log("----------------------------");
+            console.log("QUERY child stars of the SUN");
+            console.log("----------------------------");
+            printResult(err, resp);
+
+            queryStatement.run({
+                ":mainStar": "EARTH"
+            }, (err, resp) => {
+                console.log("------------------------------");
+                console.log("QUERY child stars of the EARTH");
+                console.log("------------------------------");
+                printResult(err, resp);
+
+                deleteItemStatement.run({
+                    ":mainStar": "SUN",
+                    ":orbitOrder": 10
+                }, (err, resp) => {
+                    if(err) {
+                        console.error(err.stack);
+                        return;
+                    }
+                    scanStatement.run({
+                        ":name": "X"
+                    }, (err, resp) => {
+                        console.log("-------------------");
+                        console.log("SCAN stars named X");
+                        console.log("-------------------");
+                        printResult(err, resp);
+                    });
+                });
+            });
+        });
+    });
+});
 ```
 
 __outputs__
 
 ```bash
-Count: 10
-ROWNUM name orbitOrder mainStar
-     1 MOON          1 EARTH
-ScannedCount: 10
-Count: 10
-ROWNUM name    orbitOrder mainStar
-     1 MERCURY          1 SUN
-     2 VENUS            2 SUN
-     3 MARS             3 SUN
-     4 MARS             4 SUN
-     5 JUPITER          5 SUN
-     6 SATURN           6 SUN
-     7 URANUS           7 SUN
-     8 NEPTUNE          8 SUN
-     9 PLUTO            9 SUN
-ScannedCount: 10
+$ node sample/sqlish-sample.js
+-------------------
+SCAN stars named X
+-------------------
+Count: 11
+ROWNUM role   name orbitOrder mainStar
+     1 planet X            10 SUN
+ScannedCount: 11
+----------------------------
+QUERY child stars of the SUN
+----------------------------
 Count: 10
 ROWNUM name    orbitOrder mainStar
      1 MERCURY          1 SUN
@@ -98,10 +162,20 @@ ROWNUM name    orbitOrder mainStar
      7 URANUS           7 SUN
      8 NEPTUNE          8 SUN
      9 PLUTO            9 SUN
+    10 X               10 SUN
 ScannedCount: 10
-Count: 10
+------------------------------
+QUERY child stars of the EARTH
+------------------------------
+Count: 1
 ROWNUM name orbitOrder mainStar
      1 MOON          1 EARTH
+ScannedCount: 1
+-------------------
+SCAN stars named X
+-------------------
+Count: 10
+ROWNUM
 ScannedCount: 10
 
 ```
