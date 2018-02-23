@@ -502,4 +502,61 @@ describe("dynamodbExprParsers", function() {
                     result.getWordsList("compare-expression"));
         });
     });
+    describe("String literal", () => {
+        it("should double quoted", function() {
+            var result = sqlishParser.parseQuery(
+                "SELECT X,Y,Z FROM A WHERE B=0 AND C=\"DEF\"");
+            assert.deepEqual([
+                    ["B", "=", "0"],
+                    ["C", "=", "\"DEF\""],
+                ], result.getWordsList("compare-expression"));
+        });
+        it("double quated", function() {
+            var result = sqlishParser.parseQuery(
+                "SELECT X,Y,Z FROM A WHERE B=0 AND C='DEF'");
+            assert.deepEqual([
+                    ["B", "=", "0"],
+                    ["C", "=", "'DEF'"],
+                ], result.getWordsList("compare-expression"));
+        });
+        it("should be syntax-error for unterminated single-quoted string", function() {
+            var result = sqlishParser.parseQuery(
+                "FROM A WHERE B=0 AND C='DEF");
+            assert.equal(false, result.match);
+        });
+        it("should be syntax-error for unterminated double-quoted string", function() {
+            var result = sqlishParser.parseQuery(
+                "FROM A WHERE B=0 AND C=\"DEF");
+            assert.equal(false, result.match);
+        });
+    });
+    describe("Block comment", () => {
+        it("should be recognized at top of SQL", function() {
+            var result = sqlishParser.parseQuery(
+                "/*** BLOCK COMMENT ***/ FROM A WHERE B=0 AND C='DEF'");
+            assert.equal(true, result.match);
+        });
+        it("should be recognized at middle of SQL", function() {
+            var result = sqlishParser.parseQuery(
+                "FROM A/*** BLOCK COMMENT ***/WHERE B=0 AND C='DEF'");
+            assert.equal(true, result.match);
+        });
+        it("should be recognized at end of SQL", function() {
+            var result = sqlishParser.parseQuery(
+                "FROM A WHERE B=0 AND C='DEF'/*** BLOCK COMMENT ***/");
+            assert.equal(true, result.match);
+        });
+        it("should recognized including NL", function() {
+            var result = sqlishParser.parseQuery(
+                "FROM A WHERE B=0 AND C='DEF'/*** \nBLOCK COMMENT ***/");
+            assert.equal(true, result.match);
+        });
+    });
+    describe("Unclosed block comment", () => {
+        it("should not match syntax", function() {
+            var result = sqlishParser.parseQuery(
+                "FROM A WHERE B=0 AND C='DEF' /* ");
+            assert.equal(false, result.match);
+        });
+    });
 });
