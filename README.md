@@ -180,6 +180,137 @@ ScannedCount: 10
 
 ```
 
+Scan / QueryStatement run and next method
+-----------------------------------------
+
+If the `LIMIT` feature is used for the Scan or QueryStatement,
+In the callback specified for `run()` method,
+the `next()` method is available to get followed items.
+
+Here is sample codes.
+
+__sample/scan-next-sample.js__
+
+```JavaScript
+"use strict";
+const awsNodeUtil = require("aws-node-util");
+const ScanStatement = awsNodeUtil.dynamodb.ScanStatement;
+const ResultSet = awsNodeUtil.dynamodb.ResultSet;
+
+// Connect (change each value for your account)
+awsNodeUtil.dynamodb.connect(
+//    { accessKeyId: 'AKID', secretAccessKey: 'SECRET', region: 'us-west-2' }
+);
+
+// Prepare 'Scan' statement
+var scanStatement = ScanStatement(
+        "FROM stars LIMIT 3");
+scanStatement.run({}, (err, data) => {
+    if(err) {
+        console.error("Error: ", err.message);
+    } else if(data) {
+        ResultSet.printScanResult(data);
+        scanStatement.next();
+    } else if(data == null) {
+        console.error("OK");
+    }
+});
+```
+
+__output__
+
+```sh
+$ node sample/scan-next-sample.js
+Count: 3
+ROWNUM diameter rotation role      mass   gravity density escapeVelocity name    orbitOrder mainStar
+     1     3475    655.7 satellite 0.0073     1.6    3340            2.4 MOON             1 EARTH
+     2     4879   1407.6 planet    0.33       3.7    5427            4.3 MERCURY          1 SUN
+     3    12104  -5832.0 planet    4.87       8.9    5243           10.4 VENUS            2 SUN
+LastEvaluatedKey: {"orbitOrder":{"N":"2"},"mainStar":{"S":"SUN"}}
+ScannedCount: 3
+Count: 3
+ROWNUM diameter rotation role   mass     gravity density escapeVelocity name    orbitOrder mainStar
+     1    12756     23.9 planet    5.97      9.8    5514           11.2 MARS             3 SUN
+     2     6792     24.6 planet    0.642     3.7    3933            5.0 MARS             4 SUN
+     3   142984      9.9 planet 1898.0      23.1    1326           59.5 JUPITER          5 SUN
+LastEvaluatedKey: {"orbitOrder":{"N":"5"},"mainStar":{"S":"SUN"}}
+ScannedCount: 3
+Count: 3
+ROWNUM diameter rotation role   mass  gravity density escapeVelocity name    orbitOrder mainStar
+     1   120536     10.7 planet 568.0     9.0     687           35.5 SATURN           6 SUN
+     2    51118    -17.2 planet  86.8     8.7    1271           21.3 URANUS           7 SUN
+     3    49528     16.1 planet 102.0    11.0    1638           23.5 NEPTUNE          8 SUN
+LastEvaluatedKey: {"orbitOrder":{"N":"8"},"mainStar":{"S":"SUN"}}
+ScannedCount: 3
+Count: 1
+ROWNUM diameter rotation role   mass   gravity density escapeVelocity name  orbitOrder mainStar
+     1     2370   -153.3 planet 0.0146     0.7    2095            1.3 PLUTO          9 SUN
+ScannedCount: 1
+OK
+```
+
+__sample/query-next-sample.js__
+
+```JavaScript
+"use strict";
+const awsNodeUtil = require("aws-node-util");
+const QueryStatement = awsNodeUtil.dynamodb.QueryStatement;
+const ResultSet = awsNodeUtil.dynamodb.ResultSet;
+
+// Connect (change each value for your account)
+awsNodeUtil.dynamodb.connect(
+//    { accessKeyId: 'AKID', secretAccessKey: 'SECRET', region: 'us-west-2' }
+);
+
+// Prepare 'Query' statement
+var queryStatement = QueryStatement(
+        "FROM stars WHERE mainStar=:ms LIMIT 2");
+queryStatement.run({":ms": "SUN" }, (err, data) => {
+    if(err) {
+        console.error("Error: ", err.message);
+    } else if(data) {
+        ResultSet.printScanResult(data);
+        queryStatement.next();
+    } else if(data == null) {
+        console.error("OK");
+    }
+});
+```
+
+__output__
+
+```sh
+$ node sample/query-next-sample.js
+Count: 2
+ROWNUM diameter rotation role   mass gravity density escapeVelocity name    orbitOrder mainStar
+     1     4879   1407.6 planet 0.33     3.7    5427            4.3 MERCURY          1 SUN
+     2    12104  -5832.0 planet 4.87     8.9    5243           10.4 VENUS            2 SUN
+LastEvaluatedKey: {"orbitOrder":{"N":"2"},"mainStar":{"S":"SUN"}}
+ScannedCount: 2
+Count: 2
+ROWNUM diameter rotation role   mass  gravity density escapeVelocity name orbitOrder mainStar
+     1    12756     23.9 planet 5.97      9.8    5514           11.2 MARS          3 SUN
+     2     6792     24.6 planet 0.642     3.7    3933            5.0 MARS          4 SUN
+LastEvaluatedKey: {"orbitOrder":{"N":"4"},"mainStar":{"S":"SUN"}}
+ScannedCount: 2
+Count: 2
+ROWNUM diameter rotation role   mass gravity density escapeVelocity name    orbitOrder mainStar
+     1   142984      9.9 planet 1898    23.1    1326           59.5 JUPITER          5 SUN
+     2   120536     10.7 planet  568     9.0     687           35.5 SATURN           6 SUN
+LastEvaluatedKey: {"orbitOrder":{"N":"6"},"mainStar":{"S":"SUN"}}
+ScannedCount: 2
+Count: 2
+ROWNUM diameter rotation role   mass  gravity density escapeVelocity name    orbitOrder mainStar
+     1    51118    -17.2 planet  86.8     8.7    1271           21.3 URANUS           7 SUN
+     2    49528     16.1 planet 102.0    11.0    1638           23.5 NEPTUNE          8 SUN
+LastEvaluatedKey: {"orbitOrder":{"N":"8"},"mainStar":{"S":"SUN"}}
+ScannedCount: 2
+Count: 1
+ROWNUM diameter rotation role   mass   gravity density escapeVelocity name  orbitOrder mainStar
+     1     2370   -153.3 planet 0.0146     0.7    2095            1.3 PLUTO          9 SUN
+ScannedCount: 1
+OK
+```
 
 CLI-Commands for Amazon Dynamo
 ------------------------------
