@@ -14,7 +14,7 @@ apigw.connect();
 apigw.getRestApi(restApiId, function(err, restApi) {
     if(err) {
         console.error(err);
-        exit(1);
+        process.exit(1);
     }
     //console.log(JSON.stringify(restApi, null, "    "));
     output.restApiName = restApi.name;
@@ -22,7 +22,7 @@ apigw.getRestApi(restApiId, function(err, restApi) {
     apigw.getResources(restApiId, function(err, resources) {
         if(err) {
             console.error(err);
-            exit(1);
+            process.exit(1);
         }
         //console.log(JSON.stringify(resources, null, "    "));
         resources.items.forEach(function(resource) {
@@ -40,7 +40,7 @@ apigw.getRestApi(restApiId, function(err, restApi) {
                     apigw.getMethod(restApi.id, resource.id, httpMethod, function(err, method) {
                         if(err) {
                             console.error(err);
-                            exit(1);
+                            process.exit(1);
                         }
                         resource_out.httpMethods[httpMethod] = method;
                         //console.log(JSON.stringify(method, null, "    "));

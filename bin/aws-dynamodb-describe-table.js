@@ -1,7 +1,6 @@
 #!/bin/env node
 (function() {
     "use strict";
-    var awscli = require('../lib/awscli');
     var dynamodb = require('../lib/aws-dynamodb');
     var listit = require('list-it');
     var getopt = require('node-getopt').create([

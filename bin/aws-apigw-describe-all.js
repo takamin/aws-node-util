@@ -1,7 +1,7 @@
 #!/bin/env node
 var apigateway = require("../lib/aws-apigateway");
 
-apigw.connect();
+apigateway.connect();
 apigateway.getRestApis(function(err, data) {
     if(err) {
         return;
