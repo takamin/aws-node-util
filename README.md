@@ -4,7 +4,7 @@ AWS-Node-Util
 DESCRIPTION
 -----------
 
-This module provides __SQL-ish statement classes to manipurate DynamoDB__.
+This module provides __SQL-ish statement classes to manipulate DynamoDB__.
 
 Statement classes:
 
