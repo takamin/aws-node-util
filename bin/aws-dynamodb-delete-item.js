@@ -1,12 +1,8 @@
 #!/bin/env node
 "use strict";
-var aws = require('../lib/awscli');
 var dynamodb = require('../lib/aws-dynamodb');
 dynamodb.connect();
 
-var ResultSet = require("../lib/dynamodb-result-set");
-var DynamoDB = aws.getService("DynamoDB");
-var parser = require('../lib/dynamodb-sqlish-parser');
 var getopt = require('node-getopt').create([
     ['j', 'output-json',            'output a json to read'],
     ['J', 'output-json-oneline',    'output a json in oneline'],
@@ -24,7 +20,7 @@ if(getopt.options["sql-ish"]) {
         placeholderValues = JSON.parse(getopt.options["placeholder-values"]);
     }
 } else {
-    var arg = require('hash-arg').get([
+    let arg = require('hash-arg').get([
         "tableName",
         "key"
     ], getopt.argv);
@@ -45,7 +41,7 @@ if(getopt.options["sql-ish"]) {
 }
 
 try {
-    var statement = dynamodb.DeleteItemStatement(param);
+    let statement = dynamodb.DeleteItemStatement(param);
 
     // Dry-run Option
     if(getopt.options["dry-run"]) {

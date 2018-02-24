@@ -120,7 +120,7 @@
                 getDetail(resources.policies, aws_iot.getPolicy, "policyName"),
                 getDetail(resources.certificates, aws_iot.describeCertificate, "certificateId"),
                 getDetail(resources.topicRules, aws_iot.getTopicRule, "ruleName")
-            ]).then(function(results) {
+            ]).then(function() {
                 return Promise.all(
                     resources.certificates.map(function (cert) {
                         return new Promise(function (resolve, reject) {
@@ -137,7 +137,7 @@
                             });
                         });
                     }));
-            }).then(function(results) {
+            }).then(function() {
                 return Promise.all(
                     resources.certificates.map(function (cert) {
                         return new Promise(function (resolve, reject) {

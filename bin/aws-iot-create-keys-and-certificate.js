@@ -38,7 +38,7 @@
             aws_iot.attachThingPrincipal(
                     cmdlin.options["thing-name"],
                     data.certificateArn,
-                    function(err, blank) {
+                    function(err) {
                         if(err) {
                             console.error("Error: ", err);
                             process.exit(1);
@@ -52,7 +52,7 @@
             aws_iot.attachPrincipalPolicy(
                     cmdlin.options["policy-name"],
                     data.certificateArn,
-                    function(err, blank) {
+                    function(err) {
                         if(err) {
                             console.error("Error: ", err);
                             process.exit(1);

@@ -1,11 +1,8 @@
 #!/bin/env node
 "use strict";
-var aws = require('../lib/awscli');
 var dynamodb = require('../lib/aws-dynamodb');
 dynamodb.connect();
 
-var ResultSet = require("../lib/dynamodb-result-set");
-var parser = require('../lib/dynamodb-sqlish-parser');
 var getopt = require('node-getopt').create([
     ['j', 'output-json',            'output a json to read'],
     ['J', 'output-json-oneline',    'output a json in oneline'],
@@ -17,13 +14,13 @@ var getopt = require('node-getopt').create([
 var param = [];
 var placeholderValues = {};
 if(getopt.options["sql-ish"]) {
-    var arg = require('hash-arg').get([ "string sqlish" ], getopt.argv);
+    let arg = require('hash-arg').get([ "string sqlish" ], getopt.argv);
     param.push(arg.sqlish);
     if(getopt.options["placeholder-values"]) {
         placeholderValues = JSON.parse(getopt.options["placeholder-values"]);
     }
 } else {
-    var arg = require('hash-arg').get([
+    let arg = require('hash-arg').get([
         "string tableName",
         "string[] item"
     ], getopt.argv);
@@ -37,7 +34,7 @@ if(getopt.options["sql-ish"]) {
         process.exit(1);
     }
     arg.item.forEach(function(item) {
-        var params = {};
+        let params = {};
         params["TableName"] = arg.tableName;
         params["Item"] = item;
         param.push(params);

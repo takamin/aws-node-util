@@ -92,9 +92,9 @@ try {
             param.Limit = parseInt(getopt.options['max-items']);
         }
 
-        var startingToken = null;
         if('starting-token' in getopt.options) {
-            startingToken = getopt.options['starting-token'];
+            // This parameter will be set to ExclusiveStartKey parameter of SCAN-API
+            param.LastEvaluatedKey = JSON.parse(getopt.options['starting-token']);
         }
     }
 
