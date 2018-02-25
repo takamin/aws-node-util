@@ -3,7 +3,6 @@ aws-dynamodb-put-item stars \
     "mainStar = 'SUN', role='planet', orbitOrder=2, name='VENUS', mass=4.87, diameter=12104, density=5243, gravity=8.9, escapeVelocity=10.4, rotation=-5832" \
     "mainStar = 'SUN', role='planet', orbitOrder=3, name='EARTH', mass=5.97, diameter=12756, density=5514, gravity=9.8, escapeVelocity=11.2, rotation=23.9" \
     "mainStar = 'EARTH', role='satellite', orbitOrder=1, name='MOON', mass=0.0073, diameter=3475, density=3340, gravity=1.6, escapeVelocity=2.4, rotation=655.7" \
-    "mainStar = 'SUN', role='planet', orbitOrder=3, name='MARS', mass=5.97, diameter=12756, density=5514, gravity=9.8, escapeVelocity=11.2, rotation=23.9" \
     "mainStar = 'SUN', role='planet', orbitOrder=4, name='MARS', mass=0.642, diameter=6792, density=3933, gravity=3.7, escapeVelocity=5.0, rotation=24.6" \
     "mainStar = 'SUN', role='planet', orbitOrder=5, name='JUPITER', mass=1898,   diameter=142984, density=1326, gravity=23.1, escapeVelocity=59.5, rotation=9.9" \
     "mainStar = 'SUN', role='planet', orbitOrder=6, name='SATURN', mass=568, diameter=120536, density=687, gravity=9.0, escapeVelocity=35.5, rotation=10.7" \
