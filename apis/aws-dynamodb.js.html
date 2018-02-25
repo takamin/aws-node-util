@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>aws-dynamodb.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AwsDynamoDB.html">AwsDynamoDB</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.connect">connect</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.DeleteItemStatement">DeleteItemStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.describeTable">describeTable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.listTables">listTables</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.PutItemStatement">PutItemStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.QueryStatement">QueryStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.ScanStatement">ScanStatement</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DynamoDbDeleteItemStatement.html">DynamoDbDeleteItemStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbDeleteItemStatement.html#run">run</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DynamoDbPutItemStatement.html">DynamoDbPutItemStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbPutItemStatement.html#run">run</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DynamoDbQueryStatement.html">DynamoDbQueryStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbQueryStatement.html#next">next</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbQueryStatement.html#run">run</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DynamoDbScanStatement.html">DynamoDbScanStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbScanStatement.html#next">next</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbScanStatement.html#run">run</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">aws-dynamodb.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>var fs = require('fs');
+var awscli = require("../lib/awscli");
+var DynamoDbScanStatement = require('../lib/dynamodb-scan-statement.js');
+var DynamoDbQueryStatement = require('../lib/dynamodb-query-statement.js');
+var DynamoDbPutItemStatement = require('../lib/dynamodb-put-item-statement.js');
+var DynamoDbDeleteItemStatement = require('../lib/dynamodb-delete-item-statement.js');
+
+/**
+ * AwsDynamoDB class.
+ * @constructor
+ */
+function AwsDynamoDB() { }
+
+var DynamoDB = null;
+
+/**
+ * Connect to the AWS.
+ * This connection will be set to the statement instances which
+ * this module will provides.
+ *
+ * @param {object} opts
+ * The object specifying destination to connect such as
+ * `{ accessKeyId: 'AKID', secretAccessKey: 'SECRET', region: 'us-west-2' }`.
+ * If this is omitted, the keys in local environment stored
+ * at '~/.aws/' is used.
+ *
+ * @returns {undefined}
+ */
+AwsDynamoDB.connect = function(opts) {
+    awscli.connect(opts);
+    DynamoDB = awscli.getService("DynamoDB");
+};
+
+/**
+ * DynamoDB.listTables
+ *
+ * @param {Function} callback Callback function
+ * @returns {undefined}
+ */
+AwsDynamoDB.listTables = function(callback) {
+    DynamoDB.listTables({ }, callback);
+};
+
+/**
+ * Describe a table definition
+ * @param {string} tableName Tabale name described
+ * @param {Function} callback callback to receive result.
+ * @returns {undefined}
+ */
+AwsDynamoDB.describeTable = function(tableName, callback) {
+    DynamoDB.describeTable({ TableName: tableName }, callback);
+};
+
+AwsDynamoDB.putCreateTableJson = function(filename) {
+    fs.readFile(filename, function(err, data) {
+        if(err) {
+            console.error("ERROR:", err);
+            return;
+        }
+        var desc = JSON.parse(data);
+        AwsDynamoDB.convertJsonTableDescToCreate(desc, function(err, data){
+            if(err) {
+                console.error("ERROR:", err);
+                return;
+            }
+            console.log(JSON.stringify(data, null, "    "));
+        });
+    });
+};
+
+AwsDynamoDB.convertJsonTableDescToCreate = function(desc, callback) {
+    var create = desc.Table;
+    if(create.GlobalSecondaryIndexes) {
+        for(var i = 0; i &lt; create.GlobalSecondaryIndexes.length; i++) {
+            delete create.GlobalSecondaryIndexes[i].IndexSizeBytes;
+            delete create.GlobalSecondaryIndexes[i].ProvisionedThroughput.NumberOfDecreasesToday;
+            delete create.GlobalSecondaryIndexes[i].IndexStatus;
+            delete create.GlobalSecondaryIndexes[i].IndexArn;
+            delete create.GlobalSecondaryIndexes[i].ItemCount;
+        }
+    }
+    delete create.TableArn;
+    delete create.ProvisionedThroughput.NumberOfDecreasesToday;
+    delete create.TableSizeBytes;
+    delete create.TableStatus;
+    delete create.LatestStreamLabel;
+    delete create.ItemCount;
+    delete create.CreationDateTime;
+    delete create.LatestStreamArn;
+    callback(null, create);
+};
+
+/**
+ * create DynamoDbScanStatement.
+ *
+ * SQL-ish Syntax:
+ *
+ * ```
+ * [SELECT &lt;projection-expression>]
+ * FROM &lt;table-name>
+ * [WHERE &lt;filter-expression>]
+ * [LIMIT &lt;limit>]
+ * ```
+ *
+ * * `[]` is representing that can be ommited.
+ * * `&lt;projection-expression>` - The comma separated attribute names to select.
+ * * `&lt;table-name>` - DynamoDB table name.
+ * * `&lt;filter-expression>` - Filtering conditional expression.
+ * * `&lt;limit>` - The number of items to scan.
+ *
+ * @param {string} sql SQL-ish statement
+ *
+ * @returns {DynamoDbScanStatement} SQL-ish Scan statement object
+ */
+AwsDynamoDB.ScanStatement = function(sql) {
+    var statement = new DynamoDbScanStatement(sql);
+    statement.dynamodb = DynamoDB;
+    return statement;
+};
+
+/**
+ * create DynamoDbQueryStatement.
+ *
+ * SQL-ish Syntax:
+ *
+ * ```
+ * [SELECT &lt;projection-expression>]
+ * FROM &lt;table-name>
+ * WHERE &lt;key-condition-expression>
+ * [FILTER &lt;filter-expression>]
+ * [LIMIT &lt;limit>]
+ * ```
+ *
+ * * `[]` is representing that can be ommited.
+ * * `&lt;projection-expression>` - The comma separated attribute names to select.
+ * * `&lt;table-name>` - DynamoDB table name.
+ * * `&lt;key-condition-expression>` - Primary key conditional expression.
+ * * `&lt;filter-expression>` - Filtering conditional expression.
+ * * `&lt;limit>` - The number of items to scan.
+ *
+ * @param {string} sql SQL-ish statement
+ *
+ * @returns {DynamoDbQueryStatement} SQL-ish Query statement object
+ */
+AwsDynamoDB.QueryStatement = function(sql) {
+    var statement = new DynamoDbQueryStatement(sql);
+    statement.dynamodb = DynamoDB;
+    return statement;
+};
+
+/**
+ * create DynamoDbPutItemStatement.
+ *
+ * SQL-ish Syntax:
+ *
+ * ```
+ * INSERT INTO &lt;table-name> ( &lt;attribute-list> )
+ * VALUES ( &lt;value-list> )
+ * [WHERE &lt;key-condition-expression>]
+ * ```
+ *
+ * * `[]` is representing that can be ommited.
+ * * `&lt;table-name>` - DynamoDB table name.
+ * * `&lt;attribute-list>` - The comma separated attribute names.
+ * * `&lt;values-list>` - The comma separated attribute values.
+ * * `&lt;key-condition-expression>` - Primary key conditional expression.
+ *
+ * @param {string} sql SQL-ish statement
+ *
+ * @returns {DynamoDbPutItemStatement} SQL-ish PutItem statement object
+ */
+AwsDynamoDB.PutItemStatement = function(sql) {
+    var statement = new DynamoDbPutItemStatement(sql);
+    statement.dynamodb = DynamoDB;
+    return statement;
+};
+
+/**
+ * create DynamoDbDeleteItemStatement.
+ *
+ * SQL-ish Syntax:
+ *
+ * ```
+ * DELETE FROM &lt;table-name>
+ * [WHERE &lt;key-condition-expression>]
+ * ```
+ *
+ * * `[]` is representing that can be ommited.
+ * * `&lt;table-name>` - DynamoDB table name.
+ * * `&lt;key-condition-expression>` - Primary key conditional expression.
+ *
+ * @param {string} sql SQL-ish statement
+ *
+ * @returns {DynamoDbDeleteItemStatement} SQL-ish DeleteItem statement object
+ */
+AwsDynamoDB.DeleteItemStatement = function(sql) {
+    var statement = new DynamoDbDeleteItemStatement(sql);
+    statement.dynamodb = DynamoDB;
+    return statement;
+};
+
+var parsers = require("../lib/dynamodb-sqlish-parser");
+AwsDynamoDB.isKeyword = parsers.isKeyword;
+
+module.exports = AwsDynamoDB;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 25 2018 15:57:07 GMT+0900 (東京 (標準時)) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

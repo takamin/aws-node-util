@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Home - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AwsDynamoDB.html">AwsDynamoDB</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.connect">connect</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.DeleteItemStatement">DeleteItemStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.describeTable">describeTable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.listTables">listTables</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.PutItemStatement">PutItemStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.QueryStatement">QueryStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.ScanStatement">ScanStatement</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DynamoDbDeleteItemStatement.html">DynamoDbDeleteItemStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbDeleteItemStatement.html#run">run</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DynamoDbPutItemStatement.html">DynamoDbPutItemStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbPutItemStatement.html#run">run</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DynamoDbQueryStatement.html">DynamoDbQueryStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbQueryStatement.html#next">next</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbQueryStatement.html#run">run</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DynamoDbScanStatement.html">DynamoDbScanStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbScanStatement.html#next">next</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbScanStatement.html#run">run</a></span></li>
+</nav>
+
+<div id="main">
+    
+
+    
+
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+    <section class="readme">
+        <article><h1>AWS-Node-Util</h1><h2>DESCRIPTION</h2><p>This module provides <strong>SQL-ish statement classes to manipulate DynamoDB</strong>.</p>
+<p>Statement classes:</p>
+<ol>
+<li>ScanStatement</li>
+<li>QueryStatement</li>
+<li>PutItemStatement <code>(*1)</code></li>
+<li>DeleteItemStatement <code>(*1)</code></li>
+</ol>
+<p><code>(*1)</code> - Currently, These cannot be parameterized. So the prepared execution is unavailable.</p>
+<p>And also provides CLI commands that manipulate AWS services.
+Some of these are depending on AWS CLI or shell script.</p>
+<h2>SQL-ish feature</h2><p>See the sample code below to use the SQL-ish classes.</p>
+<h3>Sample of SQL-ish statements</h3><p><strong>sample/sqlish-sample.js</strong></p>
+<p>To run this sample, a DynamoDB table named 'stars' is required.</p>
+<p>On that table,
+the attribute named 'mainStar' is a HASH-key typed as String and
+'orbitOrder' is a RANGE-key typed as number.</p>
+<pre class="prettyprint source lang-javascript"><code>&quot;use strict&quot;;
+const awsNodeUtil = require(&quot;aws-node-util&quot;);
+const ScanStatement = awsNodeUtil.dynamodb.ScanStatement;
+const QueryStatement = awsNodeUtil.dynamodb.QueryStatement;
+const PutItemStatement = awsNodeUtil.dynamodb.PutItemStatement;
+const DeleteItemStatement = awsNodeUtil.dynamodb.DeleteItemStatement;
+const ResultSet = awsNodeUtil.dynamodb.ResultSet;
+
+// Connect (change each value for your account)
+awsNodeUtil.dynamodb.connect(
+//    {
+//        accessKeyId: 'AKID',
+//        secretAccessKey: 'SECRET',
+//        region: 'us-west-2'
+//    }
+);
+
+// Handler to print result of scan / query
+function printResult(err, result) {
+    if(err) {
+        console.error(&quot;Error:&quot;, err.stack);
+    } else {
+        ResultSet.printScanResult(result);
+    }
+}
+
+// Prepare 'PutItem' statement
+var putItemStatement = PutItemStatement(
+    [&quot;INSERT INTO stars (&quot;,
+        &quot;mainStar, role, orbitOrder, name&quot;,
+    &quot;) VALUES (&quot;,
+        &quot;'SUN', 'planet', 10, 'X'&quot;,
+    &quot;)&quot;].join(&quot; &quot;));
+
+// Prepare 'Scan' statement
+var scanStatement = ScanStatement(
+        &quot;FROM stars WHERE name=:name&quot;);
+
+// Prepare 'Query' statement
+var queryStatement = QueryStatement(
+        &quot;SELECT mainStar, orbitOrder, name &quot; +
+        &quot;FROM stars &quot; +
+        &quot;WHERE mainStar=:mainStar&quot;);
+
+// Prepare 'DeleteItem' statement
+var deleteItemStatement = DeleteItemStatement([
+        &quot;DELETE FROM stars&quot;,
+        &quot;WHERE mainStar = 'SUN' AND&quot;,
+            &quot;orbitOrder = 10&quot;,
+        ].join(&quot; &quot;));
+
+// Run the statements
+putItemStatement.run({}, (err, resp) => {
+    if(err) {
+        console.error(err.stack);
+        return;
+    }
+    scanStatement.run({ &quot;:name&quot;: &quot;X&quot; }, (err, resp) => {
+        console.log(&quot;-------------------&quot;);
+        console.log(&quot;SCAN stars named X&quot;);
+        console.log(&quot;-------------------&quot;);
+        printResult(err, resp);
+
+        queryStatement.run({
+            &quot;:mainStar&quot;: &quot;SUN&quot;
+        }, (err, resp) => {
+            console.log(&quot;----------------------------&quot;);
+            console.log(&quot;QUERY child stars of the SUN&quot;);
+            console.log(&quot;----------------------------&quot;);
+            printResult(err, resp);
+
+            queryStatement.run({
+                &quot;:mainStar&quot;: &quot;EARTH&quot;
+            }, (err, resp) => {
+                console.log(&quot;------------------------------&quot;);
+                console.log(&quot;QUERY child stars of the EARTH&quot;);
+                console.log(&quot;------------------------------&quot;);
+                printResult(err, resp);
+
+                deleteItemStatement.run({
+                    &quot;:mainStar&quot;: &quot;SUN&quot;,
+                    &quot;:orbitOrder&quot;: 10
+                }, (err, resp) => {
+                    if(err) {
+                        console.error(err.stack);
+                        return;
+                    }
+                    scanStatement.run({
+                        &quot;:name&quot;: &quot;X&quot;
+                    }, (err, resp) => {
+                        console.log(&quot;-------------------&quot;);
+                        console.log(&quot;SCAN stars named X&quot;);
+                        console.log(&quot;-------------------&quot;);
+                        printResult(err, resp);
+                    });
+                });
+            });
+        });
+    });
+});</code></pre><p><strong>outputs</strong></p>
+<pre class="prettyprint source lang-bash"><code>$ node sample/sqlish-sample.js
+-------------------
+SCAN stars named X
+-------------------
+Count: 11
+ROWNUM role   name orbitOrder mainStar
+     1 planet X            10 SUN
+ScannedCount: 11
+----------------------------
+QUERY child stars of the SUN
+----------------------------
+Count: 10
+ROWNUM name    orbitOrder mainStar
+     1 MERCURY          1 SUN
+     2 VENUS            2 SUN
+     3 EARTH            3 SUN
+     4 MARS             4 SUN
+     5 JUPITER          5 SUN
+     6 SATURN           6 SUN
+     7 URANUS           7 SUN
+     8 NEPTUNE          8 SUN
+     9 PLUTO            9 SUN
+    10 X               10 SUN
+ScannedCount: 10
+------------------------------
+QUERY child stars of the EARTH
+------------------------------
+Count: 1
+ROWNUM name orbitOrder mainStar
+     1 MOON          1 EARTH
+ScannedCount: 1
+-------------------
+SCAN stars named X
+-------------------
+Count: 10
+ROWNUM
+ScannedCount: 10
+</code></pre><h2>Scan / QueryStatement run and next method</h2><p>If the <code>LIMIT</code> feature is used for the Scan or QueryStatement,
+In the callback specified for <code>run()</code> method,
+the <code>next()</code> method is available to get followed items.</p>
+<p>Here is sample codes.</p>
+<p><strong>sample/scan-next-sample.js</strong></p>
+<pre class="prettyprint source lang-JavaScript"><code>&quot;use strict&quot;;
+const awsNodeUtil = require(&quot;aws-node-util&quot;);
+const ScanStatement = awsNodeUtil.dynamodb.ScanStatement;
+const ResultSet = awsNodeUtil.dynamodb.ResultSet;
+
+// Connect (change each value for your account)
+awsNodeUtil.dynamodb.connect(
+//    { accessKeyId: 'AKID', secretAccessKey: 'SECRET', region: 'us-west-2' }
+);
+
+// Prepare 'Scan' statement
+var scanStatement = ScanStatement(
+        &quot;FROM stars LIMIT 3&quot;);
+scanStatement.run({}, (err, data) => {
+    if(err) {
+        console.error(&quot;Error: &quot;, err.message);
+    } else if(data) {
+        ResultSet.printScanResult(data);
+        scanStatement.next();
+    } else if(data == null) {
+        console.error(&quot;OK&quot;);
+    }
+});</code></pre><p><strong>output</strong></p>
+<pre class="prettyprint source lang-sh"><code>$ node sample/scan-next-sample.js
+Count: 3
+ROWNUM diameter rotation role      mass   gravity density escapeVelocity name    orbitOrder mainStar
+     1     3475    655.7 satellite 0.0073     1.6    3340            2.4 MOON             1 EARTH
+     2     4879   1407.6 planet    0.33       3.7    5427            4.3 MERCURY          1 SUN
+     3    12104  -5832.0 planet    4.87       8.9    5243           10.4 VENUS            2 SUN
+LastEvaluatedKey: {&quot;orbitOrder&quot;:{&quot;N&quot;:&quot;2&quot;},&quot;mainStar&quot;:{&quot;S&quot;:&quot;SUN&quot;}}
+ScannedCount: 3
+Count: 3
+ROWNUM diameter rotation role   mass     gravity density escapeVelocity name    orbitOrder mainStar
+     1    12756     23.9 planet    5.97      9.8    5514           11.2 EARTH            3 SUN
+     2     6792     24.6 planet    0.642     3.7    3933            5.0 MARS             4 SUN
+     3   142984      9.9 planet 1898.0      23.1    1326           59.5 JUPITER          5 SUN
+LastEvaluatedKey: {&quot;orbitOrder&quot;:{&quot;N&quot;:&quot;5&quot;},&quot;mainStar&quot;:{&quot;S&quot;:&quot;SUN&quot;}}
+ScannedCount: 3
+Count: 3
+ROWNUM diameter rotation role   mass  gravity density escapeVelocity name    orbitOrder mainStar
+     1   120536     10.7 planet 568.0     9.0     687           35.5 SATURN           6 SUN
+     2    51118    -17.2 planet  86.8     8.7    1271           21.3 URANUS           7 SUN
+     3    49528     16.1 planet 102.0    11.0    1638           23.5 NEPTUNE          8 SUN
+LastEvaluatedKey: {&quot;orbitOrder&quot;:{&quot;N&quot;:&quot;8&quot;},&quot;mainStar&quot;:{&quot;S&quot;:&quot;SUN&quot;}}
+ScannedCount: 3
+Count: 1
+ROWNUM diameter rotation role   mass   gravity density escapeVelocity name  orbitOrder mainStar
+     1     2370   -153.3 planet 0.0146     0.7    2095            1.3 PLUTO          9 SUN
+ScannedCount: 1
+OK</code></pre><p><strong>sample/query-next-sample.js</strong></p>
+<pre class="prettyprint source lang-JavaScript"><code>&quot;use strict&quot;;
+const awsNodeUtil = require(&quot;aws-node-util&quot;);
+const QueryStatement = awsNodeUtil.dynamodb.QueryStatement;
+const ResultSet = awsNodeUtil.dynamodb.ResultSet;
+
+// Connect (change each value for your account)
+awsNodeUtil.dynamodb.connect(
+//    { accessKeyId: 'AKID', secretAccessKey: 'SECRET', region: 'us-west-2' }
+);
+
+// Prepare 'Query' statement
+var queryStatement = QueryStatement(
+        &quot;FROM stars WHERE mainStar=:ms LIMIT 2&quot;);
+queryStatement.run({&quot;:ms&quot;: &quot;SUN&quot; }, (err, data) => {
+    if(err) {
+        console.error(&quot;Error: &quot;, err.message);
+    } else if(data) {
+        ResultSet.printScanResult(data);
+        queryStatement.next();
+    } else if(data == null) {
+        console.error(&quot;OK&quot;);
+    }
+});</code></pre><p><strong>output</strong></p>
+<pre class="prettyprint source lang-sh"><code>$ node sample/query-next-sample.js
+Count: 2
+ROWNUM diameter rotation role   mass gravity density escapeVelocity name    orbitOrder mainStar
+     1     4879   1407.6 planet 0.33     3.7    5427            4.3 MERCURY          1 SUN
+     2    12104  -5832.0 planet 4.87     8.9    5243           10.4 VENUS            2 SUN
+LastEvaluatedKey: {&quot;orbitOrder&quot;:{&quot;N&quot;:&quot;2&quot;},&quot;mainStar&quot;:{&quot;S&quot;:&quot;SUN&quot;}}
+ScannedCount: 2
+Count: 2
+ROWNUM diameter rotation role   mass  gravity density escapeVelocity name orbitOrder mainStar
+     1    12756     23.9 planet 5.97      9.8    5514           11.2 EARTH         3 SUN
+     2     6792     24.6 planet 0.642     3.7    3933            5.0 MARS          4 SUN
+LastEvaluatedKey: {&quot;orbitOrder&quot;:{&quot;N&quot;:&quot;4&quot;},&quot;mainStar&quot;:{&quot;S&quot;:&quot;SUN&quot;}}
+ScannedCount: 2
+Count: 2
+ROWNUM diameter rotation role   mass gravity density escapeVelocity name    orbitOrder mainStar
+     1   142984      9.9 planet 1898    23.1    1326           59.5 JUPITER          5 SUN
+     2   120536     10.7 planet  568     9.0     687           35.5 SATURN           6 SUN
+LastEvaluatedKey: {&quot;orbitOrder&quot;:{&quot;N&quot;:&quot;6&quot;},&quot;mainStar&quot;:{&quot;S&quot;:&quot;SUN&quot;}}
+ScannedCount: 2
+Count: 2
+ROWNUM diameter rotation role   mass  gravity density escapeVelocity name    orbitOrder mainStar
+     1    51118    -17.2 planet  86.8     8.7    1271           21.3 URANUS           7 SUN
+     2    49528     16.1 planet 102.0    11.0    1638           23.5 NEPTUNE          8 SUN
+LastEvaluatedKey: {&quot;orbitOrder&quot;:{&quot;N&quot;:&quot;8&quot;},&quot;mainStar&quot;:{&quot;S&quot;:&quot;SUN&quot;}}
+ScannedCount: 2
+Count: 1
+ROWNUM diameter rotation role   mass   gravity density escapeVelocity name  orbitOrder mainStar
+     1     2370   -153.3 planet 0.0146     0.7    2095            1.3 PLUTO          9 SUN
+ScannedCount: 1
+OK</code></pre><h2>CLI-Commands for Amazon Dynamo</h2><ol>
+<li><strong>aws-dynamodb-delete-item</strong> - delete item on the table</li>
+<li><strong>aws-dynamodb-put-item</strong> - put item to the table</li>
+<li><strong>aws-dynamodb-query</strong> - query and display items in the table</li>
+<li><strong>aws-dynamodb-scan</strong> - scan and display items in the table</li>
+<li><strong>aws-dynamodb-create-table</strong> - create table with a json file. the file desc2create output can use.</li>
+<li><strong>aws-dynamodb-delete-table</strong> - delete the table</li>
+<li><strong>aws-dynamodb-desc2create</strong> - Convert a JSON to create the table from its description</li>
+<li><strong>aws-dynamodb-describe-table</strong> - describe the table</li>
+<li><strong>aws-dynamodb-list-tables</strong> - display the table names</li>
+</ol>
+<p>These commands are designed to recognize the keywords
+in the expressions and to generate placeholders automatically.</p>
+<h3>1. aws-dynamodb-delete-item</h3><p>Delete -- delete the item from the table.</p>
+<pre class="prettyprint source lang-bash"><code>$ aws-dynamodb-delete-item `&lt;table-name>` `&lt;item-expression>`</code></pre><p><strong>Parameters</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Parameter</th>
+<th style="text-align:left">Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">table-name</td>
+<td style="text-align:left">Target table name</td>
+</tr>
+<tr>
+<td style="text-align:left">key</td>
+<td style="text-align:left">Item to delete from the table</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>key</strong> is a comma separated string representing
+key attribute names and values
+like <code>&lt;attr-name1&gt; = &lt;value&gt;, &lt;attr-name2&gt; = &lt;value&gt;, ...</code>.</li>
+<li>All the keys must be included</li>
+<li>The value type will be determined automatically from its notation.</li>
+</ul>
+<h3>2. aws-dynamodb-put-item</h3><p>Put -- insert or update the item to the table from command line.</p>
+<pre class="prettyprint source lang-bash"><code>$ aws-dynamodb-put-item `&lt;table-name>` `&lt;item-expression>` ...</code></pre><p><strong>Parameters</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Parameter</th>
+<th style="text-align:left">Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">table-name</td>
+<td style="text-align:left">Target table name</td>
+</tr>
+<tr>
+<td style="text-align:left">item-expression</td>
+<td style="text-align:left">Items to put to the table</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>item-expression</strong> is comma separated strings representing
+attribute names and values
+like <code>&lt;attr-name1&gt; = &lt;value&gt;, &lt;attr-name2&gt; = &lt;value&gt;, ...</code>.</li>
+<li>All the keys must be included to specify whether the items
+will be inserted or updated.</li>
+<li>The attribute name can be <code>path.to.the.item</code> (See the example below).</li>
+<li>The value type will be determined automatically from its notation.</li>
+</ul>
+<p><strong>Example</strong></p>
+<p>Comamnd line:</p>
+<pre class="prettyprint source lang-bash"><code>$ aws-dynamodb-put-item testTable '
+    id=&quot;123&quot;,
+    timestamp=145678900,
+    test.name=&quot;foo&quot;,
+    test.pass=true,
+    value.version=&quot;0.6.6&quot;
+'</code></pre><p>Then Item to be added to the table:</p>
+<pre class="prettyprint source lang-javascript"><code>{
+    &quot;id&quot;:       {&quot;S&quot;: &quot;123&quot;},
+    &quot;timestamp&quot;:{&quot;N&quot;: &quot;145678900&quot;},
+    &quot;test&quot;: {
+        &quot;M&quot;: {
+            &quot;name&quot;: {&quot;S&quot;: &quot;foo&quot;},
+            &quot;pass&quot;: {&quot;BOOL&quot;: true}
+        }
+    },
+    &quot;value&quot; : {&quot;M&quot; : {&quot;version&quot;: {&quot;S&quot;: &quot;0.6.6&quot;}}}
+}</code></pre><p><strong>Available Types Assumed In Automatic</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">value</th>
+<th style="text-align:left">type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">true / false</td>
+<td style="text-align:left">boolean</td>
+</tr>
+<tr>
+<td style="text-align:center">&quot;ABC&quot; / '123'</td>
+<td style="text-align:left">string</td>
+</tr>
+<tr>
+<td style="text-align:center">123.4</td>
+<td style="text-align:left">number</td>
+</tr>
+</tbody>
+</table>
+<h3>3. aws-dynamodb-query</h3><p>Query -- This reports the retrieved data that matches key-conditions given
+from command-line without consideration about the placeholder.</p>
+<pre class="prettyprint source lang-bash"><code>Usage:
+1) aws-dynamodb-query [OPTIONS] &lt;tableName> &lt;keyConditionExpression>
+2) aws-dynamodb-query [OPTIONS] -q &lt;SQL-ish-statement>
+
+  -c, --max-items=ARG                 The total number of items to return
+  -n, --starting-token=ARG            A token to specify where to start
+                                      paginating
+  -s, --sort-item=ARG                 JSON path to the sort item
+  -p, --projection-expression=ARG     comma separated attribute names to
+                                      project
+  -k, --key-condition-expression=ARG  key condition expression of query
+  -f, --filter-expression=ARG         filter expression applied after
+                                      query
+  -d, --desc                          Sorting direction to descendent
+  -j, --output-json                   output a json to read
+  -J, --output-json-oneline           output a json in oneline
+  -t, --dry-run                       Print options of the query and exit
+  -q, --sql-ish                       Query by SQL-ish-statement(beta)
+  -h, --help                          display this help
+
+PARAMETERS:
+
+  tableName              The table name defined in DynamoDB.
+  keyConditionExpression KeyConditionExpression for the DynamoDB table.
+  SQL-ish-statement      SQL-ish text that represents a query
+
+  1) In all expression parameter, option value or SQL-ish,the field names
+  could be represented as is for its declared name in the table without
+  considering the placeh older of AWS DynamoDB.
+
+  2) Here is an examples showing a syntax for SQL-ish-statement of query.
+
+    [ SELECT &lt;projection-expression> ]
+    FROM &lt;tableName>
+    WHERE &lt;keyConditionExpression>
+    [ FILTER &lt;filter-expression> ]
+    [ LIMIT &lt;max-items> ]
+
+  This says the FROM and WHERE clauses are mandatory and the SELECT,
+  FILTER and LIMIT are optional.
+</code></pre><p><strong>EXAMPLE</strong></p>
+<pre class="prettyprint source lang-bash"><code>$ aws-dynamodb-query stars \
+> &quot;mainStar='SUN' AND orbitOrder BETWEEN 1 AND 9&quot; \
+> --projection-expression &quot;name, mass, diameter&quot; \
+> --sort-item orbitOrder
+Count: 9
+ROWNUM diameter mass      name
+     1     4879    0.33   MERCURY
+     2    12104    4.87   VENUS
+     3    12756    5.97   EARTH
+     4     6792    0.642  MARS
+     5   142984 1898.0    JUPITER
+     6   120536  568.0    SATURN
+     7    51118   86.8    URANUS
+     8    49528  102.0    NEPTUNE
+     9     2370    0.0146 PLUTO
+ScannedCount: 9</code></pre><p>SQL-ish statement:</p>
+<pre class="prettyprint source lang-bash"><code>$ aws-dynamodb-query -q &quot;SELECT name, mass, diameter \
+> FROM stars \
+> WHERE mainStar='SUN' AND orbitOrder BETWEEN 1 AND 9&quot; \
+> --sort-item orbitOrder
+Count: 9
+ROWNUM diameter mass      name
+     1     4879    0.33   MERCURY
+     2    12104    4.87   VENUS
+     3    12756    5.97   EARTH
+     4     6792    0.642  MARS
+     5   142984 1898.0    JUPITER
+     6   120536  568.0    SATURN
+     7    51118   86.8    URANUS
+     8    49528  102.0    NEPTUNE
+     9     2370    0.0146 PLUTO
+ScannedCount: 9</code></pre><h3>4. aws-dynamodb-scan</h3><pre class="prettyprint source lang-bash"><code>Usage:
+1) aws-dynamodb-scan [OPTIONS] &lt;tableName>
+2) aws-dynamodb-scan [OPTIONS] -q &lt;SQL-ish-statement>
+
+  -c, --max-items=ARG              The total number of items to return
+  -n, --starting-token=ARG         A token to specify where to start
+                                   paginating
+  -s, --sort-item=ARG              JSON path to the sort item
+  -p, --projection-expression=ARG  comma separated attribute names to
+                                   project
+  -f, --filter-expression=ARG      filter expression
+  -d, --desc                       Sorting direction to descendent
+  -j, --output-json                output a json to read
+  -J, --output-json-oneline        output a json in oneline
+  -t, --dry-run                    Print options of the scan and exit
+  -q, --sql-ish                    Query by SQL-ish-statement(beta)
+  -h, --help                       display this help
+
+PARAMETERS:
+
+  tableName              The table name defined in DynamoDB.
+  SQL-ish-statement      SQL-ish text that represents a scan
+
+  1) In all expression parameter, option value or SQL-ish,the field names
+  could be represented as is for its declared name in the table without
+  considering the placeh older of AWS DynamoDB.
+
+  2) Here is an examples showing a syntax for SQL-ish-statement of scan.
+
+    [ SELECT &lt;projection-expression> ]
+    FROM &lt;tableName>
+    [ WHERE &lt;filter-expression> ]
+    [ LIMIT &lt;max-items> ]
+
+  This says the FROM clauses is mandatory and the SELECT, WHERE and LIMIT
+  are optional.</code></pre><p><strong>EXAMPLE</strong></p>
+<p>Comamnd line:</p>
+<pre class="prettyprint source lang-bash"><code>
+$ aws-dynamodb-scan stars
+Count: 10
+ROWNUM diameter rotation role      mass      gravity density escapeVelocity name    orbitOrder mainStar
+     1     3475    655.7 satellite    0.0073     1.6    3340            2.4 MOON             1 EARTH
+     2     4879   1407.6 planet       0.33       3.7    5427            4.3 MERCURY          1 SUN
+     3    12104  -5832.0 planet       4.87       8.9    5243           10.4 VENUS            2 SUN
+     4    12756     23.9 planet       5.97       9.8    5514           11.2 EARTH            3 SUN
+     5     6792     24.6 planet       0.642      3.7    3933            5.0 MARS             4 SUN
+     6   142984      9.9 planet    1898.0       23.1    1326           59.5 JUPITER          5 SUN
+     7   120536     10.7 planet     568.0        9.0     687           35.5 SATURN           6 SUN
+     8    51118    -17.2 planet      86.8        8.7    1271           21.3 URANUS           7 SUN
+     9    49528     16.1 planet     102.0       11.0    1638           23.5 NEPTUNE          8 SUN
+    10     2370   -153.3 planet       0.0146     0.7    2095            1.3 PLUTO            9 SUN
+ScannedCount: 10
+</code></pre><p>SQL-ish statement:</p>
+<pre class="prettyprint source lang-bash"><code>
+$ aws-dynamodb-scan -q &quot;FROM stars&quot;
+Count: 10
+ROWNUM diameter rotation role      mass      gravity density escapeVelocity name    orbitOrder mainStar
+     1     3475    655.7 satellite    0.0073     1.6    3340            2.4 MOON             1 EARTH
+     2     4879   1407.6 planet       0.33       3.7    5427            4.3 MERCURY          1 SUN
+     3    12104  -5832.0 planet       4.87       8.9    5243           10.4 VENUS            2 SUN
+     4    12756     23.9 planet       5.97       9.8    5514           11.2 EARTH            3 SUN
+     5     6792     24.6 planet       0.642      3.7    3933            5.0 MARS             4 SUN
+     6   142984      9.9 planet    1898.0       23.1    1326           59.5 JUPITER          5 SUN
+     7   120536     10.7 planet     568.0        9.0     687           35.5 SATURN           6 SUN
+     8    51118    -17.2 planet      86.8        8.7    1271           21.3 URANUS           7 SUN
+     9    49528     16.1 planet     102.0       11.0    1638           23.5 NEPTUNE          8 SUN
+    10     2370   -153.3 planet       0.0146     0.7    2095            1.3 PLUTO            9 SUN
+ScannedCount: 10
+</code></pre><h3>Don't Worry The Placeholders</h3><p>For the expressions of dynamodb query and scan commands,
+You can write the attribute names or its values directly.
+Because,
+<strong>the placeholders are recognized and created in automatic</strong> by the commands
+So, you don't need to worry about it.</p>
+<hr>
+<h2>CLI-commands for AWS Lambda</h2><ol>
+<li><strong>aws-lambda-get</strong> - Download a lambda function</li>
+<li><strong>aws-lambda-upload</strong> - Upload the function code</li>
+<li><strong>aws-lambda-create</strong> - Create and upload the function code</li>
+</ol>
+<p>Following utilities are required to download and extract a ZIP on aws-lambda-get / upload.</p>
+<ul>
+<li>Curl</li>
+<li>Zip/Unzip</li>
+</ul>
+<h3>1. <strong>aws-lambda-get</strong> - Download a lambda function</h3><pre class="prettyprint source"><code>$ aws-lambda-get &lt;function-name></code></pre><ul>
+<li>A Zip file is downloaded from AWS Lambda and extracted to a sub directory named same to the function.</li>
+</ul>
+<h3>2. <strong>aws-lambda-upload</strong> - Upload the function code</h3><p>Update the function to upload a zip file which is created in automatic
+and contains all the files in subdirectory of the same name as the
+function.</p>
+<pre class="prettyprint source"><code>$ aws-lambda-upload &lt;sub-directory-name></code></pre><ul>
+<li>Note: this cannot create a new function.</li>
+</ul>
+<h3>3. <strong>aws-lambda-create</strong> - Create and upload the function code</h3><p>Create the function to upload a zip file which is created in automatic
+and contains all the files in subdirectory of the same name as the
+function.</p>
+<pre class="prettyprint source"><code>$ aws-lambda-create &lt;sub-directory-name> &lt;role-arn></code></pre><hr>
+<h2>CLI-commands for AWS IoT</h2><ol>
+<li><strong>aws-iot-list-all-resources</strong> - list all the IoT resouces</li>
+<li><strong>aws-iot-create-keys-and-certificate</strong> - create certificate and attach the thing and/or policy</li>
+<li><strong>aws-iot-create-policy</strong> - create a policy</li>
+<li><strong>aws-iot-create-thing</strong> - create a thing</li>
+<li><strong>aws-iot-delete-thing</strong> - delete the thing</li>
+<li><strong>aws-iot-describe-thing</strong> - describe the thing</li>
+<li><strong>aws-iot-get-policy</strong> - print the policy</li>
+</ol>
+<h2>CLI-commands for AWS API Gateway</h2><ol>
+<li><strong>aws-apigw-describe-api</strong> - describe an api content to json. it includes all the resources and all the methods.</li>
+<li><strong>aws-apigw-create-rest-api</strong></li>
+<li><strong>aws-apigw-create-resource</strong></li>
+<li><strong>aws-apigw-list-resources</strong></li>
+</ol>
+<h2>CLI-commands for AWS IAM</h2><ol>
+<li><strong>aws-iam-list-roles</strong> - list names and created date of all the role</li>
+<li><strong>aws-iam-get-role</strong> - print role's JSON document to stdout</li>
+<li><strong>aws-iam-create-role</strong> - create role by the name and a JSON file that describes an assume-role-policy-document</li>
+<li><strong>aws-iam-attach-role-policy</strong> - attach a policy represented by arn to the role</li>
+</ol>
+<h2>LICENSE</h2><p>This software is released under the MIT License, see <a href="LICENSE">LICENSE</a></p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 25 2018 15:57:07 GMT+0900 (東京 (標準時)) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

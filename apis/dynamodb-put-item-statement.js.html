@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>dynamodb-put-item-statement.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AwsDynamoDB.html">AwsDynamoDB</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.connect">connect</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.DeleteItemStatement">DeleteItemStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.describeTable">describeTable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.listTables">listTables</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.PutItemStatement">PutItemStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.QueryStatement">QueryStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.ScanStatement">ScanStatement</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DynamoDbDeleteItemStatement.html">DynamoDbDeleteItemStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbDeleteItemStatement.html#run">run</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DynamoDbPutItemStatement.html">DynamoDbPutItemStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbPutItemStatement.html#run">run</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DynamoDbQueryStatement.html">DynamoDbQueryStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbQueryStatement.html#next">next</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbQueryStatement.html#run">run</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DynamoDbScanStatement.html">DynamoDbScanStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbScanStatement.html#next">next</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbScanStatement.html#run">run</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">dynamodb-put-item-statement.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
+var DynamoDbSqlishParser = require("../lib/dynamodb-sqlish-parser.js");
+var Statement = require('../lib/dynamodb-statement.js');
+
+/**
+ * SQL-ish PutItem statement class for AWS DynamoDB.
+ *
+ * @param {string|object} opt
+ * SQL-ish PutItem statement as string or parameter object
+ * for PutItem API.
+ *
+ * @constructor
+ */
+function DynamoDbPutItemStatement(opt) {
+    Statement.apply(this, Array.from(arguments));
+    if(typeof(opt) === "string") {
+        opt = DynamoDbPutItemStatement.parse(opt);
+    }
+    if(!("TableName" in opt)) {
+        throw new Error("TableName required");
+    }
+    if(!("Item" in opt)) {
+        throw new Error("Item required");
+    }
+    this.setTableName(opt.TableName);
+    this.item = DynamoDbSqlishParser.parseItemListToMap(opt.Item);
+    if("ConditionExpression" in opt) {
+        this.conditionExpression =
+            this.parseConditionExpression( opt.ConditionExpression );
+    }
+}
+
+DynamoDbPutItemStatement.prototype = new Statement();
+
+DynamoDbPutItemStatement.parse = function(sqlish) {
+    var opt = {};
+    var st = DynamoDbSqlishParser.parsePutItem(sqlish);
+
+    var tableName = st.getTerm("table-name");
+    if(!tableName.match) {
+        throw new Error("the table-name not found");
+    }
+    opt.TableName = st.getWordsList("table-name")[0].join("");
+
+    var attrNames =
+        st.getTerm("attribute-list")
+        .getWordsList("attribute-name")
+        .map( (arr) => { return arr[0]; } );
+    
+    var values =
+        st.getTerm("value-list")
+        .getWordsList("value")
+        .map( (arr) => { return arr[0]; } );
+
+    if(attrNames.length != values.length) {
+        throw new Error("the number of attribute names and values are not match.");
+    }
+
+    opt.Item = attrNames.map((name, index) => {
+        return [name, values[index]].join("=");
+    }).join(",");
+
+    var whereClause = st.getTerm("where-key-clause");
+    if(whereClause.match) {
+        opt.ConditionExpression =
+            whereClause.getWordsList("condition-expression")[0].join(" ");
+    }
+
+    return opt;
+};
+
+
+/**
+ * Run the statement in async.
+ *
+ * @param {object} args
+ * The parameter for this statement.
+ * Currently, this parmeter is not used.
+ *
+ * @param {Function} callback
+ * The callback function to get an error.
+ * The declaration is (err) => { ... }.
+ *
+ * @returns {undefined}
+ */
+DynamoDbPutItemStatement.prototype.run = function(args, callback) {
+    var param = this.getParameter(args);
+    Statement.assertAllParamSpecified(param);
+    this.dynamodb.putItem(param, callback);
+};
+DynamoDbPutItemStatement.prototype.getParameter = function(args) {
+    var opt = Statement.prototype.getParameter.call(this, args);
+    if(this.conditionExpression) {
+        opt.ConditionExpression = this.conditionExpression;
+    }
+    if(this.item) {
+        opt.Item = this.item;
+    }
+    return opt;
+};
+module.exports = DynamoDbPutItemStatement;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 25 2018 15:57:07 GMT+0900 (東京 (標準時)) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
