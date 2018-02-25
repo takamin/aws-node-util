@@ -155,7 +155,7 @@ Count: 10
 ROWNUM name    orbitOrder mainStar
      1 MERCURY          1 SUN
      2 VENUS            2 SUN
-     3 MARS             3 SUN
+     3 EARTH            3 SUN
      4 MARS             4 SUN
      5 JUPITER          5 SUN
      6 SATURN           6 SUN
@@ -230,7 +230,7 @@ LastEvaluatedKey: {"orbitOrder":{"N":"2"},"mainStar":{"S":"SUN"}}
 ScannedCount: 3
 Count: 3
 ROWNUM diameter rotation role   mass     gravity density escapeVelocity name    orbitOrder mainStar
-     1    12756     23.9 planet    5.97      9.8    5514           11.2 MARS             3 SUN
+     1    12756     23.9 planet    5.97      9.8    5514           11.2 EARTH            3 SUN
      2     6792     24.6 planet    0.642     3.7    3933            5.0 MARS             4 SUN
      3   142984      9.9 planet 1898.0      23.1    1326           59.5 JUPITER          5 SUN
 LastEvaluatedKey: {"orbitOrder":{"N":"5"},"mainStar":{"S":"SUN"}}
@@ -289,7 +289,7 @@ LastEvaluatedKey: {"orbitOrder":{"N":"2"},"mainStar":{"S":"SUN"}}
 ScannedCount: 2
 Count: 2
 ROWNUM diameter rotation role   mass  gravity density escapeVelocity name orbitOrder mainStar
-     1    12756     23.9 planet 5.97      9.8    5514           11.2 MARS          3 SUN
+     1    12756     23.9 planet 5.97      9.8    5514           11.2 EARTH         3 SUN
      2     6792     24.6 planet 0.642     3.7    3933            5.0 MARS          4 SUN
 LastEvaluatedKey: {"orbitOrder":{"N":"4"},"mainStar":{"S":"SUN"}}
 ScannedCount: 2
@@ -471,7 +471,7 @@ Count: 9
 ROWNUM diameter mass      name
      1     4879    0.33   MERCURY
      2    12104    4.87   VENUS
-     3    12756    5.97   MARS
+     3    12756    5.97   EARTH
      4     6792    0.642  MARS
      5   142984 1898.0    JUPITER
      6   120536  568.0    SATURN
@@ -492,7 +492,7 @@ Count: 9
 ROWNUM diameter mass      name
      1     4879    0.33   MERCURY
      2    12104    4.87   VENUS
-     3    12756    5.97   MARS
+     3    12756    5.97   EARTH
      4     6792    0.642  MARS
      5   142984 1898.0    JUPITER
      6   120536  568.0    SATURN
@@ -555,7 +555,7 @@ ROWNUM diameter rotation role      mass      gravity density escapeVelocity name
      1     3475    655.7 satellite    0.0073     1.6    3340            2.4 MOON             1 EARTH
      2     4879   1407.6 planet       0.33       3.7    5427            4.3 MERCURY          1 SUN
      3    12104  -5832.0 planet       4.87       8.9    5243           10.4 VENUS            2 SUN
-     4    12756     23.9 planet       5.97       9.8    5514           11.2 MARS             3 SUN
+     4    12756     23.9 planet       5.97       9.8    5514           11.2 EARTH            3 SUN
      5     6792     24.6 planet       0.642      3.7    3933            5.0 MARS             4 SUN
      6   142984      9.9 planet    1898.0       23.1    1326           59.5 JUPITER          5 SUN
      7   120536     10.7 planet     568.0        9.0     687           35.5 SATURN           6 SUN
@@ -576,7 +576,7 @@ ROWNUM diameter rotation role      mass      gravity density escapeVelocity name
      1     3475    655.7 satellite    0.0073     1.6    3340            2.4 MOON             1 EARTH
      2     4879   1407.6 planet       0.33       3.7    5427            4.3 MERCURY          1 SUN
      3    12104  -5832.0 planet       4.87       8.9    5243           10.4 VENUS            2 SUN
-     4    12756     23.9 planet       5.97       9.8    5514           11.2 MARS             3 SUN
+     4    12756     23.9 planet       5.97       9.8    5514           11.2 EARTH            3 SUN
      5     6792     24.6 planet       0.642      3.7    3933            5.0 MARS             4 SUN
      6   142984      9.9 planet    1898.0       23.1    1326           59.5 JUPITER          5 SUN
      7   120536     10.7 planet     568.0        9.0     687           35.5 SATURN           6 SUN
