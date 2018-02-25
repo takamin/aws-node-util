@@ -6,6 +6,8 @@ DESCRIPTION
 
 This module provides __SQL-ish statement classes to manipulate DynamoDB__.
 
+The latest [API reference](https://takamin.github.io/aws-node-util/apis/index.html) is available.
+
 Statement classes:
 
 1. ScanStatement
