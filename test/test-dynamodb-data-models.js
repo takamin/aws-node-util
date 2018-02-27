@@ -60,4 +60,63 @@ describe("DynamoDbDataModels", function() {
             ]));
         });
     });
+    describe("map2obj", function() {
+        it("should convert {S:'string'} to 'string':string", ()=>{
+            var map = { item: {"S": "string"} };
+            assert.deepEqual(
+                {item:"string"},
+                DynamoDbDataModels.map2obj(map));
+        });
+        it("should convert {N:'123'} to 123:number", ()=>{
+            var map = { item: {"N": "123"} };
+            assert.deepEqual(
+                {item: 123},
+                DynamoDbDataModels.map2obj(map));
+        });
+        it("should convert {BOOL:'true'} to true:boolean", ()=>{
+            var map = { item: {"BOOL": "true"} };
+            assert.deepEqual(
+                {item: true},
+                DynamoDbDataModels.map2obj(map));
+        });
+        it("should convert {BOOL:'false'} to false:boolean", ()=>{
+            var map = { item: {"BOOL": "false"} };
+            assert.deepEqual(
+                {item: false},
+                DynamoDbDataModels.map2obj(map));
+        });
+        it("should convert nested {M:{...}} to object", ()=>{
+            var map = {
+                item: {
+                    "M": {
+                        itemS: {"S": "string"},
+                        itemN: {"N": "123"},
+                        itemT: {"BOOL": "true"},
+                        itemF: {"BOOL": "false"},
+                        itemM: {
+                            "M": {
+                                itemS: {"S": "string"},
+                                itemN: {"N": "123"},
+                                itemT: {"BOOL": "true"},
+                                itemF: {"BOOL": "false"},
+                            },
+                        }
+                    }
+                }
+            };
+            assert.deepEqual({item: {
+                    itemS: "string",
+                    itemN: 123,
+                    itemT: true,
+                    itemF: false,
+                    itemM: {
+                        itemS: "string",
+                        itemN: 123,
+                        itemT: true,
+                        itemF: false,
+                    }
+                }},
+                DynamoDbDataModels.map2obj(map));
+        });
+    });
 });
