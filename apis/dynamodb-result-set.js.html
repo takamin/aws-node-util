@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>dynamodb-result-set.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AwsDynamoDB.html">AwsDynamoDB</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.connect">connect</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.DeleteItemStatement">DeleteItemStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.describeTable">describeTable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.listTables">listTables</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.PutItemStatement">PutItemStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.QueryStatement">QueryStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AwsDynamoDB.html#.ScanStatement">ScanStatement</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DynamoDbDeleteItemStatement.html">DynamoDbDeleteItemStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbDeleteItemStatement.html#run">run</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DynamoDbPutItemStatement.html">DynamoDbPutItemStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbPutItemStatement.html#run">run</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DynamoDbQueryStatement.html">DynamoDbQueryStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbQueryStatement.html#next">next</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbQueryStatement.html#run">run</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DynamoDbResultSet.html">DynamoDbResultSet</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbResultSet.html#.printScanResult">printScanResult</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbResultSet.html#getItemAt">getItemAt</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbResultSet.html#getItems">getItems</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbResultSet.html#print">print</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DynamoDbScanStatement.html">DynamoDbScanStatement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbScanStatement.html#next">next</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamoDbScanStatement.html#run">run</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">dynamodb-result-set.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
+const DynamoDbDataModels = require("./dynamodb-data-models.js");
+var listit = require('list-it');
+
+/**
+ * The result data model of DynamoDB SCAN or Query.
+ *
+ * @param {object} data The rensponse object from DynamoDB API SCAN and QUERY.
+ *
+ * @constructor
+ */
+function DynamoDbResultSet(data) {
+
+    this._data = data;
+    this._columns = getAllScannedAttributeNames(
+            this._data.Items);
+    this._rows = convertItemsTo2dArray(
+            this._data.Items, this._columns);
+
+}
+
+DynamoDbResultSet.prototype.getRawItems = function() {
+    return this._data.Items;
+};
+
+DynamoDbResultSet.prototype.getRawItemAt = function(rowIndex) {
+    if(rowIndex >= this._data.Items.length) {
+        throw new RangeError("rowIndex out of range: " + rowIndex);
+    }
+    return this._data.Items[rowIndex];
+};
+
+/**
+ * Get an item converted to the native object from DynamoDB Map Data
+ *
+ * @returns {object[]} returns array of object converted.
+ */
+DynamoDbResultSet.prototype.getItems = function() {
+    return this._data.Items.map( item => {
+        return DynamoDbDataModels.map2obj(item);
+    });
+};
+
+/**
+ * Get an item converted to the native object from DynamoDB Map Data
+ * by index of items.
+ *
+ * @param {integer} rowIndex
+ * The index of item in Items.
+ *
+ * @returns {object} returns item converted to object.
+ */
+DynamoDbResultSet.prototype.getItemAt = function(rowIndex) {
+    if(rowIndex >= this._data.Items.length) {
+        throw new RangeError("rowIndex out of range: " + rowIndex);
+    }
+    return DynamoDbDataModels.map2obj(this._data.Items[rowIndex]);
+};
+
+/**
+ * Print scan or query result to console.
+ *
+ * @param {string} sortItemPath
+ * An attribute path name of item to sort.
+ *
+ * @param {boolean} sortDesc (Optional)
+ * Specify true to sort items descent.
+ *
+ * @returns {undefined}
+ */
+DynamoDbResultSet.prototype.print = function(sortItemPath, sortDesc) {
+    DynamoDbResultSet.printScanResult(this._data, sortItemPath, sortDesc);
+};
+
+/**
+ * Print scan or query result to console.
+ *
+ * @param {object} data
+ * The response object from DynamoDB API SCAN and QUERY.
+ *
+ * @param {string} sortItemPath
+ * An attribute path name of item to sort.
+ *
+ * @param {boolean} sortDesc (Optional)
+ * Specify true to sort items descent.
+ *
+ * @returns {undefined}
+ */
+DynamoDbResultSet.printScanResult = function(data, sortItemPath, sortDesc) {
+    var colNames = getAllScannedAttributeNames(data.Items);
+    var rows = convertItemsTo2dArray(data.Items, colNames);
+    if(sortItemPath) {
+        var colIndex = colNames.indexOf(sortItemPath);
+        if(colIndex >= 0) {
+            rows.sort( !sortDesc ? (a, b) => {
+                if(a[colIndex] > b[colIndex]) { return 1; }
+                if(a[colIndex] &lt; b[colIndex]) { return -1; }
+                return 0;
+            } : (a, b) => {
+                if(a[colIndex] > b[colIndex]) { return -1; }
+                if(a[colIndex] &lt; b[colIndex]) { return 1; }
+                return 0;
+            });
+        }
+    }
+
+    if("Count" in data) {
+        console.log("Count:", data.ScannedCount);
+    }
+
+    // format table
+    var buf = listit.buffer({ "autoAlign": true });
+    var rownum = 0;
+    buf.d("ROWNUM");
+    buf.d(colNames);
+    rows.forEach(function(row) {
+        buf.d(++rownum);
+        buf.d(row);
+    });
+    console.log(buf.toString());
+    if("NextToken" in data) {
+        console.log("NextToken:", data.NextToken);
+    }
+    if("LastEvaluatedKey" in data) {
+        console.log("LastEvaluatedKey:", JSON.stringify(data.LastEvaluatedKey));
+    }
+    if("ScannedCount" in data) {
+        console.log("ScannedCount:", data.ScannedCount);
+    }
+};
+
+function getAllScannedAttributeNames(items) {
+    var colNames = [];
+    var traverseKeys = function(item, namePath) {
+        namePath = namePath || [];
+        Object.keys(item).forEach(function(key) {
+            namePath.push(key);
+            var attrName = namePath.join('.');
+            var type = null;
+            var types = Object.keys(item[key]);
+            if(types.length > 0) {
+                type = types[0];
+            }
+            if(type == 'M') {
+                traverseKeys(item[key]['M'], namePath);
+            } else {
+                if(colNames.indexOf(attrName) &lt; 0) {
+                    colNames.push(attrName);
+                }
+            }
+            namePath.pop();
+        });
+    };
+
+    // Traverse column names
+    items.forEach(function(item) {
+        traverseKeys(item);
+    });
+
+    return colNames;
+}
+
+//
+// Convert scan/query result to 2-D array
+//
+function convertItemsTo2dArray(items, colNames) {
+    var rows = [];
+    items.forEach(function(item) {
+        var cols = [];
+        colNames.forEach(function(attrPath) {
+            var value = refAttrByPath(item, attrPath);
+            if(value == null) {
+                value = "";
+            }
+            cols.push(value);
+        });
+        rows.push(cols);
+    });
+    return rows;
+}
+
+function refAttrByPath(item, attrPath) {
+    var pathArray = attrPath.split('.');
+    for(var i = 0; i &lt; pathArray.length; i++) {
+        var pathElement = pathArray[i];
+        if(typeof(item) != "object"
+                || !(pathElement in item))
+        {
+            return null;
+        }
+        item = item[pathElement];
+        var types = Object.keys(item);
+        if(types.length > 0) {
+            var type = types[0];
+            item = item[type];
+            switch(type) {
+            case 'N':
+                if(item.match(/\./)) {
+                    item = parseFloat(item);
+                } else {
+                    item = parseInt(item);
+                }
+                break;
+            case "BOOL":
+                item = (item == true);
+                break;
+            }
+        }
+    }
+    return item;
+}
+
+module.exports = DynamoDbResultSet;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Feb 27 2018 21:31:44 GMT+0900 (東京 (標準時)) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

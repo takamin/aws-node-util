@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>DynamoDbPutItemStatement - Documentation</title>
+    <title>DynamoDbResultSet - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">DynamoDbPutItemStatement</h1>
+    <h1 class="page-title">DynamoDbResultSet</h1>
     
 
     
@@ -42,7 +42,7 @@
 <header>
     
         <h2>
-        DynamoDbPutItemStatement
+        DynamoDbResultSet
         </h2>
         
     
@@ -56,14 +56,14 @@
 
     
 
-    <h4 class="name" id="DynamoDbPutItemStatement"><span class="type-signature"></span>new DynamoDbPutItemStatement<span class="signature">(opt)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="DynamoDbResultSet"><span class="type-signature"></span>new DynamoDbResultSet<span class="signature">(data)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    <p>SQL-ish PutItem statement class for AWS DynamoDB.</p>
+    <p>The result data model of DynamoDB SCAN or Query.</p>
 </div>
 
 
@@ -99,7 +99,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dynamodb-put-item-statement.js.html">dynamodb-put-item-statement.js</a>, <a href="dynamodb-put-item-statement.js.html#line14">line 14</a>
+        <a href="dynamodb-result-set.js.html">dynamodb-result-set.js</a>, <a href="dynamodb-result-set.js.html#line12">line 12</a>
     </li></ul></dd>
     
 
@@ -143,15 +143,12 @@
 
         <tr>
             
-                <td class="name"><code>opt</code></td>
+                <td class="name"><code>data</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><code>string</code></span>
-|
-
 <span class="param-type"><code>object</code></span>
 
 
@@ -163,8 +160,7 @@
             
 
             <td class="description last">
-                <p>SQL-ish PutItem statement as string or parameter object
-for PutItem API.</p>
+                <p>The rensponse object from DynamoDB API SCAN and QUERY.</p>
                 
             </td>
         </tr>
@@ -213,14 +209,14 @@ for PutItem API.</p>
 
     
 
-    <h4 class="name" id="run"><span class="type-signature"></span>run<span class="signature">(args, callback)</span><span class="type-signature"> &rarr; {undefined}</span></h4>
+    <h4 class="name" id=".printScanResult"><span class="type-signature">(static) </span>printScanResult<span class="signature">(data, sortItemPath, sortDesc)</span><span class="type-signature"> &rarr; {undefined}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Run the statement in async.</p>
+    <p>Print scan or query result to console.</p>
 </div>
 
 
@@ -256,7 +252,7 @@ for PutItem API.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dynamodb-put-item-statement.js.html">dynamodb-put-item-statement.js</a>, <a href="dynamodb-put-item-statement.js.html#line86">line 86</a>
+        <a href="dynamodb-result-set.js.html">dynamodb-result-set.js</a>, <a href="dynamodb-result-set.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -300,7 +296,7 @@ for PutItem API.</p>
 
         <tr>
             
-                <td class="name"><code>args</code></td>
+                <td class="name"><code>data</code></td>
             
 
             <td class="type">
@@ -317,8 +313,7 @@ for PutItem API.</p>
             
 
             <td class="description last">
-                <p>The parameter for this statement.
-Currently, this parmeter is not used.</p>
+                <p>The response object from DynamoDB API SCAN and QUERY.</p>
                 
             </td>
         </tr>
@@ -327,13 +322,13 @@ Currently, this parmeter is not used.</p>
 
         <tr>
             
-                <td class="name"><code>callback</code></td>
+                <td class="name"><code>sortItemPath</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><code>function</code></span>
+<span class="param-type"><code>string</code></span>
 
 
             
@@ -344,8 +339,486 @@ Currently, this parmeter is not used.</p>
             
 
             <td class="description last">
-                <p>The callback function to get an error.
-The declaration is (err) =&gt; { ... }.</p>
+                <p>An attribute path name of item to sort.</p>
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sortDesc</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>boolean</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <p>(Optional)
+Specify true to sort items descent.</p>
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>undefined</code></span>
+
+
+    </dd>
+</dl>
+
+
+    
+</div>
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="getItemAt"><span class="type-signature"></span>getItemAt<span class="signature">(rowIndex)</span><span class="type-signature"> &rarr; {object}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Get an item converted to the native object from DynamoDB Map Data
+by index of items.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="dynamodb-result-set.js.html">dynamodb-result-set.js</a>, <a href="dynamodb-result-set.js.html#line53">line 53</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>rowIndex</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>integer</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <p>The index of item in Items.</p>
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>object</code></span>
+
+
+    </dd>
+</dl>
+
+
+<div class="param-desc">
+    <p>returns item converted to object.</p>
+</div>
+
+    
+</div>
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="getItems"><span class="type-signature"></span>getItems<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;object>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Get an item converted to the native object from DynamoDB Map Data</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="dynamodb-result-set.js.html">dynamodb-result-set.js</a>, <a href="dynamodb-result-set.js.html#line38">line 38</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>Array.&lt;object></code></span>
+
+
+    </dd>
+</dl>
+
+
+<div class="param-desc">
+    <p>returns array of object converted.</p>
+</div>
+
+    
+</div>
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="print"><span class="type-signature"></span>print<span class="signature">(sortItemPath, sortDesc)</span><span class="type-signature"> &rarr; {undefined}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Print scan or query result to console.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="dynamodb-result-set.js.html">dynamodb-result-set.js</a>, <a href="dynamodb-result-set.js.html#line71">line 71</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>sortItemPath</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>string</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <p>An attribute path name of item to sort.</p>
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sortDesc</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>boolean</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <p>(Optional)
+Specify true to sort items descent.</p>
                 
             </td>
         </tr>
