@@ -1,6 +1,6 @@
 {
   "name": "aws-node-util",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "Accessing the DynamoDB with SQL-ish statement and AWS services from CLI",
   "directries": {
     "lib": "./lib"
@@ -39,7 +39,7 @@
     "aws-iot-list-all-resources": "./bin/aws-iot-list-all-resources.js"
   },
   "dependencies": {
-    "aws-sdk": "^2.188.0",
+    "aws-sdk": "^2.207.0",
     "camelcase": "^4.1.0",
     "clone": "^2.1.1",
     "deep-equal": "^1.0.1",
@@ -58,7 +58,7 @@
     "jsdoc": "^3.5.5",
     "load-grunt-tasks": "^3.5.2",
     "minami": "^1.2.3",
-    "mocha": "^5.0.0"
+    "mocha": "^5.0.4"
   },
   "scripts": {
     "test": "grunt lint && mocha",

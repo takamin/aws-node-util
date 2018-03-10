@@ -9,5 +9,6 @@ module.exports = function(grunt) {
             ]
         }
     });
+    grunt.registerTask('default', ['eslint']);
     grunt.registerTask('lint', ['eslint']);
 };
