@@ -41,35 +41,12 @@ the attribute named 'mainStar' is a HASH-key typed as String and
 const awsNodeUtil = require("aws-node-util");
 const ScanStatement = awsNodeUtil.dynamodb.ScanStatement;
 const QueryStatement = awsNodeUtil.dynamodb.QueryStatement;
-const PutItemStatement = awsNodeUtil.dynamodb.PutItemStatement;
-const DeleteItemStatement = awsNodeUtil.dynamodb.DeleteItemStatement;
 const ResultSet = awsNodeUtil.dynamodb.ResultSet;
 
 // Connect (change each value for your account)
 awsNodeUtil.dynamodb.connect(
-//    {
-//        accessKeyId: 'AKID',
-//        secretAccessKey: 'SECRET',
-//        region: 'us-west-2'
-//    }
+//    { accessKeyId: 'AKID', secretAccessKey: 'SECRET', region: 'us-west-2' }
 );
-
-// Handler to print result of scan / query
-function printResult(err, result) {
-    if(err) {
-        console.error("Error:", err.stack);
-    } else {
-        ResultSet.printScanResult(result);
-    }
-}
-
-// Prepare 'PutItem' statement
-var putItemStatement = PutItemStatement(
-    ["INSERT INTO stars (",
-        "mainStar, role, orbitOrder, name",
-    ") VALUES (",
-        "'SUN', 'planet', 10, 'X'",
-    ")"].join(" "));
 
 // Prepare 'Scan' statement
 var scanStatement = ScanStatement(
@@ -81,90 +58,63 @@ var queryStatement = QueryStatement(
         "FROM stars " +
         "WHERE mainStar=:mainStar");
 
-// Prepare 'DeleteItem' statement
-var deleteItemStatement = DeleteItemStatement([
-        "DELETE FROM stars",
-        "WHERE mainStar = 'SUN' AND",
-            "orbitOrder = 10",
-        ].join(" "));
-
 // Run the statements
-putItemStatement.run({}, (err, resp) => {
-    if(err) {
-        console.error(err.stack);
-        return;
-    }
-    scanStatement.run({ ":name": "X" }, (err, resp) => {
-        console.log("-------------------");
-        console.log("SCAN stars named X");
-        console.log("-------------------");
+ScanStatement("FROM stars").run({}, (err, resp) => {
+    console.log("-----------------------");
+    console.log("SCAN all items of stars");
+    console.log("-----------------------");
+    printResult(err, resp);
+    scanStatement.run({ ":name": "EARTH" }, (err, resp) => {
+        console.log("--------------");
+        console.log("SCAN the EARTH");
+        console.log("--------------");
         printResult(err, resp);
 
-        queryStatement.run({
-            ":mainStar": "SUN"
-        }, (err, resp) => {
-            console.log("----------------------------");
-            console.log("QUERY child stars of the SUN");
-            console.log("----------------------------");
+        queryStatement.run({ ":mainStar": "EARTH" }, (err, resp) => {
+            console.log("------------------------------");
+            console.log("QUERY child stars of the EARTH");
+            console.log("------------------------------");
             printResult(err, resp);
-
-            queryStatement.run({
-                ":mainStar": "EARTH"
-            }, (err, resp) => {
-                console.log("------------------------------");
-                console.log("QUERY child stars of the EARTH");
-                console.log("------------------------------");
-                printResult(err, resp);
-
-                deleteItemStatement.run({
-                    ":mainStar": "SUN",
-                    ":orbitOrder": 10
-                }, (err, resp) => {
-                    if(err) {
-                        console.error(err.stack);
-                        return;
-                    }
-                    scanStatement.run({
-                        ":name": "X"
-                    }, (err, resp) => {
-                        console.log("-------------------");
-                        console.log("SCAN stars named X");
-                        console.log("-------------------");
-                        printResult(err, resp);
-                    });
-                });
-            });
         });
     });
 });
+
+// Handler to print result of scan / query
+function printResult(err, result) {
+    if(err) {
+        console.error("Error:", err.stack);
+    } else {
+        ResultSet.printScanResult(result);
+    }
+}
 ```
 
 __outputs__
 
 ```bash
 $ node sample/sqlish-sample.js
--------------------
-SCAN stars named X
--------------------
-Count: 11
-ROWNUM role   name orbitOrder mainStar
-     1 planet X            10 SUN
-ScannedCount: 11
-----------------------------
-QUERY child stars of the SUN
-----------------------------
+-----------------------
+SCAN all items of stars
+-----------------------
 Count: 10
-ROWNUM name    orbitOrder mainStar
-     1 MERCURY          1 SUN
-     2 VENUS            2 SUN
-     3 EARTH            3 SUN
-     4 MARS             4 SUN
-     5 JUPITER          5 SUN
-     6 SATURN           6 SUN
-     7 URANUS           7 SUN
-     8 NEPTUNE          8 SUN
-     9 PLUTO            9 SUN
-    10 X               10 SUN
+ROWNUM diameter rotation role      mass      gravity density escapeVelocity name    orbitOrder mainStar
+     1     3475    655.7 satellite    0.0073     1.6    3340            2.4 MOON             1 EARTH
+     2     4879   1407.6 planet       0.33       3.7    5427            4.3 MERCURY          1 SUN
+     3    12104  -5832.0 planet       4.87       8.9    5243           10.4 VENUS            2 SUN
+     4    12756     23.9 planet       5.97       9.8    5514           11.2 EARTH            3 SUN
+     5     6792     24.6 planet       0.642      3.7    3933            5.0 MARS             4 SUN
+     6   142984      9.9 planet    1898.0       23.1    1326           59.5 JUPITER          5 SUN
+     7   120536     10.7 planet     568.0        9.0     687           35.5 SATURN           6 SUN
+     8    51118    -17.2 planet      86.8        8.7    1271           21.3 URANUS           7 SUN
+     9    49528     16.1 planet     102.0       11.0    1638           23.5 NEPTUNE          8 SUN
+    10     2370   -153.3 planet       0.0146     0.7    2095            1.3 PLUTO            9 SUN
+ScannedCount: 10
+--------------
+SCAN the EARTH
+--------------
+Count: 10
+ROWNUM diameter rotation role   mass gravity density escapeVelocity name  orbitOrder mainStar
+     1    12756     23.9 planet 5.97     9.8    5514           11.2 EARTH          3 SUN
 ScannedCount: 10
 ------------------------------
 QUERY child stars of the EARTH
@@ -173,12 +123,6 @@ Count: 1
 ROWNUM name orbitOrder mainStar
      1 MOON          1 EARTH
 ScannedCount: 1
--------------------
-SCAN stars named X
--------------------
-Count: 10
-ROWNUM
-ScannedCount: 10
 
 ```
 
@@ -312,6 +256,171 @@ ROWNUM diameter rotation role   mass   gravity density escapeVelocity name  orbi
      1     2370   -153.3 planet 0.0146     0.7    2095            1.3 PLUTO          9 SUN
 ScannedCount: 1
 OK
+```
+
+__sample/put-and-delete-item.js__
+
+```javascript
+"use strict";
+const awsNodeUtil = require("aws-node-util");
+const QueryStatement = awsNodeUtil.dynamodb.QueryStatement;
+const PutItemStatement = awsNodeUtil.dynamodb.PutItemStatement;
+const DeleteItemStatement = awsNodeUtil.dynamodb.DeleteItemStatement;
+const ResultSet = awsNodeUtil.dynamodb.ResultSet;
+
+// Connect (change each value for your account)
+awsNodeUtil.dynamodb.connect(
+//    { accessKeyId: 'AKID', secretAccessKey: 'SECRET', region: 'us-west-2' }
+);
+// Handler to print result of scan / query
+function printResult(result) {
+    ResultSet.printScanResult(result);
+}
+
+// Prepare 'PutItem' statement
+var putItemStatement = PutItemStatement(
+    ["INSERT INTO stars (",
+        "mainStar, role, orbitOrder, name",
+    ") VALUES (",
+        "'SUN', 'planet', 10, 'X'",
+    ")"].join(" "));
+
+// Add planet X
+putStar(putItemStatement, {}).then( () => {
+
+    // Add planet Y
+    putItemStatement.setValues([
+        "SUN", "planet", 25, "Y"
+    ]);
+    return putStar( putItemStatement, {});
+
+}).then( () => {
+
+    // Add planet Z
+    return putStar( putItemStatement, {
+        orbitOrder:35, name:"Z"
+    });// mainStar and role is not changed from previous.
+
+}).then( () => {
+    return queryStar("mainStar, orbitOrder, name, role", "mainStar = 'SUN'");
+}).then(resp => {
+    console.log("----------------------------");
+    console.log("QUERY child stars of the SUN");
+    console.log("----------------------------");
+    printResult(resp);
+}).then( () => {
+
+    //Delete planets named X, Y and Z.
+    return deleteWhere( "mainStar = 'SUN' AND orbitOrder >= 10" );
+
+}).then( () => {
+    return queryStar("mainStar, orbitOrder, name, role", "mainStar = 'SUN'");
+}).then(resp => {
+    console.log("----------------------------");
+    console.log("QUERY child stars of the SUN");
+    console.log("----------------------------");
+    printResult(resp);
+}).catch( err => {
+    console.error("Error:", err.stack);
+});
+
+function deleteWhere(condition) {
+    return queryStar( "mainStar, orbitOrder", condition ).then(result => {
+        let resultSet = new ResultSet(result);
+        return Promise.all(resultSet.getItems().map(item => {
+            return deleteStar([
+                "mainStar = '" + item.mainStar + "'",
+                "AND orbitOrder = " + item.orbitOrder
+            ].join(" "));
+        }));
+    });
+}
+
+function putStar(statement, args) {
+    return new Promise( (resolve, reject) => {
+        statement.run(args, err => {
+            if(err) {
+                reject(err);
+            } else {
+                resolve();
+            }
+        });
+    });
+}
+
+function queryStar(select, condition) {
+    return new Promise( (resolve, reject) => {
+        QueryStatement([
+            "SELECT", select, "FROM stars",
+            "WHERE", condition
+        ].join(" ")).run({}, (err, result) => {
+            if(err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+}
+
+function deleteStar(condition) {
+    return new Promise( (resolve, reject) => {
+        console.log("DELETE", condition);
+        DeleteItemStatement([
+            "DELETE FROM stars WHERE",
+            condition
+        ].join(" ")).run({}, (err) => {
+            if(err) {
+                reject(err);
+            } else {
+                resolve();
+            }
+        })
+    });
+}
+```
+
+__outputs__
+
+```sh
+$ node sample/put-and-delete-item.js
+----------------------------
+QUERY child stars of the SUN
+----------------------------
+Count: 12
+ROWNUM role   name    orbitOrder mainStar
+     1 planet MERCURY          1 SUN
+     2 planet VENUS            2 SUN
+     3 planet EARTH            3 SUN
+     4 planet MARS             4 SUN
+     5 planet JUPITER          5 SUN
+     6 planet SATURN           6 SUN
+     7 planet URANUS           7 SUN
+     8 planet NEPTUNE          8 SUN
+     9 planet PLUTO            9 SUN
+    10 planet X               10 SUN
+    11 planet Y               25 SUN
+    12 planet Z               35 SUN
+ScannedCount: 12
+DELETE mainStar = 'SUN' AND orbitOrder = 10
+DELETE mainStar = 'SUN' AND orbitOrder = 25
+DELETE mainStar = 'SUN' AND orbitOrder = 35
+----------------------------
+QUERY child stars of the SUN
+----------------------------
+Count: 9
+ROWNUM role   name    orbitOrder mainStar
+     1 planet MERCURY          1 SUN
+     2 planet VENUS            2 SUN
+     3 planet EARTH            3 SUN
+     4 planet MARS             4 SUN
+     5 planet JUPITER          5 SUN
+     6 planet SATURN           6 SUN
+     7 planet URANUS           7 SUN
+     8 planet NEPTUNE          8 SUN
+     9 planet PLUTO            9 SUN
+ScannedCount: 9
+
 ```
 
 CLI-Commands for Amazon Dynamo
