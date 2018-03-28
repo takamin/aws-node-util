@@ -7,6 +7,7 @@
   },
   "main": "./index.js",
   "bin": {
+    "query-json": "./bin/query-json.js",
     "aws-lambda-get": "./bin/aws-lambda-get.sh",
     "aws-lambda-create": "./bin/aws-lambda-create.sh",
     "aws-lambda-upload": "./bin/aws-lambda-upload.sh",
