@@ -13,9 +13,6 @@ if [ ! -e ${fname} ]; then
     exit
 fi
 cd ${fname}
-if [ -e .onupload.sh ]; then
-    sh .onupload.sh
-fi
 zip -r ../${fname}.zip *
 cd ..
 aws lambda update-function-code --function-name ${fname} --zip-file fileb://${fname}.zip
