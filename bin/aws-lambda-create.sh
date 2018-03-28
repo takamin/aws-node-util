@@ -19,9 +19,6 @@ if [ "$2" = "" ]; then
     exit
 fi
 cd ${fname}
-if [ -e .onupload.sh ]; then
-    sh .onupload.sh
-fi
 zip -r ../${fname}.zip *
 cd ..
 aws lambda create-function --function-name ${fname} --runtime nodejs --role $2 --handler index.handler --zip-file fileb://${fname}.zip
