@@ -1,4 +1,5 @@
 #!/bin/env node
+/* eslint no-unused-vars: 0 */
 var reader = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
