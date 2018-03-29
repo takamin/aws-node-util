@@ -12,8 +12,26 @@ if [ ! -e ${fname} ]; then
     echo "error: directory ${fname} not found"
     exit
 fi
+
 cd ${fname}
-zip -r ../${fname}.zip *
+type zip > /dev/null 2>&1
+if [[ $? == 0 ]]; then
+    ZIP='zip'
+else
+    type 7z > /dev/null 2>&1
+    if [[ $? == 0 ]]; then
+        ZIP='7z u'
+    else
+        echo "Error: Either zip and 7z are not found or unavailable."
+        exit 1;
+    fi
+fi
+
+rm -f ../${fname}.zip
+${ZIP} -r ../${fname}.zip *
+
 cd ..
 aws lambda update-function-code --function-name ${fname} --zip-file fileb://${fname}.zip
-rm ${fname}.zip
+if [[ $? == 0 ]]; then
+    rm ${fname}.zip
+fi
