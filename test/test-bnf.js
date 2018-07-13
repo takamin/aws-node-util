@@ -1,6 +1,6 @@
 "use strict";
 var assert = require("chai").assert;
-var BNF = require("../lib/bnf.js");
+var BNF = require("lex-bnf");
 
 describe("BNF", function() {
 
