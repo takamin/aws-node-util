@@ -33,19 +33,19 @@ describe("DynamoDbDataModels", function() {
             },
             DynamoDbDataModels.obj2map([ "ABC", 1.23, true ]));
         });
-        it("should return StringSequence obj", function() {
+        it("should return StringSet obj", function() {
             assert.deepEqual({
                 "SS" : [ "ABC", "1.23", "true" ]
             },
             DynamoDbDataModels.obj2map([ "ABC", "1.23", "true" ]));
         });
-        it("should return StringSequence obj", function() {
+        it("should return StringSet obj", function() {
             assert.deepEqual({
                 "NS" : [ "3", "2", "1", "0.5" ]
             },
             DynamoDbDataModels.obj2map([ 3, 2, 1, 0.5 ]));
         });
-        it("should return BufferSequence obj", function() {
+        it("should return BufferSet obj", function() {
             assert.deepEqual({
                 "BS" : [
                     Buffer.from([0,1,2]),

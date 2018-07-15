@@ -58,92 +58,92 @@ describe("DynamoDbDataType", function() {
             var detector = new DynamoDbDataType();
 
             //0
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = false;
             detector._is.List = false;
             assert.equal(0, detector.countPossibleType());
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = false;
             detector._is.List = false;
 
             //1
             assert.equal(1, detector.countPossibleType());
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = false;
             detector._is.List = false;
             assert.equal(1, detector.countPossibleType());
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = true;
             detector._is.List = false;
             assert.equal(1, detector.countPossibleType());
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = false;
             detector._is.List = true;
             assert.equal(1, detector.countPossibleType());
 
             //2
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = false;
             detector._is.List = false;
             assert.equal(2, detector.countPossibleType());
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = true;
             detector._is.List = false;
             assert.equal(2, detector.countPossibleType());
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = false;
             detector._is.List = true;
             assert.equal(2, detector.countPossibleType());
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = true;
             detector._is.List = false;
             assert.equal(2, detector.countPossibleType());
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = false;
             detector._is.List = true;
             assert.equal(2, detector.countPossibleType());
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = true;
             detector._is.List = true;
             assert.equal(2, detector.countPossibleType());
 
             //3
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = true;
             detector._is.List = false;
             assert.equal(3, detector.countPossibleType());
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = false;
             detector._is.List = true;
             assert.equal(3, detector.countPossibleType());
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = true;
             detector._is.List = true;
             assert.equal(3, detector.countPossibleType());
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = true;
             detector._is.List = true;
             assert.equal(3, detector.countPossibleType());
 
             //4
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = true;
             detector._is.List = true;
             assert.equal(4, detector.countPossibleType());
         });
@@ -155,41 +155,41 @@ describe("DynamoDbDataType", function() {
         });
         it("should returns null", function() {
             var detector = new DynamoDbDataType();
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = false;
             detector._is.List = false;
             assert.equal(null, detector.getPossibleType());
         });
-        it("should returns BufferSequence", function() {
+        it("should returns BufferSet", function() {
             var detector = new DynamoDbDataType();
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = false;
             detector._is.List = false;
-            assert.equal("BufferSequence", detector.getPossibleType());
+            assert.equal("BufferSet", detector.getPossibleType());
         });
-        it("should returns NumberSequence", function() {
+        it("should returns NumberSet", function() {
             var detector = new DynamoDbDataType();
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = false;
             detector._is.List = false;
-            assert.equal("NumberSequence", detector.getPossibleType());
+            assert.equal("NumberSet", detector.getPossibleType());
         });
-        it("should returns StringSequence", function() {
+        it("should returns StringSet", function() {
             var detector = new DynamoDbDataType();
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = true;
             detector._is.List = false;
-            assert.equal("StringSequence", detector.getPossibleType());
+            assert.equal("StringSet", detector.getPossibleType());
         });
         it("should returns List", function() {
             var detector = new DynamoDbDataType();
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = false;
             detector._is.List = true;
             assert.equal("List", detector.getPossibleType());
         });
@@ -197,63 +197,63 @@ describe("DynamoDbDataType", function() {
             var detector = new DynamoDbDataType();
 
             //2
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = false;
             detector._is.List = false;
             assert.equal(false, detector.getPossibleType());
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = true;
             detector._is.List = false;
             assert.equal(false, detector.getPossibleType());
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = false;
             detector._is.List = true;
             assert.equal(false, detector.getPossibleType());
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = true;
             detector._is.List = false;
             assert.equal(false, detector.getPossibleType());
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = false;
             detector._is.List = true;
             assert.equal(false, detector.getPossibleType());
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = true;
             detector._is.List = true;
             assert.equal(false, detector.getPossibleType());
 
             //3
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = true;
             detector._is.List = false;
             assert.equal(false, detector.getPossibleType());
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = false;
             detector._is.List = true;
             assert.equal(false, detector.getPossibleType());
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = true;
             detector._is.List = true;
             assert.equal(false, detector.getPossibleType());
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = true;
             detector._is.List = true;
             assert.equal(false, detector.getPossibleType());
 
             //4
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = true;
             detector._is.List = true;
             assert.equal(false, detector.getPossibleType());
         });
@@ -265,67 +265,67 @@ describe("DynamoDbDataType", function() {
         });
         it("should returns null", function() {
             var detector = new DynamoDbDataType();
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = false;
             detector._is.List = false;
             assert.equal(null, detector.getPredictedType());
         });
-        it("should returns BufferSequence", function() {
+        it("should returns BufferSet", function() {
             var detector = new DynamoDbDataType();
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = false;
             detector._is.List = false;
-            assert.equal("BufferSequence", detector.getPredictedType());
+            assert.equal("BufferSet", detector.getPredictedType());
         });
-        it("should returns NumberSequence", function() {
+        it("should returns NumberSet", function() {
             var detector = new DynamoDbDataType();
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = false;
             detector._is.List = false;
-            assert.equal("NumberSequence", detector.getPredictedType());
+            assert.equal("NumberSet", detector.getPredictedType());
         });
-        it("should returns StringSequence", function() {
+        it("should returns StringSet", function() {
             var detector = new DynamoDbDataType();
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = true;
             detector._is.List = false;
-            assert.equal("StringSequence", detector.getPredictedType());
+            assert.equal("StringSet", detector.getPredictedType());
         });
         describe("the possibility of List is lower than other candidate", function() {
-            it("should returns BufferSequence", function() {
+            it("should returns BufferSet", function() {
                 var detector = new DynamoDbDataType();
-                detector._is.BufferSequence = true;
-                detector._is.NumberSequence = false;
-                detector._is.StringSequence = false;
+                detector._is.BufferSet = true;
+                detector._is.NumberSet = false;
+                detector._is.StringSet = false;
                 detector._is.List = true;
-                assert.equal("BufferSequence", detector.getPredictedType());
+                assert.equal("BufferSet", detector.getPredictedType());
             });
-            it("should returns NumberSequence", function() {
+            it("should returns NumberSet", function() {
                 var detector = new DynamoDbDataType();
-                detector._is.BufferSequence = false;
-                detector._is.NumberSequence = true;
-                detector._is.StringSequence = false;
+                detector._is.BufferSet = false;
+                detector._is.NumberSet = true;
+                detector._is.StringSet = false;
                 detector._is.List = true;
-                assert.equal("NumberSequence", detector.getPredictedType());
+                assert.equal("NumberSet", detector.getPredictedType());
             });
-            it("should returns StringSequence", function() {
+            it("should returns StringSet", function() {
                 var detector = new DynamoDbDataType();
-                detector._is.BufferSequence = false;
-                detector._is.NumberSequence = false;
-                detector._is.StringSequence = true;
+                detector._is.BufferSet = false;
+                detector._is.NumberSet = false;
+                detector._is.StringSet = true;
                 detector._is.List = true;
-                assert.equal("StringSequence", detector.getPredictedType());
+                assert.equal("StringSet", detector.getPredictedType());
             });
         });
         it("should returns List", function() {
             var detector = new DynamoDbDataType();
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = false;
             detector._is.List = true;
             assert.equal("List", detector.getPredictedType());
         });
@@ -333,48 +333,48 @@ describe("DynamoDbDataType", function() {
             var detector = new DynamoDbDataType();
 
             //2
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = false;
             detector._is.List = false;
             assert.equal(false, detector.getPredictedType());
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = true;
             detector._is.List = false;
             assert.equal(false, detector.getPredictedType());
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = true;
             detector._is.List = false;
             assert.equal(false, detector.getPredictedType());
 
             //3
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = true;
             detector._is.List = false;
             assert.equal(false, detector.getPredictedType());
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = false;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = false;
             detector._is.List = true;
             assert.equal(false, detector.getPredictedType());
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = false;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = false;
+            detector._is.StringSet = true;
             detector._is.List = true;
             assert.equal(false, detector.getPredictedType());
-            detector._is.BufferSequence = false;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = false;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = true;
             detector._is.List = true;
             assert.equal(false, detector.getPredictedType());
 
             //4
-            detector._is.BufferSequence = true;
-            detector._is.NumberSequence = true;
-            detector._is.StringSequence = true;
+            detector._is.BufferSet = true;
+            detector._is.NumberSet = true;
+            detector._is.StringSet = true;
             detector._is.List = true;
             assert.equal(false, detector.getPredictedType());
         });
@@ -403,19 +403,19 @@ describe("DynamoDbDataType", function() {
             assert.equal("Buffer", DynamoDbDataType.detect(
                     new Buffer.from("abc", "base64")));
         });
-        it("should returns BufferSequence", function() {
-            assert.equal("BufferSequence", DynamoDbDataType.detect([
+        it("should returns BufferSet", function() {
+            assert.equal("BufferSet", DynamoDbDataType.detect([
                 new Buffer.from("abc", "base64"),
                 new Buffer.from("abc", "base64"),
                 new Buffer.from("abc", "base64")]));
         });
-        it("should returns NumberSequence", function() {
-            assert.equal("NumberSequence", DynamoDbDataType.detect([ 1 ]));
-            assert.equal("NumberSequence", DynamoDbDataType.detect([ 1,2,3 ]));
+        it("should returns NumberSet", function() {
+            assert.equal("NumberSet", DynamoDbDataType.detect([ 1 ]));
+            assert.equal("NumberSet", DynamoDbDataType.detect([ 1,2,3 ]));
         });
-        it("should returns StringSequence", function() {
-            assert.equal("StringSequence", DynamoDbDataType.detect([ "1" ]));
-            assert.equal("StringSequence", DynamoDbDataType.detect([
+        it("should returns StringSet", function() {
+            assert.equal("StringSet", DynamoDbDataType.detect([ "1" ]));
+            assert.equal("StringSet", DynamoDbDataType.detect([
                     "1","2","3" ]));
         });
         it("should returns List", function() {
