@@ -58,7 +58,7 @@
     "chai": "^4.2.0",
     "grunt": "^1.0.4",
     "grunt-eslint": "^20.2.0",
-    "jsdoc": "^3.6.2",
+    "jsdoc": "^3.6.3",
     "load-grunt-tasks": "^3.5.2",
     "minami": "^1.2.3",
     "mocha": "^5.2.0"
