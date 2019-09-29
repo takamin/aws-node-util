@@ -48,7 +48,9 @@
 
 
     <section class="readme">
-        <article><h1>AWS-Node-Util</h1><h2>DESCRIPTION</h2><p>This module provides <strong>SQL-ish statement classes to manipulate DynamoDB</strong>.</p>
+        <article><h1>AWS-Node-Util</h1>
+<h2>DESCRIPTION</h2>
+<p>This module provides <strong>SQL-ish statement classes to manipulate DynamoDB</strong>.</p>
 <p>The latest <a href="https://takamin.github.io/aws-node-util/apis/index.html">API reference</a> is available.</p>
 <p>Statement classes:</p>
 <ol>
@@ -60,8 +62,10 @@
 <p><code>(*1)</code> - Currently, These cannot be parameterized. So the prepared execution is unavailable.</p>
 <p>And also provides CLI commands that manipulate AWS services.
 Some of these are depending on AWS CLI or shell script.</p>
-<h2>SQL-ish feature</h2><p>See the sample code below to use the SQL-ish classes.</p>
-<h3>Sample of SQL-ish statements</h3><p><strong>sample/sqlish-sample.js</strong></p>
+<h2>SQL-ish feature</h2>
+<p>See the sample code below to use the SQL-ish classes.</p>
+<h3>Sample of SQL-ish statements</h3>
+<p><strong>sample/sqlish-sample.js</strong></p>
 <p>To run this sample, a DynamoDB table named 'stars' is required.</p>
 <p>On that table,
 the attribute named 'mainStar' is a HASH-key typed as String and
@@ -115,7 +119,9 @@ function printResult(err, result) {
     } else {
         ResultSet.printScanResult(result);
     }
-}</code></pre><p><strong>outputs</strong></p>
+}
+</code></pre>
+<p><strong>outputs</strong></p>
 <pre class="prettyprint source lang-bash"><code>$ node sample/sqlish-sample.js
 -----------------------
 SCAN all items of stars
@@ -147,7 +153,10 @@ Count: 1
 ROWNUM name orbitOrder mainStar
      1 MOON          1 EARTH
 ScannedCount: 1
-</code></pre><h2>Scan / QueryStatement run and next method</h2><p>If the <code>LIMIT</code> feature is used for the Scan or QueryStatement,
+
+</code></pre>
+<h2>Scan / QueryStatement run and next method</h2>
+<p>If the <code>LIMIT</code> feature is used for the Scan or QueryStatement,
 In the callback specified for <code>run()</code> method,
 the <code>next()</code> method is available to get followed items.</p>
 <p>Here is sample codes.</p>
@@ -174,7 +183,9 @@ scanStatement.run({}, (err, data) => {
     } else if(data == null) {
         console.error(&quot;OK&quot;);
     }
-});</code></pre><p><strong>output</strong></p>
+});
+</code></pre>
+<p><strong>output</strong></p>
 <pre class="prettyprint source lang-sh"><code>$ node sample/scan-next-sample.js
 Count: 3
 ROWNUM diameter rotation role      mass   gravity density escapeVelocity name    orbitOrder mainStar
@@ -201,7 +212,9 @@ Count: 1
 ROWNUM diameter rotation role   mass   gravity density escapeVelocity name  orbitOrder mainStar
      1     2370   -153.3 planet 0.0146     0.7    2095            1.3 PLUTO          9 SUN
 ScannedCount: 1
-OK</code></pre><p><strong>sample/query-next-sample.js</strong></p>
+OK
+</code></pre>
+<p><strong>sample/query-next-sample.js</strong></p>
 <pre class="prettyprint source lang-JavaScript"><code>&quot;use strict&quot;;
 const awsNodeUtil = require(&quot;aws-node-util&quot;);
 const QueryStatement = awsNodeUtil.dynamodb.QueryStatement;
@@ -224,7 +237,9 @@ queryStatement.run({&quot;:ms&quot;: &quot;SUN&quot; }, (err, data) => {
     } else if(data == null) {
         console.error(&quot;OK&quot;);
     }
-});</code></pre><p><strong>output</strong></p>
+});
+</code></pre>
+<p><strong>output</strong></p>
 <pre class="prettyprint source lang-sh"><code>$ node sample/query-next-sample.js
 Count: 2
 ROWNUM diameter rotation role   mass gravity density escapeVelocity name    orbitOrder mainStar
@@ -254,7 +269,9 @@ Count: 1
 ROWNUM diameter rotation role   mass   gravity density escapeVelocity name  orbitOrder mainStar
      1     2370   -153.3 planet 0.0146     0.7    2095            1.3 PLUTO          9 SUN
 ScannedCount: 1
-OK</code></pre><p><strong>sample/put-and-delete-item.js</strong></p>
+OK
+</code></pre>
+<p><strong>sample/put-and-delete-item.js</strong></p>
 <pre class="prettyprint source lang-javascript"><code>&quot;use strict&quot;;
 const awsNodeUtil = require(&quot;aws-node-util&quot;);
 const QueryStatement = awsNodeUtil.dynamodb.QueryStatement;
@@ -371,7 +388,9 @@ function deleteStar(condition) {
             }
         })
     });
-}</code></pre><p><strong>outputs</strong></p>
+}
+</code></pre>
+<p><strong>outputs</strong></p>
 <pre class="prettyprint source lang-sh"><code>$ node sample/put-and-delete-item.js
 ----------------------------
 QUERY child stars of the SUN
@@ -409,7 +428,10 @@ ROWNUM role   name    orbitOrder mainStar
      8 planet NEPTUNE          8 SUN
      9 planet PLUTO            9 SUN
 ScannedCount: 9
-</code></pre><h2>CLI-Commands for Amazon Dynamo</h2><ol>
+
+</code></pre>
+<h2>CLI-Commands for Amazon Dynamo</h2>
+<ol>
 <li><strong>aws-dynamodb-delete-item</strong> - delete item on the table</li>
 <li><strong>aws-dynamodb-put-item</strong> - put item to the table</li>
 <li><strong>aws-dynamodb-query</strong> - query and display items in the table</li>
@@ -422,8 +444,11 @@ ScannedCount: 9
 </ol>
 <p>These commands are designed to recognize the keywords
 in the expressions and to generate placeholders automatically.</p>
-<h3>1. aws-dynamodb-delete-item</h3><p>Delete -- delete the item from the table.</p>
-<pre class="prettyprint source lang-bash"><code>$ aws-dynamodb-delete-item `&lt;table-name>` `&lt;item-expression>`</code></pre><p><strong>Parameters</strong></p>
+<h3>1. aws-dynamodb-delete-item</h3>
+<p>Delete -- delete the item from the table.</p>
+<pre class="prettyprint source lang-bash"><code>$ aws-dynamodb-delete-item `&lt;table-name>` `&lt;item-expression>`
+</code></pre>
+<p><strong>Parameters</strong></p>
 <table>
 <thead>
 <tr>
@@ -449,8 +474,11 @@ like <code>&lt;attr-name1&gt; = &lt;value&gt;, &lt;attr-name2&gt; = &lt;value&gt
 <li>All the keys must be included</li>
 <li>The value type will be determined automatically from its notation.</li>
 </ul>
-<h3>2. aws-dynamodb-put-item</h3><p>Put -- insert or update the item to the table from command line.</p>
-<pre class="prettyprint source lang-bash"><code>$ aws-dynamodb-put-item `&lt;table-name>` `&lt;item-expression>` ...</code></pre><p><strong>Parameters</strong></p>
+<h3>2. aws-dynamodb-put-item</h3>
+<p>Put -- insert or update the item to the table from command line.</p>
+<pre class="prettyprint source lang-bash"><code>$ aws-dynamodb-put-item `&lt;table-name>` `&lt;item-expression>` ...
+</code></pre>
+<p><strong>Parameters</strong></p>
 <table>
 <thead>
 <tr>
@@ -486,7 +514,9 @@ will be inserted or updated.</li>
     test.name=&quot;foo&quot;,
     test.pass=true,
     value.version=&quot;0.6.6&quot;
-'</code></pre><p>Then Item to be added to the table:</p>
+'
+</code></pre>
+<p>Then Item to be added to the table:</p>
 <pre class="prettyprint source lang-javascript"><code>{
     &quot;id&quot;:       {&quot;S&quot;: &quot;123&quot;},
     &quot;timestamp&quot;:{&quot;N&quot;: &quot;145678900&quot;},
@@ -497,7 +527,9 @@ will be inserted or updated.</li>
         }
     },
     &quot;value&quot; : {&quot;M&quot; : {&quot;version&quot;: {&quot;S&quot;: &quot;0.6.6&quot;}}}
-}</code></pre><p><strong>Available Types Assumed In Automatic</strong></p>
+}
+</code></pre>
+<p><strong>Available Types Assumed In Automatic</strong></p>
 <table>
 <thead>
 <tr>
@@ -520,7 +552,8 @@ will be inserted or updated.</li>
 </tr>
 </tbody>
 </table>
-<h3>3. aws-dynamodb-query</h3><p>Query -- This reports the retrieved data that matches key-conditions given
+<h3>3. aws-dynamodb-query</h3>
+<p>Query -- This reports the retrieved data that matches key-conditions given
 from command-line without consideration about the placeholder.</p>
 <pre class="prettyprint source lang-bash"><code>Usage:
 1) aws-dynamodb-query [OPTIONS] &lt;tableName> &lt;keyConditionExpression>
@@ -562,7 +595,9 @@ PARAMETERS:
 
   This says the FROM and WHERE clauses are mandatory and the SELECT,
   FILTER and LIMIT are optional.
-</code></pre><p><strong>EXAMPLE</strong></p>
+
+</code></pre>
+<p><strong>EXAMPLE</strong></p>
 <pre class="prettyprint source lang-bash"><code>$ aws-dynamodb-query stars \
 > &quot;mainStar='SUN' AND orbitOrder BETWEEN 1 AND 9&quot; \
 > --projection-expression &quot;name, mass, diameter&quot; \
@@ -578,7 +613,9 @@ ROWNUM diameter mass      name
      7    51118   86.8    URANUS
      8    49528  102.0    NEPTUNE
      9     2370    0.0146 PLUTO
-ScannedCount: 9</code></pre><p>SQL-ish statement:</p>
+ScannedCount: 9
+</code></pre>
+<p>SQL-ish statement:</p>
 <pre class="prettyprint source lang-bash"><code>$ aws-dynamodb-query -q &quot;SELECT name, mass, diameter \
 > FROM stars \
 > WHERE mainStar='SUN' AND orbitOrder BETWEEN 1 AND 9&quot; \
@@ -594,7 +631,10 @@ ROWNUM diameter mass      name
      7    51118   86.8    URANUS
      8    49528  102.0    NEPTUNE
      9     2370    0.0146 PLUTO
-ScannedCount: 9</code></pre><h3>4. aws-dynamodb-scan</h3><pre class="prettyprint source lang-bash"><code>Usage:
+ScannedCount: 9
+</code></pre>
+<h3>4. aws-dynamodb-scan</h3>
+<pre class="prettyprint source lang-bash"><code>Usage:
 1) aws-dynamodb-scan [OPTIONS] &lt;tableName>
 2) aws-dynamodb-scan [OPTIONS] -q &lt;SQL-ish-statement>
 
@@ -629,7 +669,9 @@ PARAMETERS:
     [ LIMIT &lt;max-items> ]
 
   This says the FROM clauses is mandatory and the SELECT, WHERE and LIMIT
-  are optional.</code></pre><p><strong>EXAMPLE</strong></p>
+  are optional.
+</code></pre>
+<p><strong>EXAMPLE</strong></p>
 <p>Comamnd line:</p>
 <pre class="prettyprint source lang-bash"><code>
 $ aws-dynamodb-scan stars
@@ -646,7 +688,9 @@ ROWNUM diameter rotation role      mass      gravity density escapeVelocity name
      9    49528     16.1 planet     102.0       11.0    1638           23.5 NEPTUNE          8 SUN
     10     2370   -153.3 planet       0.0146     0.7    2095            1.3 PLUTO            9 SUN
 ScannedCount: 10
-</code></pre><p>SQL-ish statement:</p>
+
+</code></pre>
+<p>SQL-ish statement:</p>
 <pre class="prettyprint source lang-bash"><code>
 $ aws-dynamodb-scan -q &quot;FROM stars&quot;
 Count: 10
@@ -662,13 +706,17 @@ ROWNUM diameter rotation role      mass      gravity density escapeVelocity name
      9    49528     16.1 planet     102.0       11.0    1638           23.5 NEPTUNE          8 SUN
     10     2370   -153.3 planet       0.0146     0.7    2095            1.3 PLUTO            9 SUN
 ScannedCount: 10
-</code></pre><h3>Don't Worry The Placeholders</h3><p>For the expressions of dynamodb query and scan commands,
+
+</code></pre>
+<h3>Don't Worry The Placeholders</h3>
+<p>For the expressions of dynamodb query and scan commands,
 You can write the attribute names or its values directly.
 Because,
 <strong>the placeholders are recognized and created in automatic</strong> by the commands
 So, you don't need to worry about it.</p>
 <hr>
-<h2>CLI-commands for AWS Lambda</h2><ol>
+<h2>CLI-commands for AWS Lambda</h2>
+<ol>
 <li><strong>aws-lambda-get</strong> - Download a lambda function</li>
 <li><strong>aws-lambda-upload</strong> - Upload the function code</li>
 <li><strong>aws-lambda-create</strong> - Create and upload the function code</li>
@@ -678,20 +726,30 @@ So, you don't need to worry about it.</p>
 <li>Curl</li>
 <li>Zip/Unzip</li>
 </ul>
-<h3>1. <strong>aws-lambda-get</strong> - Download a lambda function</h3><pre class="prettyprint source"><code>$ aws-lambda-get &lt;function-name></code></pre><ul>
+<h3>1. <strong>aws-lambda-get</strong> - Download a lambda function</h3>
+<pre class="prettyprint source"><code>$ aws-lambda-get &lt;function-name>
+</code></pre>
+<ul>
 <li>A Zip file is downloaded from AWS Lambda and extracted to a sub directory named same to the function.</li>
 </ul>
-<h3>2. <strong>aws-lambda-upload</strong> - Upload the function code</h3><p>Update the function to upload a zip file which is created in automatic
+<h3>2. <strong>aws-lambda-upload</strong> - Upload the function code</h3>
+<p>Update the function to upload a zip file which is created in automatic
 and contains all the files in subdirectory of the same name as the
 function.</p>
-<pre class="prettyprint source"><code>$ aws-lambda-upload &lt;sub-directory-name></code></pre><ul>
+<pre class="prettyprint source"><code>$ aws-lambda-upload &lt;sub-directory-name>
+</code></pre>
+<ul>
 <li>Note: this cannot create a new function.</li>
 </ul>
-<h3>3. <strong>aws-lambda-create</strong> - Create and upload the function code</h3><p>Create the function to upload a zip file which is created in automatic
+<h3>3. <strong>aws-lambda-create</strong> - Create and upload the function code</h3>
+<p>Create the function to upload a zip file which is created in automatic
 and contains all the files in subdirectory of the same name as the
 function.</p>
-<pre class="prettyprint source"><code>$ aws-lambda-create &lt;sub-directory-name> &lt;role-arn></code></pre><hr>
-<h2>CLI-commands for AWS IoT</h2><ol>
+<pre class="prettyprint source"><code>$ aws-lambda-create &lt;sub-directory-name> &lt;role-arn>
+</code></pre>
+<hr>
+<h2>CLI-commands for AWS IoT</h2>
+<ol>
 <li><strong>aws-iot-list-all-resources</strong> - list all the IoT resouces</li>
 <li><strong>aws-iot-create-keys-and-certificate</strong> - create certificate and attach the thing and/or policy</li>
 <li><strong>aws-iot-create-policy</strong> - create a policy</li>
@@ -700,19 +758,22 @@ function.</p>
 <li><strong>aws-iot-describe-thing</strong> - describe the thing</li>
 <li><strong>aws-iot-get-policy</strong> - print the policy</li>
 </ol>
-<h2>CLI-commands for AWS API Gateway</h2><ol>
+<h2>CLI-commands for AWS API Gateway</h2>
+<ol>
 <li><strong>aws-apigw-describe-api</strong> - describe an api content to json. it includes all the resources and all the methods.</li>
 <li><strong>aws-apigw-create-rest-api</strong></li>
 <li><strong>aws-apigw-create-resource</strong></li>
 <li><strong>aws-apigw-list-resources</strong></li>
 </ol>
-<h2>CLI-commands for AWS IAM</h2><ol>
+<h2>CLI-commands for AWS IAM</h2>
+<ol>
 <li><strong>aws-iam-list-roles</strong> - list names and created date of all the role</li>
 <li><strong>aws-iam-get-role</strong> - print role's JSON document to stdout</li>
 <li><strong>aws-iam-create-role</strong> - create role by the name and a JSON file that describes an assume-role-policy-document</li>
 <li><strong>aws-iam-attach-role-policy</strong> - attach a policy represented by arn to the role</li>
 </ol>
-<h2>LICENSE</h2><p>This software is released under the MIT License, see <a href="LICENSE">LICENSE</a></p></article>
+<h2>LICENSE</h2>
+<p>This software is released under the MIT License, see <a href="LICENSE">LICENSE</a></p></article>
     </section>
 
 
@@ -725,7 +786,7 @@ function.</p>
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Jul 15 2018 11:40:07 GMT+0900 (東京 (標準時)) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sun Sep 29 2019 16:25:24 GMT+0900 (GMT+09:00) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
