@@ -1,6 +1,6 @@
 {
   "name": "aws-node-util",
-  "version": "0.9.9",
+  "version": "0.9.14",
   "description": "Accessing the DynamoDB with SQL-ish statement and AWS services from CLI",
   "directries": {
     "lib": "./lib"
@@ -40,28 +40,28 @@
     "aws-iot-list-all-resources": "./bin/aws-iot-list-all-resources.js"
   },
   "dependencies": {
-    "ajv": "^6.5.2",
-    "aws-sdk": "^2.207.0",
-    "camelcase": "^4.1.0",
-    "clone": "^2.1.1",
-    "deep-equal": "^1.0.1",
-    "hash-arg": "0.3.3",
+    "ajv": "^6.10.2",
+    "aws-sdk": "^2.538.0",
+    "camelcase": "^5.3.1",
+    "clone": "^2.1.2",
+    "deep-equal": "^1.1.0",
+    "hash-arg": "0.3.5",
     "home-dir": "^1.0.0",
     "ini": "^1.3.5",
-    "lex-bnf": "^0.2.0",
-    "list-it": "^0.4.1",
-    "node-getopt": "^0.2.3",
-    "promise": "^8.0.1"
+    "lex-bnf": "^0.3.0",
+    "list-it": "^1.0.3",
+    "node-getopt": "^0.3.2",
+    "promise": "^8.0.3"
   },
   "devDependencies": {
-    "ansi-escape-sequences": "^4.0.0",
-    "chai": "^4.1.2",
-    "grunt": "^1.0.2",
-    "grunt-eslint": "^20.1.0",
-    "jsdoc": "^3.5.5",
-    "load-grunt-tasks": "^3.5.2",
+    "ansi-escape-sequences": "^4.1.0",
+    "chai": "^4.2.0",
+    "grunt": "^1.0.4",
+    "grunt-eslint": "^22.0.0",
+    "jsdoc": "^3.6.3",
+    "load-grunt-tasks": "^5.1.0",
     "minami": "^1.2.3",
-    "mocha": "^5.0.4"
+    "mocha": "^6.2.0"
   },
   "scripts": {
     "test": "grunt lint && mocha",
