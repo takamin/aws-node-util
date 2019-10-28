@@ -20,6 +20,19 @@ describe("dynamodbExprParsers", function() {
                 "#NAME": "NAME",
             }, attrNames);
         });
+        describe("recognize placeholder", function() {
+            var exprAttrNames = {};
+            var projExpr = sqlishParser.parseProjectionExpression(
+                    "abort", exprAttrNames);
+            it("projectionExpression", function() {
+                assert.equal(projExpr, "#abort");
+            });
+            it("expressionAttributeNames", function() {
+                assert.equal(
+                        JSON.stringify(exprAttrNames),
+                        JSON.stringify({"#abort" : "abort"}));
+            });
+        });
     });
     describe("parseConditionExpression", function() {
         it("should parse number condition", function() {
@@ -58,24 +71,18 @@ describe("dynamodbExprParsers", function() {
         it("should not parse unclosed string quoted by single quotation", function() {
             var attrNames = {};
             var attrValues = {};
-            try {
-                var result = sqlishParser.parseConditionExpression(
+            assert.throws(()=>{
+                sqlishParser.parseConditionExpression(
                     "B='ABC", attrNames, attrValues);
-                    assert(false);
-            } catch (err) {
-                assert(true);
-            }
+            });
         });
         it("should not parse unclosed string quoted by double quotation", function() {
             var attrNames = {};
             var attrValues = {};
-            try {
-                var result = sqlishParser.parseConditionExpression(
+            assert.throws(()=>{
+                sqlishParser.parseConditionExpression(
                     "B=\"ABC", attrNames, attrValues);
-                    assert(false);
-            } catch (err) {
-                assert(true);
-            }
+            });
         });
         it("should parse boolean value true", function() {
             var attrNames = {};
@@ -99,16 +106,12 @@ describe("dynamodbExprParsers", function() {
                 ":v0": { "BOOL": false }
             }, attrValues);
         });
-        it("should not parse unidentified term", function() {
+        it("should not parse unidentified term as value", function() {
             var attrNames = {};
             var attrValues = {};
-            try {
-                var result = sqlishParser.parseConditionExpression(
-                    "C=UNIDENTIFIED", attrNames, attrValues);
-                assert(false);
-            } catch(err) {
-                assert(true);
-            }
+            sqlishParser.parseConditionExpression(
+                "C=UNIDENTIFIED", attrNames, attrValues);
+            assert.deepEqual(attrValues, {});
         });
         it("should parse a placeholder of value", function() {
             var attrNames = {};
@@ -136,6 +139,8 @@ describe("dynamodbExprParsers", function() {
             }, attrValues);
         });
         it("should be thrown when include a placeholder of value that has concrete value", function() {
+            var attrNames = {};
+            var attrValues = "";
             assert.throws(function() {
                 sqlishParser.parseConditionExpression(
                     "A=1 AND B=:v0 OR C=:valueA", attrNames, attrValues);
@@ -252,43 +257,211 @@ describe("dynamodbExprParsers", function() {
             }, map);
         });
         it("should throw error if it includes incomplete SQ string", function() {
-            try {
-            var map = sqlishParser.parseItemListToMap(
-                ['id="123"',
-                'timestamp=145678900',
-                'test.name=\'foo',
-                'test.pass=true',
-                'value.version="0.6.6"'].join(','));
-                assert(false);
-            } catch(err) {
-                assert(true);
-            }
+            assert.throws(()=> {
+                sqlishParser.parseItemListToMap(
+                    ['id="123"',
+                    'timestamp=145678900',
+                    'test.name=\'foo',
+                    'test.pass=true',
+                    'value.version="0.6.6"'].join(','));
+            });
         });
         it("should throw error if it includes incomplete DQ string", function() {
-            try {
-            var map = sqlishParser.parseItemListToMap(
-                ['id="123"',
-                'timestamp=145678900',
-                'test.name="foo',
-                'test.pass=true',
-                'value.version="0.6.6"'].join(','));
+            assert.throws(()=> {
+                sqlishParser.parseItemListToMap(
+                    ['id="123"',
+                    'timestamp=145678900',
+                    'test.name="foo',
+                    'test.pass=true',
+                    'value.version="0.6.6"'].join(','));
                 assert(false);
-            } catch(err) {
-                assert(true);
-            }
+            });
         });
         it("should throw error if it includes unidentified string", function() {
-            try {
-            var map = sqlishParser.parseItemListToMap(
-                ['id="123"',
-                'timestamp=145678900',
-                'test.name="foo"',
-                'test.pass=notTrue',
-                'value.version="0.6.6"'].join(','));
-                assert(false);
-            } catch(err) {
-                assert(true);
-            }
+            assert.throws(()=> {
+                sqlishParser.parseItemListToMap(
+                    ['id="123"',
+                    'timestamp=145678900',
+                    'test.name="foo"',
+                    'test.pass=notTrue',
+                    'value.version="0.6.6"'].join(','));
+            });
+        });
+        describe("interpret a literal with its type in automatically", function() {
+            describe("integer", function() {
+                it('positive', function() {
+                    var item = sqlishParser.parseItemListToMap("x=123");
+                    assert.equal(item.x.N, "123");
+                });
+                it('zero', function() {
+                    var item = sqlishParser.parseItemListToMap("x=0");
+                    assert.equal(item.x.N, "0");
+                });
+                it('negative', function() {
+                    var item = sqlishParser.parseItemListToMap("x=-123");
+                    assert.equal(item.x.N, "-123");
+                });
+            });
+            describe("real", function() {
+                it('positive', function() {
+                    var item = sqlishParser.parseItemListToMap("x=123.456");
+                    assert.equal(item.x.N, "123.456");
+                });
+                it('zero', function() {
+                    var item = sqlishParser.parseItemListToMap("x=0.0");
+                    assert.equal(item.x.N, "0.0");
+                });
+                /*
+                it('zero point zero', function() {
+                    var item = sqlishParser.parseItemListToMap("x=0.0");
+                    assert.equal(item.x.N, "0");
+                });
+                describe('omit fraction zero', function() {
+                    describe('non zero value', function() {
+                        it('positive', function() {
+                            var item = sqlishParser.parseItemListToMap("x=1.");
+                            assert.equal(item.x.N, "1");
+                        });
+                        it('negative', function() {
+                            var item = sqlishParser.parseItemListToMap("x=-1.");
+                            assert.equal(item.x.N, "1");
+                        });
+                    });
+                    it('zero zero', function() {
+                        var item = sqlishParser.parseItemListToMap("x=0.");
+                        assert.equal(item.x.N, "0");
+                    });
+                });
+                describe('omit integer zero', function() {
+                    describe('non zero value', function() {
+                        it('positive', function() {
+                            var item = sqlishParser.parseItemListToMap("x=.0");
+                            assert.equal(item.x.N, "0.5");
+                        });
+                        it('negative', function() {
+                            var item = sqlishParser.parseItemListToMap("x=-.0");
+                            assert.equal(item.x.N, "0.5");
+                        });
+                    });
+                    it('zero', function() {
+                        var item = sqlishParser.parseItemListToMap("x=.0");
+                        assert.equal(item.x.N, "0");
+                    });
+                });
+                */
+                it('negative', function() {
+                    var item = sqlishParser.parseItemListToMap("x=-123.456");
+                    assert.equal(item.x.N, "-123.456");
+                });
+            });
+            describe("string", function() {
+                it("with double quotation", function() {
+                    var item = sqlishParser.parseItemListToMap("x=\"123\"");
+                    assert.equal(item.x.S, "123");
+                });
+                it("with single quotation", function() {
+                    var item = sqlishParser.parseItemListToMap("x='123'");
+                    assert.equal(item.x.S, "123");
+                });
+            });
+            describe("boolean", function() {
+                it("true", function() {
+                    var item = sqlishParser.parseItemListToMap("x=true");
+                    assert.equal(item.x.BOOL, true);
+                });
+                it("false", function() {
+                    var item = sqlishParser.parseItemListToMap("x=false");
+                    assert.equal(item.x.BOOL, false);
+                });
+            });
+        });
+        describe("interpret a map by its name", function() {
+            describe("integer", function() {
+                it('positive', function() {
+                    var item = sqlishParser.parseItemListToMap("m.x=123");
+                    assert.equal(item.m.M.x.N, "123");
+                });
+                it('zero', function() {
+                    var item = sqlishParser.parseItemListToMap("m.x=0");
+                    assert.equal(item.m.M.x.N, "0");
+                });
+                it('negative', function() {
+                    var item = sqlishParser.parseItemListToMap("m.x=-123");
+                    assert.equal(item.m.M.x.N, "-123");
+                });
+            });
+            describe("real", function() {
+                it('positive', function() {
+                    var item = sqlishParser.parseItemListToMap("m.x=123.456");
+                    assert.equal(item.m.M.x.N, "123.456");
+                });
+                it('zero', function() {
+                    var item = sqlishParser.parseItemListToMap("m.x=0.0");
+                    assert.equal(item.m.M.x.N, "0.0");
+                });
+                /*
+                it('zero point zero', function() {
+                    var item = sqlishParser.parseItemListToMap("m.x=0.0");
+                    assert.equal(item.m.M.x.N, "0");
+                });
+                describe('omit fraction zero', function() {
+                    describe('non zero value', function() {
+                        it('positive', function() {
+                            var item = sqlishParser.parseItemListToMap("m.x=1.");
+                            assert.equal(item.m.M.x.N, "1");
+                        });
+                        it('negative', function() {
+                            var item = sqlishParser.parseItemListToMap("m.x=-1.");
+                            assert.equal(item.m.M.x.N, "1");
+                        });
+                    });
+                    it('zero zero', function() {
+                        var item = sqlishParser.parseItemListToMap("m.x=0.");
+                        assert.equal(item.m.M.x.N, "0");
+                    });
+                });
+                describe('omit integer zero', function() {
+                    describe('non zero value', function() {
+                        it('positive', function() {
+                            var item = sqlishParser.parseItemListToMap("m.x=.0");
+                            assert.equal(item.m.M.x.N, "0.5");
+                        });
+                        it('negative', function() {
+                            var item = sqlishParser.parseItemListToMap("m.x=-.0");
+                            assert.equal(item.m.M.x.N, "0.5");
+                        });
+                    });
+                    it('zero', function() {
+                        var item = sqlishParser.parseItemListToMap("m.x=.0");
+                        assert.equal(item.m.M.x.N, "0");
+                    });
+                });
+                */
+                it('negative', function() {
+                    var item = sqlishParser.parseItemListToMap("m.x=-123.456");
+                    assert.equal(item.m.M.x.N, "-123.456");
+                });
+            });
+            describe("string", function() {
+                it("with double quotation", function() {
+                    var item = sqlishParser.parseItemListToMap("m.x=\"123\"");
+                    assert.equal(item.m.M.x.S, "123");
+                });
+                it("with single quotation", function() {
+                    var item = sqlishParser.parseItemListToMap("m.x='123'");
+                    assert.equal(item.m.M.x.S, "123");
+                });
+            });
+            describe("boolean", function() {
+                it("true", function() {
+                    var item = sqlishParser.parseItemListToMap("m.x=true");
+                    assert.equal(item.m.M.x.BOOL, true);
+                });
+                it("false", function() {
+                    var item = sqlishParser.parseItemListToMap("m.x=false");
+                    assert.equal(item.m.M.x.BOOL, false);
+                });
+            });
         });
     });
     describe("parseCreateTable", () => {

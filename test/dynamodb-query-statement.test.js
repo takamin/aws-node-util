@@ -175,5 +175,46 @@ describe("DynamoDbQueryStatement", () => {
                 });
             });
         });
+        it("can parse SQL-ish that all clause is included", function() {
+            var param = QueryStatement.parse(
+                "SELECT A, B, C \r\n" +
+                "FROM TBL WHERE Key=KeyValue\n" +
+                "FILTER F=FilterValue Limit\n" +
+                "10");
+            assert.equal("A,B,C", param.ProjectionExpression);
+            assert.equal("TBL", param.TableName);
+            assert.equal("Key = KeyValue", param.KeyConditionExpression);
+            assert.equal("F = FilterValue", param.FilterExpression);
+            assert.equal("10", param.Limit);
+        });
+        it("can parse SQL-ish that does not have optional clause", function() {
+            var param = QueryStatement.parse(
+                    " FROM TBL WHERE Key=KeyValue ");
+            assert.equal(false, "ProjectionExpression" in param);
+            assert.equal("TBL", param.TableName);
+            assert.equal("Key = KeyValue", param.KeyConditionExpression);
+            assert.equal(false, "FilterExpression" in param);
+            assert.equal(false, "Limit" in param);
+        });
+        it("can parse SQL-ish that has various pattern", function() {
+            var param = QueryStatement.parse(
+                    "  SELECT A,B,C FROM TBL WHERE Key = KeyValue Limit 10   ");
+            assert.equal("A,B,C", param.ProjectionExpression);
+            assert.equal("TBL", param.TableName);
+            assert.equal("Key = KeyValue", param.KeyConditionExpression);
+            assert.equal(false, "FilterExpression" in param);
+            assert.equal("10", param.Limit);
+        });
+        it("can parse SQL-ish that has various pattern", function() {
+            var param = QueryStatement.parse(
+                    "FROM stars WHERE mainStar='SUN' AND orbitOrder BETWEEN 1 AND 9\n" +
+                    "FILTER mass<1");
+            assert.equal(false, "ProjectionExpression" in param);
+            assert.equal("stars", param.TableName);
+            assert.equal("mainStar = 'SUN' AND orbitOrder BETWEEN 1 AND 9",
+                    param.KeyConditionExpression);
+            assert.equal("mass < 1", param.FilterExpression);
+            assert.equal(false, "Limit" in param);
+        });
     });
 });
