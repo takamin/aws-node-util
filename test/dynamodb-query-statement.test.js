@@ -2,10 +2,17 @@
 const assert = require("chai").assert;
 const QueryStatement = require("../lib/dynamodb-query-statement.js");
 describe("DynamoDbQueryStatement", () => {
+    describe("constructor", () => {
+        it("should not be thrown without parameter", () => {
+            assert.doesNotThrow(()=>{
+                new QueryStatement();
+            });
+        })
+    });
     describe("parse", () => {
         describe("right syntax", () => {
             describe("normal description", () => {
-                var param = QueryStatement.parse([
+                var param = (new QueryStatement()).parse([
                     "SELECT A,B,C FROM T",
                     "WHERE PK = :pk AND",
                     "SK BETWEEN :sk0 AND sk1"].join(" "));
@@ -25,14 +32,14 @@ describe("DynamoDbQueryStatement", () => {
         describe("WHERE clause (KeyConditionExpression)", () => {
             describe("operators", () => {
                 it("should parse partition key equality operator", () => {
-                    var param = QueryStatement.parse(
+                    var param = (new QueryStatement()).parse(
                         "SELECT A FROM T WHERE PK=:pk");
                     assert.equal(
                         "PK = :pk",
                         param.KeyConditionExpression);
                 });
                 it("should parse partition key equality operator", () => {
-                    var param = QueryStatement.parse(["SELECT A FROM T",
+                    var param = (new QueryStatement()).parse(["SELECT A FROM T",
                         "WHERE PK=:pk AND SK BETWEEN :sk0 AND :sk1"
                         ].join(" "));
                     assert.equal(
@@ -40,7 +47,7 @@ describe("DynamoDbQueryStatement", () => {
                         param.KeyConditionExpression);
                 });
                 it("should parse begins_with function", () => {
-                    var param = QueryStatement.parse(["SELECT A FROM T",
+                    var param = (new QueryStatement()).parse(["SELECT A FROM T",
                         "WHERE PK=:pk AND begins_with(SK,:sk0)"
                         ].join(" "));
                     assert.equal(
@@ -52,7 +59,7 @@ describe("DynamoDbQueryStatement", () => {
         describe("FILTER clause (FilterExpression)", () => {
             describe("bind with logical operator", () => {
                 it("should parse A=1 AND B=2", () => {
-                    var param = QueryStatement.parse([
+                    var param = (new QueryStatement()).parse([
                         "SELECT A FROM T WHERE PK=:pk",
                         "FILTER A=1 AND B=2"
                         ].join(" "));
@@ -61,7 +68,7 @@ describe("DynamoDbQueryStatement", () => {
                         param.FilterExpression);
                 });
                 it("should parse A=1 AND B=2 AND C=3", () => {
-                    var param = QueryStatement.parse([
+                    var param = (new QueryStatement()).parse([
                         "SELECT A FROM T WHERE PK=:pk",
                         "FILTER A=1 AND B=2 AND C=3"
                         ].join(" "));
@@ -70,7 +77,7 @@ describe("DynamoDbQueryStatement", () => {
                         param.FilterExpression);
                 });
                 it("should parse A=1 OR B=2", () => {
-                    var param = QueryStatement.parse([
+                    var param = (new QueryStatement()).parse([
                         "SELECT A FROM T WHERE PK=:pk",
                         "FILTER A=1 OR B=2"
                         ].join(" "));
@@ -79,7 +86,7 @@ describe("DynamoDbQueryStatement", () => {
                         param.FilterExpression);
                 });
                 it("should parse A=1 OR B=2 OR C=3", () => {
-                    var param = QueryStatement.parse([
+                    var param = (new QueryStatement()).parse([
                         "SELECT A FROM T WHERE PK=:pk",
                         "FILTER A=1 OR B=2 OR C=3"
                         ].join(" "));
@@ -88,7 +95,7 @@ describe("DynamoDbQueryStatement", () => {
                         param.FilterExpression);
                 });
                 it("should parse attribute_exists function", () => {
-                    var param = QueryStatement.parse(["SELECT A FROM T",
+                    var param = (new QueryStatement()).parse(["SELECT A FROM T",
                         "WHERE PK=:pk FILTER attribute_exists(path.to.attribute)"
                         ].join(" "));
                     assert.equal(
@@ -96,7 +103,7 @@ describe("DynamoDbQueryStatement", () => {
                         param.FilterExpression);
                 });
                 it("should parse attribute_not_exists function", () => {
-                    var param = QueryStatement.parse(["SELECT A FROM T",
+                    var param = (new QueryStatement()).parse(["SELECT A FROM T",
                         "WHERE PK=:pk FILTER attribute_not_exists(path.to.attribute)"
                         ].join(" "));
                     assert.equal(
@@ -104,7 +111,7 @@ describe("DynamoDbQueryStatement", () => {
                         param.FilterExpression);
                 });
                 it("should parse attribute_type function", () => {
-                    var param = QueryStatement.parse(["SELECT A FROM T",
+                    var param = (new QueryStatement()).parse(["SELECT A FROM T",
                         "WHERE PK=:pk FILTER attribute_type(path.to.attribute, S)"
                         ].join(" "));
                     assert.equal(
@@ -112,7 +119,7 @@ describe("DynamoDbQueryStatement", () => {
                         param.FilterExpression);
                 });
                 it("should parse begins_with function", () => {
-                    var param = QueryStatement.parse(["SELECT A FROM T",
+                    var param = (new QueryStatement()).parse(["SELECT A FROM T",
                         "WHERE PK=:pk FILTER begins_with(path.to.attribute,:sk0)"
                         ].join(" "));
                     assert.equal(
@@ -120,7 +127,7 @@ describe("DynamoDbQueryStatement", () => {
                         param.FilterExpression);
                 });
                 it("should parse contains function", () => {
-                    var param = QueryStatement.parse(["SELECT A FROM T",
+                    var param = (new QueryStatement()).parse(["SELECT A FROM T",
                         "WHERE PK=:pk FILTER contains(path.to.attribute,:sk0)"
                         ].join(" "));
                     assert.equal(
@@ -128,7 +135,7 @@ describe("DynamoDbQueryStatement", () => {
                         param.FilterExpression);
                 });
                 it("should parse size function", () => {
-                    var param = QueryStatement.parse(["SELECT A FROM T",
+                    var param = (new QueryStatement()).parse(["SELECT A FROM T",
                         "WHERE PK=:pk FILTER size(path.to.attribute)"
                         ].join(" "));
                     assert.equal(
@@ -138,7 +145,7 @@ describe("DynamoDbQueryStatement", () => {
             });
             describe("braces", () => {
                 it("should parse (A=1 OR B=2) AND C=3", () => {
-                    var param = QueryStatement.parse([
+                    var param = (new QueryStatement()).parse([
                         "SELECT A FROM T WHERE PK=:pk",
                         "FILTER (A=1 OR B=2) AND C=3"
                         ].join(" "));
@@ -147,7 +154,7 @@ describe("DynamoDbQueryStatement", () => {
                         param.FilterExpression);
                 });
                 it("should parse A=1 OR (B=2 AND C=3)", () => {
-                    var param = QueryStatement.parse([
+                    var param = (new QueryStatement()).parse([
                         "SELECT A FROM T WHERE PK=:pk",
                         "FILTER A=1 OR (B=2 AND C=3)"
                         ].join(" "));
@@ -156,7 +163,7 @@ describe("DynamoDbQueryStatement", () => {
                         param.FilterExpression);
                 });
                 it("should parse (A=1 AND B=2) OR C=3", () => {
-                    var param = QueryStatement.parse([
+                    var param = (new QueryStatement()).parse([
                         "SELECT A FROM T WHERE PK=:pk",
                         "FILTER (A=1 AND B=2) OR C=3"
                         ].join(" "));
@@ -165,7 +172,7 @@ describe("DynamoDbQueryStatement", () => {
                         param.FilterExpression);
                 });
                 it("should parse A=1 AND (B=2 OR C=3)", () => {
-                    var param = QueryStatement.parse([
+                    var param = (new QueryStatement()).parse([
                         "SELECT A FROM T WHERE PK=:pk",
                         "FILTER A=1 AND (B=2 OR C=3)"
                         ].join(" "));
@@ -176,7 +183,7 @@ describe("DynamoDbQueryStatement", () => {
             });
         });
         it("can parse SQL-ish that all clause is included", function() {
-            var param = QueryStatement.parse(
+            var param = (new QueryStatement()).parse(
                 "SELECT A, B, C \r\n" +
                 "FROM TBL WHERE Key=KeyValue\n" +
                 "FILTER F=FilterValue Limit\n" +
@@ -188,7 +195,7 @@ describe("DynamoDbQueryStatement", () => {
             assert.equal("10", param.Limit);
         });
         it("can parse SQL-ish that does not have optional clause", function() {
-            var param = QueryStatement.parse(
+            var param = (new QueryStatement()).parse(
                     " FROM TBL WHERE Key=KeyValue ");
             assert.equal(false, "ProjectionExpression" in param);
             assert.equal("TBL", param.TableName);
@@ -197,7 +204,7 @@ describe("DynamoDbQueryStatement", () => {
             assert.equal(false, "Limit" in param);
         });
         it("can parse SQL-ish that has various pattern", function() {
-            var param = QueryStatement.parse(
+            var param = (new QueryStatement()).parse(
                     "  SELECT A,B,C FROM TBL WHERE Key = KeyValue Limit 10   ");
             assert.equal("A,B,C", param.ProjectionExpression);
             assert.equal("TBL", param.TableName);
@@ -206,7 +213,7 @@ describe("DynamoDbQueryStatement", () => {
             assert.equal("10", param.Limit);
         });
         it("can parse SQL-ish that has various pattern", function() {
-            var param = QueryStatement.parse(
+            var param = (new QueryStatement()).parse(
                     "FROM stars WHERE mainStar='SUN' AND orbitOrder BETWEEN 1 AND 9\n" +
                     "FILTER mass<1");
             assert.equal(false, "ProjectionExpression" in param);

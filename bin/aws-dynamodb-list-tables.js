@@ -1,21 +1,26 @@
 #!/bin/env node
-(function() {
-    "use strict";
-    var dynamodb = require('../lib/aws-dynamodb');
-    var listit = require('list-it');
+"use strict";
+const awscli = require("../lib/awscli.js");
+const listit = require("list-it");
 
-    dynamodb.connect();
-    dynamodb.listTables(function(err, data) {
+try {
+    awscli.connect();
+    const dynamodb = awscli.getService("DynamoDB");
+
+    dynamodb.listTables({}, (err, data) => {
         if(err) {
             console.error("Error:", err);
             process.exit(1);
         }
-        var buf = listit.buffer();
-        buf.d(["#", "tableName"]);
-        var i = 0;
+        const listItBuf = listit.buffer();
+        listItBuf.d(["#", "tableName"]);
+        let i = 0;
         data.TableNames.forEach(function(tableName) {
-            buf.d([++i, tableName]);
+            listItBuf.d([++i, tableName]);
         });
-        console.log(buf.toString());
+        console.log(listItBuf.toString());
     });
-}());
+} catch(err) {
+    console.error("Error:", err);
+    process.exit(1);
+}

@@ -1,23 +1,27 @@
 #!/bin/env node
-(function() {
-    "use strict";
-    var dynamodb = require('../lib/aws-dynamodb');
-    var listit = require('list-it');
-    var getopt = require('node-getopt').create([
-        ['j', 'output-json',            'output a json to read'],
-        ['J', 'output-json-oneline',    'output a json in oneline'],
-        ['h', 'help',                   'display this help']
-        ]).bindHelp().parseSystem();
-    var arg = require('hash-arg').get([
-        "tableName"
-        ], getopt.argv);
-    if(arg.tableName == null) {
-        console.error("Error: tableName required");
-        process.exit(1);
-    }
+"use strict";
+const awscli = require("../lib/awscli.js");
+const isKeyword = require("../lib/dynamodb-keywords.js").isKeyword;
+const listit = require('list-it');
+const GetOpt = require('node-getopt');
+const HashArg = require('hash-arg');
 
-    dynamodb.connect();
-    dynamodb.describeTable(arg.tableName, function(err, data) {
+const getopt = GetOpt.create([
+    ['j', 'output-json',            'output a json to read'],
+    ['J', 'output-json-oneline',    'output a json in oneline'],
+    ['h', 'help',                   'display this help']
+    ]).bindHelp().parseSystem();
+
+const arg = HashArg.get([ "tableName" ], getopt.argv);
+if(arg.tableName == null) {
+    console.error("Error: tableName required");
+    process.exit(1);
+}
+
+try {
+    awscli.connect();
+    const dynamodb = awscli.getService("DynamoDB");
+    dynamodb.describeTable({ TableName: arg.tableName }, (err, data) => {
         if(err) {
             console.error("Error:", err);
             process.exit(1);
@@ -27,11 +31,11 @@
         } else if(getopt.options['output-json-oneline']) {
             console.log(JSON.stringify(data));
         } else {
-            var table = data.Table;
+            const table = data.Table;
             console.log("");
             console.log("Table");
             console.log("");
-            var buf = listit.buffer();
+            const buf = listit.buffer();
             buf.d(["Property", "Value"]);
             buf.d(["TableName", table.TableName]);
             buf.d(["TableArn", table.TableArn]);
@@ -42,22 +46,25 @@
             console.log("");
             console.log("AttributeDefinitions");
             console.log("");
-            buf = listit.buffer();
-            buf.d(["AttributeName", "AttributeType", "KeyType", "IsKeyword"]);
+            const listItBuf = listit.buffer();
+            listItBuf.d(["AttributeName", "AttributeType", "KeyType", "IsKeyword"]);
             table.AttributeDefinitions.forEach(function(attr) {
-                var keyType = "-";
-                for(var i = 0; i< table.KeySchema.length; i++) {
-                    var keydef = table.KeySchema[i];
+                let keyType = "-";
+                for(let i = 0; i < table.KeySchema.length; i++) {
+                    const keydef = table.KeySchema[i];
                     if(attr.AttributeName === keydef.AttributeName) {
                         keyType = keydef.KeyType;
                         break;
                     }
                 }
-                buf.d([attr.AttributeName, attr.AttributeType, keyType,
-                    dynamodb.isKeyword(attr.AttributeName) ? "Keyword" : "-"]);
+                listItBuf.d([attr.AttributeName, attr.AttributeType, keyType,
+                    isKeyword(attr.AttributeName) ? "Keyword" : "-"]);
             })
-            console.log(buf.toString());
+            console.log(listItBuf.toString());
         }
     });
-}());
+} catch(err) {
+    console.error("Error:", err);
+    process.exit(1);
+}
 

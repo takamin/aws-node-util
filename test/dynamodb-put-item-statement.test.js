@@ -2,9 +2,16 @@
 const assert = require("chai").assert;
 const PutItemStatement = require("../lib/dynamodb-put-item-statement.js");
 describe("DynamoDbPutItemStatement", () => {
+    describe("constructor", () => {
+        it("should not be thrown without parameter", () => {
+            assert.doesNotThrow(()=>{
+                new PutItemStatement();
+            });
+        })
+    });
     describe("parse", () => {
         describe("without where-clause", () => {
-            var param = PutItemStatement.parse(
+            var param = (new PutItemStatement()).parse(
                 "INSERT INTO T ( A,B,C ) VALUES (123.456,'2',true)");
             it("should parse the TableName", () => {
                 assert.equal("T", param.TableName);
@@ -16,7 +23,7 @@ describe("DynamoDbPutItemStatement", () => {
         describe("with where-clause (ConditionExpression)", () => {
             describe("operators", () => {
                 it("should parse partition key equality operator", () => {
-                    var param = PutItemStatement.parse([
+                    var param = (new PutItemStatement()).parse([
                         "INSERT INTO T ( A,B,C ) VALUES (1,'2',true)",
                         "WHERE PK=:pk"].join(" "));
                     assert.equal(
@@ -24,7 +31,7 @@ describe("DynamoDbPutItemStatement", () => {
                         param.ConditionExpression);
                 });
                 it("should parse partition key equality operator", () => {
-                    var param = PutItemStatement.parse([
+                    var param = (new PutItemStatement()).parse([
                         "INSERT INTO T ( A,B,C ) VALUES (1,'2',true)",
                         "WHERE PK=:pk AND SK BETWEEN :sk0 AND :sk1"
                         ].join(" "));
@@ -33,7 +40,7 @@ describe("DynamoDbPutItemStatement", () => {
                         param.ConditionExpression);
                 });
                 it("should parse begins_with function", () => {
-                    var param = PutItemStatement.parse([
+                    var param = (new PutItemStatement()).parse([
                         "INSERT INTO T ( A,B,C ) VALUES (1,'2',true)",
                         "WHERE PK=:pk AND begins_with(SK,:sk0)"
                         ].join(" "));
