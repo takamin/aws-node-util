@@ -1,6 +1,8 @@
 AWS-Node-Util
 =============
 
+[![Build Status](https://travis-ci.org/takamin/aws-node-util.svg?branch=master)](https://travis-ci.org/takamin/aws-node-util)
+
 DESCRIPTION
 -----------
 
