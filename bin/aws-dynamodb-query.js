@@ -1,7 +1,7 @@
 #!/bin/env node
 "use strict";
-var dynamodb = require("../lib/aws-dynamodb");
-dynamodb.connect();
+const awscli = require("../lib/awscli.js");
+const DynamoDBQueryStatement = require("../lib/dynamodb-query-statement.js");
 
 var Statement = require("../lib/dynamodb-statement.js");
 var ResultSet = require("../lib/dynamodb-result-set");
@@ -114,14 +114,15 @@ try {
         if('max-items' in getopt.options) {
             param.Limit = parseInt(getopt.options['max-items']);
         }
-
-        if('starting-token' in getopt.options) {
-            // This parameter will be set to ExclusiveStartKey parameter of SCAN-API
-            param.LastEvaluatedKey = JSON.parse(getopt.options['starting-token']);
-        }
     }
 
-    var statement = dynamodb.QueryStatement(param);
+    const statement = new DynamoDBQueryStatement(param);
+    if('starting-token' in getopt.options) {
+        const lastEvaluatedKey = JSON.parse(getopt.options['starting-token']);
+        statement.setExclusiveStartKey(lastEvaluatedKey);
+    }
+    awscli.connect();
+    statement.dynamodb = awscli.getService("DynamoDB");
     var placeholderValues = {};
     if(getopt.options["placeholder-values"]) {
         placeholderValues = JSON.parse(getopt.options["placeholder-values"]);
