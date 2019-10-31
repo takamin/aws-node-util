@@ -1,7 +1,7 @@
 #!/bin/env node
 "use strict";
-var dynamodb = require("../lib/aws-dynamodb");
-dynamodb.connect();
+const awscli = require("../lib/awscli.js");
+const DynamoDBScanStatement = require("../lib/dynamodb-scan-statement.js");
 
 var Statement = require("../lib/dynamodb-statement.js");
 var ResultSet = require("../lib/dynamodb-result-set");
@@ -98,7 +98,9 @@ try {
         }
     }
 
-    var statement = dynamodb.ScanStatement(param);
+    const statement = new DynamoDBScanStatement(param);
+    awscli.connect();
+    statement.dynamodb = awscli.getService("DynamoDB");
     var placeholderValues = {};
     if(getopt.options["placeholder-values"]) {
         placeholderValues = JSON.parse(getopt.options["placeholder-values"]);
