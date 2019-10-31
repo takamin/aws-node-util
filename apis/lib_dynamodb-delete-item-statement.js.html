@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>DynamoDbPutItemStatement - Documentation</title>
+    <title>lib/dynamodb-delete-item-statement.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,555 +29,101 @@
 
 <div id="main">
     
-    <h1 class="page-title">DynamoDbPutItemStatement</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>
-        DynamoDbPutItemStatement
-        </h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="DynamoDbPutItemStatement"><span class="type-signature"></span>new DynamoDbPutItemStatement<span class="signature">(opt)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    <p>SQL-ish PutItem statement class for AWS DynamoDB.</p>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_dynamodb-put-item-statement.js.html">lib/dynamodb-put-item-statement.js</a>, <a href="lib_dynamodb-put-item-statement.js.html#line14">line 14</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>opt</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>string</code></span>
-|
-
-<span class="param-type"><code>object</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                <p>SQL-ish PutItem statement as string or parameter object
-for PutItem API.</p>
-                
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="run"><span class="type-signature"></span>run<span class="signature">(args, callback)</span><span class="type-signature"> &rarr; {undefined}</span></h4>
-
-    
-
-
-
-<div class="description">
-    <p>Run the statement in async.</p>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_dynamodb-put-item-statement.js.html">lib/dynamodb-put-item-statement.js</a>, <a href="lib_dynamodb-put-item-statement.js.html#line136">line 136</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="DynamoDbPutItemStatement.html#setValues">#setValues</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>args</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>array</code></span>
-|
-
-<span class="param-type"><code>object</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                <p>This parameter can be what is same to the parameter of <code>setValues</code>
-method. If it is an array, it contains the values of attributes.
-Or if it is an object, its key that do not start with ':'
-represents the attribute names.</p>
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>function</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                <p>The callback function to get an error.
-The declaration is (err) =&gt; { ... }.</p>
-                
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>undefined</code></span>
-
-
-    </dd>
-</dl>
-
-
-    
-</div>
-
-
-
-</div>
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="setValues"><span class="type-signature"></span>setValues<span class="signature">(values)</span><span class="type-signature"> &rarr; {undefined}</span></h4>
-
-    
-
-
-
-<div class="description">
-    <p>Set an item to this statement.
-The item will be put to the DynamoDB when this statement ran.</p>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_dynamodb-put-item-statement.js.html">lib/dynamodb-put-item-statement.js</a>, <a href="lib_dynamodb-put-item-statement.js.html#line98">line 98</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>values</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>array</code></span>
-|
-
-<span class="param-type"><code>object</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                <p>If this is array, it must contain values as same order for the
-attributes specified as SQL in the constructor.
-If this is an object, the key is an attribute names.
-Whether each cases above, the attribute names must be specified by
-SQL-ish statement at the constructor.
-The values will be converted to DynamoDB Map Object.
-So, you can specify a value as is.</p>
-                
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>undefined</code></span>
-
-
-    </dd>
-</dl>
-
-
-    
-</div>
-
-
-
-</div>
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">lib/dynamodb-delete-item-statement.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
+var Statement = require('./dynamodb-statement.js');
+
+/**
+ * SQL-ish DeleteItem statement class for AWS DynamoDB.
+ *
+ * @param {string|object} opt
+ * SQL-ish DeleteItem statement as string or parameter object
+ * for DeleteItem API.
+ *
+ * @constructor
+ */
+function DynamoDbDeleteItemStatement(opt) {
+    Statement.apply(this, Array.from(arguments));
+    this.key = {};
+    if(!opt) {
+        return;
+    }
+    if(typeof(opt) === "string") {
+        opt = this.parse(opt);
+    }
+    if(!("TableName" in opt)) {
+        throw new Error("TableName required");
+    }
+    this.setTableName(opt.TableName);
+    if("Key" in opt) {
+        this.key = this._parser.parseItemListToMap(opt.Key);
+    }
+}
+
+DynamoDbDeleteItemStatement.prototype = new Statement();
+
+DynamoDbDeleteItemStatement.prototype.parse = function(sqlish) {
+    var opt = {};
+    var st = this._parser.parseDeleteItem(sqlish);
+
+    var tableName = st.getTerm("table-name");
+    if(!tableName.match) {
+        throw new Error("the table-name not found");
+    }
+    opt.TableName = st.getWordsList("table-name")[0].join("");
+
+    var whereClause = st.getTerm("where-delete-key-clause");
+    if(whereClause.match) {
+        opt.Key =
+            whereClause.getWordsList("compare-expression").map( expr => {
+                if(expr.length !== 3 || expr[1] !== "=") {
+                    throw new Error("Illegal key condition at where clause");
+                }
+                return expr.join("");
+            }).join(",");
+    }
+
+    return opt;
+};
+
+/**
+ * Run the statement in async.
+ *
+ * @param {object} args
+ * The parameter for this statement.
+ * Currently, this parmeter is not used.
+ *
+ * @param {Function} callback
+ * The callback function to get an error.
+ * The declaration is (err) => { ... }.
+ *
+ * @returns {undefined}
+ */
+DynamoDbDeleteItemStatement.prototype.run = function(args, callback) {
+    var param = this.getParameter(args);
+    Statement.assertAllParamSpecified(param);
+    this.dynamodb.deleteItem(param, callback);
+};
+DynamoDbDeleteItemStatement.prototype.getParameter = function(args) {
+    var opt = Statement.prototype.getParameter.call(this, args);
+    if(this.key) {
+        opt.Key = this.key;
+    }
+    return opt;
+};
+module.exports = DynamoDbDeleteItemStatement;
+</code></pre>
+        </article>
+    </section>
 
 
 

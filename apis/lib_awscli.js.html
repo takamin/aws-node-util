@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>DynamoDbPutItemStatement - Documentation</title>
+    <title>lib/awscli.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,555 +29,154 @@
 
 <div id="main">
     
-    <h1 class="page-title">DynamoDbPutItemStatement</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>
-        DynamoDbPutItemStatement
-        </h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="DynamoDbPutItemStatement"><span class="type-signature"></span>new DynamoDbPutItemStatement<span class="signature">(opt)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    <p>SQL-ish PutItem statement class for AWS DynamoDB.</p>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_dynamodb-put-item-statement.js.html">lib/dynamodb-put-item-statement.js</a>, <a href="lib_dynamodb-put-item-statement.js.html#line14">line 14</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>opt</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>string</code></span>
-|
-
-<span class="param-type"><code>object</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                <p>SQL-ish PutItem statement as string or parameter object
-for PutItem API.</p>
-                
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="run"><span class="type-signature"></span>run<span class="signature">(args, callback)</span><span class="type-signature"> &rarr; {undefined}</span></h4>
-
-    
-
-
-
-<div class="description">
-    <p>Run the statement in async.</p>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_dynamodb-put-item-statement.js.html">lib/dynamodb-put-item-statement.js</a>, <a href="lib_dynamodb-put-item-statement.js.html#line136">line 136</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="DynamoDbPutItemStatement.html#setValues">#setValues</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>args</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>array</code></span>
-|
-
-<span class="param-type"><code>object</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                <p>This parameter can be what is same to the parameter of <code>setValues</code>
-method. If it is an array, it contains the values of attributes.
-Or if it is an object, its key that do not start with ':'
-represents the attribute names.</p>
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>function</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                <p>The callback function to get an error.
-The declaration is (err) =&gt; { ... }.</p>
-                
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>undefined</code></span>
-
-
-    </dd>
-</dl>
-
-
-    
-</div>
-
-
-
-</div>
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="setValues"><span class="type-signature"></span>setValues<span class="signature">(values)</span><span class="type-signature"> &rarr; {undefined}</span></h4>
-
-    
-
-
-
-<div class="description">
-    <p>Set an item to this statement.
-The item will be put to the DynamoDB when this statement ran.</p>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_dynamodb-put-item-statement.js.html">lib/dynamodb-put-item-statement.js</a>, <a href="lib_dynamodb-put-item-statement.js.html#line98">line 98</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>values</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>array</code></span>
-|
-
-<span class="param-type"><code>object</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                <p>If this is array, it must contain values as same order for the
-attributes specified as SQL in the constructor.
-If this is an object, the key is an attribute names.
-Whether each cases above, the attribute names must be specified by
-SQL-ish statement at the constructor.
-The values will be converted to DynamoDB Map Object.
-So, you can specify a value as is.</p>
-                
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>undefined</code></span>
-
-
-    </dd>
-</dl>
-
-
-    
-</div>
-
-
-
-</div>
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">lib/awscli.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
+var camelcase = require("camelcase");
+var awscli = {};
+
+awscli.exec = function(serviceName, command, opts, callback) {
+    var service = awscli.getService(serviceName);
+    var methodName = camelcase(command);
+    var camelOpts = {};
+    if(opts) {
+        Object.keys(opts).forEach(function(key) {
+            if(key.match(/^--/)) {
+                camelOpts[camelcase(key.replace(/^--/,""))] = opts[key];
+            } else {
+                camelOpts[key] = opts[key];
+            }
+        });
+    }
+    try {
+        service[methodName].apply(service, [camelOpts, callback]);
+    } catch(err) {
+        console.log(serviceName);
+        console.log(command);
+        console.error(err.stack);
+        Object.keys(service.prototype).forEach(function(methodName) {
+            console.log("* " + methodName);
+        });
+    }
+};
+
+(function() {
+
+    var AWS = require("aws-sdk");
+
+    awscli.connect = function(config) {
+        config = config || {};
+        if(!("region" in config)) {
+            //
+            // Get default region from the file ~/.aws/config
+            //
+            var aws_configure = require("./aws-configure");
+            var region = aws_configure.getConfiguredRegion(aws_configure.getAwsProfile());
+            if(region) {
+                config.region = region;
+                //AWS.config.update({ "region" : region });
+            } else {
+                console.error("Error: No AWS region name is determined");
+                console.error("Set default region using an AWS CLI command `aws configure`.");
+                process.exit(1);
+            }
+        }
+        AWS.config.update(config);
+    }
+
+    //
+    // Get AWS service class instance
+    //
+    awscli.getService = function (serviceName) {
+        if(!(serviceName in AWS)) {
+            console.error("ERROR: Invalid AWS service name", serviceName);
+            process.exit(1);
+        }
+        var service = new AWS[serviceName]();
+        if(!service) {
+            console.error("ERROR: Fail to create AWS service", serviceName);
+            process.exit(1);
+        }
+        return service;
+    };
+
+    var callbackError = function(message, callback) {
+        if(callback) {
+            callback.call(null, message, null);
+        }
+    };
+
+    awscli.registerAPIs = function(service_name, service_def) {
+        var service = {};
+        service.connect = awscli.connect;
+        Object.keys(service_def.commands).forEach(function(command_name) {
+            var function_name = camelcase(command_name);
+            service[function_name] = (function(command_options) { return function() {
+                var args = Array.apply(null, arguments);
+                var callback = null;
+                if(args.length > 0) {
+                    if(typeof(args[args.length - 1]) === typeof(function(){})) {
+                        callback = args.splice(-1, 1)[0];
+                    }
+                }
+                var options = {};
+                for(var optIdx = 0; optIdx &lt; command_options.length; optIdx++) {
+                    var option = command_options[optIdx];
+                    if(optIdx &lt; args.length) {
+                        if(args[optIdx] !== null) {
+                            if("no-arg" in option &amp;&amp; option["no-arg"]) {
+                                if(args[optIdx]) {
+                                    options["--" + option.name] = "";
+                                }
+                            } else if("extra-option" in option &amp;&amp; option["extra-option"]) {
+                                Object.keys(args[optIdx]).forEach(function(key) {
+                                    if(args[optIdx][key] == null) {
+                                        options["--" + key] = "";
+                                    } else {
+                                        options["--" + key] = args[optIdx][key];
+                                    }
+                                });
+                            } else {
+                                options["--" + option.name] = args[optIdx];
+                            }
+                        }
+                    } else if(option.required) {
+                        callbackError("ERROR aws." + service_name + "." + function_name + ":"
+                            + option.name + "is required");
+                        return;
+                    }
+                }
+                awscli.exec(service_name, command_name, options, callback);
+            };}(service_def.commands[command_name].options));
+        });
+        awscli[service_name.toLowerCase()] = service;
+        return service;
+    }
+
+    /**
+     * THIS METHOD MAY NOT BE USED FROM ANY CODES.
+     * Convert an object to string for the command line option value
+     *
+     * @param {object} obj object to stringify.
+     * @returns {string} A string that double quotations are escaped.
+     */
+    awscli.jsonAsQuotedString = function(obj) {
+        return '"' + JSON.stringify(obj).replace(/"/g, '\\"') + '"';
+    };
+
+}());
+module.exports = awscli;
+</code></pre>
+        </article>
+    </section>
 
 
 
@@ -587,7 +186,7 @@ So, you can specify a value as is.</p>
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Thu Oct 31 2019 21:27:50 GMT+0900 (GMT+09:00) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Thu Oct 31 2019 21:27:49 GMT+0900 (GMT+09:00) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

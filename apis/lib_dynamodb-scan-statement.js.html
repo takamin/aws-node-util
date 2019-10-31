@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>DynamoDbPutItemStatement - Documentation</title>
+    <title>lib/dynamodb-scan-statement.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,555 +29,208 @@
 
 <div id="main">
     
-    <h1 class="page-title">DynamoDbPutItemStatement</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>
-        DynamoDbPutItemStatement
-        </h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="DynamoDbPutItemStatement"><span class="type-signature"></span>new DynamoDbPutItemStatement<span class="signature">(opt)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    <p>SQL-ish PutItem statement class for AWS DynamoDB.</p>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_dynamodb-put-item-statement.js.html">lib/dynamodb-put-item-statement.js</a>, <a href="lib_dynamodb-put-item-statement.js.html#line14">line 14</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>opt</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>string</code></span>
-|
-
-<span class="param-type"><code>object</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                <p>SQL-ish PutItem statement as string or parameter object
-for PutItem API.</p>
-                
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="run"><span class="type-signature"></span>run<span class="signature">(args, callback)</span><span class="type-signature"> &rarr; {undefined}</span></h4>
-
-    
-
-
-
-<div class="description">
-    <p>Run the statement in async.</p>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_dynamodb-put-item-statement.js.html">lib/dynamodb-put-item-statement.js</a>, <a href="lib_dynamodb-put-item-statement.js.html#line136">line 136</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="DynamoDbPutItemStatement.html#setValues">#setValues</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>args</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>array</code></span>
-|
-
-<span class="param-type"><code>object</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                <p>This parameter can be what is same to the parameter of <code>setValues</code>
-method. If it is an array, it contains the values of attributes.
-Or if it is an object, its key that do not start with ':'
-represents the attribute names.</p>
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>function</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                <p>The callback function to get an error.
-The declaration is (err) =&gt; { ... }.</p>
-                
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>undefined</code></span>
-
-
-    </dd>
-</dl>
-
-
-    
-</div>
-
-
-
-</div>
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="setValues"><span class="type-signature"></span>setValues<span class="signature">(values)</span><span class="type-signature"> &rarr; {undefined}</span></h4>
-
-    
-
-
-
-<div class="description">
-    <p>Set an item to this statement.
-The item will be put to the DynamoDB when this statement ran.</p>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_dynamodb-put-item-statement.js.html">lib/dynamodb-put-item-statement.js</a>, <a href="lib_dynamodb-put-item-statement.js.html#line98">line 98</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>values</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>array</code></span>
-|
-
-<span class="param-type"><code>object</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                <p>If this is array, it must contain values as same order for the
-attributes specified as SQL in the constructor.
-If this is an object, the key is an attribute names.
-Whether each cases above, the attribute names must be specified by
-SQL-ish statement at the constructor.
-The values will be converted to DynamoDB Map Object.
-So, you can specify a value as is.</p>
-                
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>undefined</code></span>
-
-
-    </dd>
-</dl>
-
-
-    
-</div>
-
-
-
-</div>
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">lib/dynamodb-scan-statement.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
+const Statement = require('./dynamodb-statement.js');
+const DynamoDbReadItemStatement = require('./dynamodb-read-item-statement.js');
+
+/**
+ * SQL-ish Scan statement class for AWS DynamoDB.
+ *
+ * @param {string|object} opt
+ * SQL-ish Scan statement as string or parameter object for Scan API.
+ *
+ * @constructor
+ */
+function DynamoDbScanStatement(opt) {
+    DynamoDbReadItemStatement.apply(this, Array.from(arguments));
+
+    this.limit = null;
+    this.exclusiveStartKey = null;
+    this.projectionExpression = null;
+    this.keyConditionExpression = null;
+    this.filterExpression = null;
+
+    this._callback = null;
+    this._param = null;
+    this._lastEvaluatedKey = null;
+
+    if(opt == null) {
+        return;
+    }
+
+    if(typeof(opt) === "string") {
+        opt = this.parse(opt);
+    }
+    if(!("TableName" in opt)) {
+        throw new Error("TableName required");
+    }
+    this.setTableName(opt.TableName);
+    if("FilterExpression" in opt) {
+        this.setFilterExpression(opt.FilterExpression);
+    }
+    if("ProjectionExpression" in opt) {
+        this.setProjectionExpression(opt.ProjectionExpression);
+    }
+    if("Limit" in opt) {
+        this.setLimit(opt.Limit);
+    }
+    if("LastEvaluatedKey" in opt) {
+        this.setExclusiveStartKey(opt.LastEvaluatedKey);
+    }
+}
+
+DynamoDbScanStatement.prototype = new DynamoDbReadItemStatement();
+
+/**
+ * Run the statement and notify its result to callback in async.
+ *
+ * If the Limit feature of the returning item count is used in the statement,
+ * the `next()` method can be used in the callback to read next following items.
+ *
+ * @param {object} args
+ * The parameter for this statement.
+ * The key is a parameter name and must be an attribute
+ * placeholder name starting with ':' that used in the statement.
+ * Its value will be converted to the DynamoDB Map Object,
+ * So you can set it as is.
+ *
+ * @param {Function} callback
+ * The callback function to receive the result or an error.
+ * The declaration is (err, result) => { ... }.
+ * The result is an array of items.
+ * The type of Item is the map of DynamoDB.
+ *
+ * @returns {undefined}
+ */
+DynamoDbScanStatement.prototype.run = function(args, callback) {
+    this._callback = callback || ( (/*err, data*/) => {/*none*/} );
+    this._param = this.getParameter(args);
+    this._scan();
+};
+
+DynamoDbScanStatement.prototype._scan = function() {
+    if(!this.dynamodb) {
+        throw new Error("Could not run a statement. The API is not connected.");
+    }
+    Statement.assertAllParamSpecified(this._param);
+    this.dynamodb.scan(this._param, (err, data) => {
+        if(data != null &amp;&amp; "LastEvaluatedKey" in data) {
+            this._lastEvaluatedKey = data.LastEvaluatedKey;
+        } else {
+            this._lastEvaluatedKey = null;
+        }
+        this._callback(err, data);
+    });
+};
+
+/**
+ * Get next following items from inside of the callback function
+ * of previous invoked run(). This method is available when the
+ * limit feature was using.
+ * The result also will be notified to the same callback.
+ *
+ * @returns {undefined}
+ */
+DynamoDbScanStatement.prototype.next = function() {
+    if(this._lastEvaluatedKey) {
+        this._param.ExclusiveStartKey = this._lastEvaluatedKey;
+        this._scan();
+    } else if(this._callback) {
+        this._callback(null, null);
+    }
+};
+
+/**
+ * Clear the previous scan setup.
+ * Do not invoke next method after invoking this method.
+ * @returns {undefined}
+ */
+DynamoDbScanStatement.prototype.reset = function() {
+    this._callback = null;
+    this._param = null;
+    this._lastEvaluatedKey = null;
+};
+
+/**
+ * Parse the SQL-ish statement.
+ * @param {string} sqlish SQL-ish statement
+ * @returns {object} A parameter for DynamoDB scan API.
+ */
+DynamoDbScanStatement.prototype.parse = function(sqlish) {
+    const opt = {};
+    const st = this._parser.parseScan(sqlish);
+
+    const fromClause = st.getTerm("from-clause");
+    if(!fromClause.match) {
+        throw new Error("the from-clause not found");
+    } else {
+        opt.TableName = fromClause.getWordsList("table-name")[0].join("");
+    }
+
+    const whereClause = st.getTerm("where-filter-clause");
+    if(whereClause.match) {
+        opt.FilterExpression =
+            whereClause.getWordsList("condition-expression")[0].join(" ");
+    }
+
+    const selectClause = st.getTerm("select-clause");
+    if(selectClause.match) {
+        opt.ProjectionExpression =
+            selectClause.getWordsList("key-list")[0].join("");
+    }
+
+    const limitClause = st.getTerm("limit-clause");
+    if(limitClause.match) {
+        opt.Limit = limitClause.getWordsList("limit-count")[0].join(" ");
+    }
+    return opt;
+};
+
+/**
+ * Get parameter to invoke the scan API.
+ * @param {object} args key-values for the expression to run the scan.
+ * @returns {object} A parameter for DynamoDB scan API.
+ */
+DynamoDbScanStatement.prototype.getParameter = function(args) {
+    const opt = DynamoDbReadItemStatement.prototype.getParameter.call(this, args);
+    if(this.limit) {
+        opt.Limit = this.limit;
+    }
+    if(this.exclusiveStartKey) {
+        opt.ExclusiveStartKey = this.exclusiveStartKey;
+    }
+    if(this.projectionExpression) {
+        opt.ProjectionExpression = this.projectionExpression;
+    }
+    if(this.filterExpression) {
+        opt.FilterExpression = this.filterExpression;
+    }
+    return opt;
+};
+
+/**
+ * Set FilterExpression for scan.
+ * @param {string} filterExpr expression
+ * @returns {undefined}
+ */
+DynamoDbScanStatement.prototype.setFilterExpression = function(filterExpr) {
+    this.filterExpression = this.parseConditionExpression( filterExpr );
+};
+
+module.exports = DynamoDbScanStatement;
+</code></pre>
+        </article>
+    </section>
 
 
 
