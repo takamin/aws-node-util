@@ -91,14 +91,13 @@ try {
         if('max-items' in getopt.options) {
             param.Limit = parseInt(getopt.options['max-items']);
         }
-
-        if('starting-token' in getopt.options) {
-            // This parameter will be set to ExclusiveStartKey parameter of SCAN-API
-            param.LastEvaluatedKey = JSON.parse(getopt.options['starting-token']);
-        }
     }
 
     const statement = new DynamoDBScanStatement(param);
+    if('starting-token' in getopt.options) {
+        const lastEvaluatedKey = JSON.parse(getopt.options['starting-token']);
+        statement.setExclusiveStartKey(lastEvaluatedKey);
+    }
     awscli.connect();
     statement.dynamodb = awscli.getService("DynamoDB");
     var placeholderValues = {};
