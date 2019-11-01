@@ -6,21 +6,24 @@ const DeleteItemStatement = awsNodeUtil.dynamodb.DeleteItemStatement;
 const ResultSet = awsNodeUtil.dynamodb.ResultSet;
 
 // Connect (change each value for your account)
-awsNodeUtil.dynamodb.connect(
+awsNodeUtil.connect(
 //    { accessKeyId: 'AKID', secretAccessKey: 'SECRET', region: 'us-west-2' }
 );
+const dynamodbApi = awsNodeUtil.getService("DynamoDB");
+
 // Handler to print result of scan / query
 function printResult(result) {
     ResultSet.printScanResult(result);
 }
 
 // Prepare 'PutItem' statement
-var putItemStatement = PutItemStatement(
+var putItemStatement = new PutItemStatement(
     ["INSERT INTO stars (",
         "mainStar, role, orbitOrder, name",
     ") VALUES (",
         "'SUN', 'planet', 10, 'X'",
     ")"].join(" "));
+putItemStatement.dynamodb = dynamodbApi;
 
 // Add planet X
 putStar(putItemStatement, {}).then( () => {
@@ -87,10 +90,12 @@ function putStar(statement, args) {
 
 function queryStar(select, condition) {
     return new Promise( (resolve, reject) => {
-        QueryStatement([
+        const statement = new QueryStatement([
             "SELECT", select, "FROM stars",
             "WHERE", condition
-        ].join(" ")).run({}, (err, result) => {
+        ].join(" "));
+        statement.dynamodb = dynamodbApi;
+        statement.run({}, (err, result) => {
             if(err) {
                 reject(err);
             } else {
@@ -103,10 +108,12 @@ function queryStar(select, condition) {
 function deleteStar(condition) {
     return new Promise( (resolve, reject) => {
         console.log("DELETE", condition);
-        DeleteItemStatement([
+        const statement = new DeleteItemStatement([
             "DELETE FROM stars WHERE",
             condition
-        ].join(" ")).run({}, (err) => {
+        ].join(" "));
+        statement.dynamodb = dynamodbApi;
+        statement.run({}, (err) => {
             if(err) {
                 reject(err);
             } else {
