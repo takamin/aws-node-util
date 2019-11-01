@@ -56,15 +56,14 @@
   "devDependencies": {
     "ansi-escape-sequences": "^5.0.0",
     "chai": "^4.2.0",
-    "grunt": "^1.0.4",
-    "grunt-eslint": "^22.0.0",
+    "eslint": "^6.6.0",
     "jsdoc": "^3.6.3",
-    "load-grunt-tasks": "^5.1.0",
     "minami": "^1.2.3",
     "mocha": "^6.2.2"
   },
   "scripts": {
-    "test": "grunt lint && mocha",
+    "test": "eslint . && mocha",
+    "lint": "eslint .",
     "docs": "jsdoc --configure jsdoc.json --verbose"
   },
   "repository": {
@@ -95,16 +94,12 @@
   "homepage": "https://github.com/takamin/aws-node-util#readme",
   "eslintConfig": {
     "env": {
-      "es6": true,
-      "browser": true,
+      "es2017": true,
+      "browser": false,
       "node": true,
       "mocha": true
     },
-    "globals": {
-      "ArrayBuffer": true
-    },
     "rules": {
-      "no-console": "off",
       "valid-jsdoc": "warn"
     },
     "extends": "eslint:recommended"
