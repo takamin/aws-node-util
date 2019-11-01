@@ -46,33 +46,44 @@ const QueryStatement = awsNodeUtil.dynamodb.QueryStatement;
 const ResultSet = awsNodeUtil.dynamodb.ResultSet;
 
 // Connect (change each value for your account)
-awsNodeUtil.dynamodb.connect(
+awsNodeUtil.connect(
 //    { accessKeyId: 'AKID', secretAccessKey: 'SECRET', region: 'us-west-2' }
 );
 
-// Prepare 'Scan' statement
-var scanStatement = ScanStatement(
+// Prepare a scanning-all-statement without parameters.
+var scanAllStatement = new ScanStatement("FROM stars");
+
+// Prepare 'Scan' statement to filter by name.
+// The name is parameterized.
+var scanByNameStatement = new ScanStatement(
         "FROM stars WHERE name=:name");
 
-// Prepare 'Query' statement
-var queryStatement = QueryStatement(
+// Prepare 'Query' statement to get children of specific main star.
+// The name of a main star is parameterized.
+var queryChildrenStatement = new QueryStatement(
         "SELECT mainStar, orbitOrder, name " +
         "FROM stars " +
         "WHERE mainStar=:mainStar");
 
+// Set DynamoDB API interface to each statementa
+const dynamodbApi = awsNodeUtil.getService("DynamoDB");
+scanAllStatement.dynamodb = dynamodbApi;
+scanByNameStatement.dynamodb = dynamodbApi;
+queryChildrenStatement.dynamodb = dynamodbApi;
+
 // Run the statements
-ScanStatement("FROM stars").run({}, (err, resp) => {
+scanAllStatement.run({}, (err, resp) => {
     console.log("-----------------------");
     console.log("SCAN all items of stars");
     console.log("-----------------------");
     printResult(err, resp);
-    scanStatement.run({ ":name": "EARTH" }, (err, resp) => {
+    scanByNameStatement.run({ ":name": "EARTH" }, (err, resp) => {
         console.log("--------------");
         console.log("SCAN the EARTH");
         console.log("--------------");
         printResult(err, resp);
 
-        queryStatement.run({ ":mainStar": "EARTH" }, (err, resp) => {
+        queryChildrenStatement.run({ ":mainStar": "EARTH" }, (err, resp) => {
             console.log("------------------------------");
             console.log("QUERY child stars of the EARTH");
             console.log("------------------------------");
@@ -146,13 +157,15 @@ const ScanStatement = awsNodeUtil.dynamodb.ScanStatement;
 const ResultSet = awsNodeUtil.dynamodb.ResultSet;
 
 // Connect (change each value for your account)
-awsNodeUtil.dynamodb.connect(
+awsNodeUtil.connect(
 //    { accessKeyId: 'AKID', secretAccessKey: 'SECRET', region: 'us-west-2' }
 );
 
 // Prepare 'Scan' statement
-var scanStatement = ScanStatement(
+var scanStatement = new ScanStatement(
         "FROM stars LIMIT 3");
+scanStatement.dynamodb = awsNodeUtil.getService("DynamoDB");
+
 scanStatement.run({}, (err, data) => {
     if(err) {
         console.error("Error: ", err.message);
@@ -206,13 +219,15 @@ const QueryStatement = awsNodeUtil.dynamodb.QueryStatement;
 const ResultSet = awsNodeUtil.dynamodb.ResultSet;
 
 // Connect (change each value for your account)
-awsNodeUtil.dynamodb.connect(
+awsNodeUtil.connect(
 //    { accessKeyId: 'AKID', secretAccessKey: 'SECRET', region: 'us-west-2' }
 );
 
 // Prepare 'Query' statement
-var queryStatement = QueryStatement(
+var queryStatement = new QueryStatement(
         "FROM stars WHERE mainStar=:ms LIMIT 2");
+queryStatement.dynamodb = awsNodeUtil.getService("DynamoDB");
+
 queryStatement.run({":ms": "SUN" }, (err, data) => {
     if(err) {
         console.error("Error: ", err.message);
@@ -271,21 +286,24 @@ const DeleteItemStatement = awsNodeUtil.dynamodb.DeleteItemStatement;
 const ResultSet = awsNodeUtil.dynamodb.ResultSet;
 
 // Connect (change each value for your account)
-awsNodeUtil.dynamodb.connect(
+awsNodeUtil.connect(
 //    { accessKeyId: 'AKID', secretAccessKey: 'SECRET', region: 'us-west-2' }
 );
+const dynamodbApi = awsNodeUtil.getService("DynamoDB");
+
 // Handler to print result of scan / query
 function printResult(result) {
     ResultSet.printScanResult(result);
 }
 
 // Prepare 'PutItem' statement
-var putItemStatement = PutItemStatement(
+var putItemStatement = new PutItemStatement(
     ["INSERT INTO stars (",
         "mainStar, role, orbitOrder, name",
     ") VALUES (",
         "'SUN', 'planet', 10, 'X'",
     ")"].join(" "));
+putItemStatement.dynamodb = dynamodbApi;
 
 // Add planet X
 putStar(putItemStatement, {}).then( () => {
@@ -352,10 +370,12 @@ function putStar(statement, args) {
 
 function queryStar(select, condition) {
     return new Promise( (resolve, reject) => {
-        QueryStatement([
+        const statement = new QueryStatement([
             "SELECT", select, "FROM stars",
             "WHERE", condition
-        ].join(" ")).run({}, (err, result) => {
+        ].join(" "));
+        statement.dynamodb = dynamodbApi;
+        statement.run({}, (err, result) => {
             if(err) {
                 reject(err);
             } else {
@@ -368,10 +388,12 @@ function queryStar(select, condition) {
 function deleteStar(condition) {
     return new Promise( (resolve, reject) => {
         console.log("DELETE", condition);
-        DeleteItemStatement([
+        const statement = new DeleteItemStatement([
             "DELETE FROM stars WHERE",
             condition
-        ].join(" ")).run({}, (err) => {
+        ].join(" "));
+        statement.dynamodb = dynamodbApi;
+        statement.run({}, (err) => {
             if(err) {
                 reject(err);
             } else {

@@ -4,13 +4,15 @@ const ScanStatement = awsNodeUtil.dynamodb.ScanStatement;
 const ResultSet = awsNodeUtil.dynamodb.ResultSet;
 
 // Connect (change each value for your account)
-awsNodeUtil.dynamodb.connect(
+awsNodeUtil.connect(
 //    { accessKeyId: 'AKID', secretAccessKey: 'SECRET', region: 'us-west-2' }
 );
 
 // Prepare 'Scan' statement
-var scanStatement = ScanStatement(
+var scanStatement = new ScanStatement(
         "FROM stars LIMIT 3");
+scanStatement.dynamodb = awsNodeUtil.getService("DynamoDB");
+
 scanStatement.run({}, (err, data) => {
     if(err) {
         console.error("Error: ", err.message);
