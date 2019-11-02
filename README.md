@@ -8,6 +8,10 @@ DESCRIPTION
 
 This module provides __SQL-ish statement classes to manipulate DynamoDB__.
 
+[Query API parameter generator](https://takamin.github.io/aws-node-util/dynamodb-query-param.html) -
+A query parameter converter
+that automatically yields placeholders of attribute name and value is available.
+
 The latest [API reference](https://takamin.github.io/aws-node-util/apis/index.html) is available.
 
 Statement classes:
