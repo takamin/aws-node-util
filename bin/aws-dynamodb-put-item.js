@@ -1,7 +1,7 @@
 #!/bin/env node
 "use strict";
-const awscli = require("../lib/awscli.js");
-const DynamoDBPutStatement = require("../lib/dynamodb-put-statement.js");
+const aws = require("../index.js");
+const { PutItemStatement } = aws.dynamodb;
 
 var getopt = require('node-getopt').create([
     ['j', 'output-json',            'output a json to read'],
@@ -42,9 +42,9 @@ if(getopt.options["sql-ish"]) {
 }
 param.forEach((params) => {
     try {
-        const statement = new DynamoDBPutStatement(params);
-        awscli.connect();
-        statement.dynamodb = awscli.getService("DynamoDB");
+        const statement = new PutItemStatement(params);
+        aws.connect();
+        statement.dynamodb = aws.getService("DynamoDB");
 
         // Dry-run Option
         if(getopt.options["dry-run"]) {

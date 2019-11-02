@@ -1,11 +1,11 @@
 #!/bin/env node
 "use strict";
-const awscli = require("../lib/awscli.js");
+const aws = require("../index.js");
 const listit = require("list-it");
 
 try {
-    awscli.connect();
-    const dynamodb = awscli.getService("DynamoDB");
+    aws.connect();
+    const dynamodb = aws.getService("DynamoDB");
 
     dynamodb.listTables({}, (err, data) => {
         if(err) {
