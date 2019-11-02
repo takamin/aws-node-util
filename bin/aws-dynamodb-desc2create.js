@@ -1,5 +1,5 @@
 #!/bin/env node
-const awscli = require("../lib/awscli.js");
+const aws = require("../index.js");
 
 /**
  * Convert a table description object to a parameter for the createTable API.
@@ -40,8 +40,8 @@ if(process.argv.length <= 2) {
 const tableName = process.argv[2];
 
 try {
-    awscli.connect();
-    const dynamodb = awscli.getService("DynamoDB");
+    aws.connect();
+    const dynamodb = aws.getService("DynamoDB");
 
     dynamodb.describeTable({ TableName: tableName }, (err, desc) => {
         if(err) {

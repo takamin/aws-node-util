@@ -1,10 +1,8 @@
 #!/bin/env node
 "use strict";
-const awscli = require("../lib/awscli.js");
-const DynamoDBScanStatement = require("../lib/dynamodb-scan-statement.js");
+const aws = require("../index.js");
+const { ScanStatement, ResultSet } = aws.dynamodb;
 
-var Statement = require("../lib/dynamodb-statement.js");
-var ResultSet = require("../lib/dynamodb-result-set");
 var Getopt = require('node-getopt');
 var optdef = new Getopt([
     ['c', 'max-items=ARG',          'The total number of items to return'],
@@ -93,20 +91,19 @@ try {
         }
     }
 
-    const statement = new DynamoDBScanStatement(param);
+    const statement = new ScanStatement(param);
     if('starting-token' in getopt.options) {
         const lastEvaluatedKey = JSON.parse(getopt.options['starting-token']);
         statement.setExclusiveStartKey(lastEvaluatedKey);
     }
-    awscli.connect();
-    statement.dynamodb = awscli.getService("DynamoDB");
+    aws.connect();
+    statement.dynamodb = aws.getService("DynamoDB");
     var placeholderValues = {};
     if(getopt.options["placeholder-values"]) {
         placeholderValues = JSON.parse(getopt.options["placeholder-values"]);
     }
     if(getopt.options["dry-run"]) {
-        var queryParam = statement.getParameter();
-        queryParam = Statement.setParam(queryParam, placeholderValues);
+        const queryParam = statement.getParameter(placeholderValues);
         console.log("// opts for aws.dynamodb.scan:");
         console.log(JSON.stringify(queryParam, null, "    "));
     } else {

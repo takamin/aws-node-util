@@ -1,7 +1,7 @@
 #!/bin/env node
 "use strict";
-const awscli = require("../lib/awscli.js");
-const isKeyword = require("../lib/dynamodb-keywords.js").isKeyword;
+const aws = require("../index.js");
+const { isKeyword } = aws.dynamodb;
 const listit = require('list-it');
 const GetOpt = require('node-getopt');
 const HashArg = require('hash-arg');
@@ -19,8 +19,8 @@ if(arg.tableName == null) {
 }
 
 try {
-    awscli.connect();
-    const dynamodb = awscli.getService("DynamoDB");
+    aws.connect();
+    const dynamodb = aws.getService("DynamoDB");
     dynamodb.describeTable({ TableName: arg.tableName }, (err, data) => {
         if(err) {
             console.error("Error:", err);
