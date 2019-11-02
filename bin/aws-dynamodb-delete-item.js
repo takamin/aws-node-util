@@ -1,7 +1,7 @@
 #!/bin/env node
 "use strict";
-const awscli = require("../lib/awscli.js");
-const DynamoDBDeleteStatement = require("../lib/dynamodb-delete-statement.js");
+const aws = require("../index.js");
+const { DeleteItemStatement } = aws.dynamodb;
 
 var getopt = require('node-getopt').create([
     ['j', 'output-json',            'output a json to read'],
@@ -41,9 +41,9 @@ if(getopt.options["sql-ish"]) {
 }
 
 try {
-    const statement = new DynamoDBDeleteStatement(param);
-    awscli.connect();
-    statement.dynamodb = awscli.getService("DynamoDB");
+    const statement = new DeleteItemStatement(param);
+    aws.connect();
+    statement.dynamodb = aws.getService("DynamoDB");
 
     // Dry-run Option
     if(getopt.options["dry-run"]) {
