@@ -1,6 +1,6 @@
 {
   "name": "aws-node-util",
-  "version": "0.9.17",
+  "version": "0.9.18",
   "description": "Accessing the DynamoDB with SQL-ish statement and AWS services from CLI",
   "directries": {
     "lib": "./lib"
@@ -50,8 +50,7 @@
     "ini": "^1.3.5",
     "lex-bnf": "^0.3.1",
     "list-it": "^1.0.3",
-    "node-getopt": "^0.3.2",
-    "promise": "^8.0.3"
+    "node-getopt": "^0.3.2"
   },
   "devDependencies": {
     "ansi-escape-sequences": "^5.0.0",
