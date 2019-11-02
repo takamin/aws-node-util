@@ -58,11 +58,15 @@
     "eslint": "^6.6.0",
     "jsdoc": "^3.6.3",
     "minami": "^1.2.3",
-    "mocha": "^6.2.2"
+    "mocha": "^6.2.2",
+    "parcel-bundler": "^1.12.4",
+    "uuid": "^3.3.3"
   },
   "scripts": {
     "test": "eslint . && mocha",
     "lint": "eslint .",
+    "build": "parcel build --out-dir js --out-file dynamodb-api-parameter-bundle.js web/dynamodb-api-parameter.js",
+    "start": "parcel serve web/dynamodb-api-parameter.html --open",
     "docs": "jsdoc --configure jsdoc.json --verbose"
   },
   "repository": {
