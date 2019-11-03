@@ -1,5 +1,8 @@
+/.cache
 /apis
+/dist
 /docs
+/js
 /node_modules
 /sample
 /test
