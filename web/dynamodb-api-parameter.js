@@ -31,6 +31,24 @@ function DynamoDbApiParameter(appFrame) {
     //    .css("display", "inline-block")
     //    .css("margin-left", "1em");
     const input = (mandatory, input, caption, remark) => {
+        const enable = (input, state) => {
+            if(state) {
+                input.prop("disabled", false);
+                input.val(input.attr("latest"));
+                input.focus();
+            } else {
+                input.attr("latest", input.val());
+                input.val("");
+                input.prop("disabled", true);
+            }
+        };
+        const applyCheckbox = (cb, input) => {
+            if(cb.prop("checked")) {
+                enable(input, true);
+            } else {
+                enable(input, false);
+            }
+        };
         const container = $(`<div/>`)
             .css("margin-bottom", "1em")
             .css("vertical-align", "base-line")
@@ -44,24 +62,6 @@ function DynamoDbApiParameter(appFrame) {
                     .css("display", "inline-block")
                     .css("width", "30px"));
         } else {
-            const enable = (input, state) => {
-                if(state) {
-                    input.prop("disabled", false);
-                    //input.val(input.attr("latest"));
-                    input.focus();
-                } else {
-                    //input.attr("latest", input.val());
-                    //input.val("");
-                    input.prop("disabled", true);
-                }
-            };
-            const applyCheckbox = (cb, input) => {
-                if(cb.prop("checked")) {
-                    enable(input, true);
-                } else {
-                    enable(input, false);
-                }
-            }
             container.append(
                 $(`<input type="checkbox" class="optional" id="enable-${input.attr("id")}"/>`)
                     .css("width", "30px")
@@ -98,7 +98,6 @@ function DynamoDbApiParameter(appFrame) {
         const copy = document.execCommand("copy");
         console.log(`${copy}`);
     })
-    //$("input.text").uitext();
     this.txtLimit.spinner({
         min: 0,
         spin: (event, ui) => {
