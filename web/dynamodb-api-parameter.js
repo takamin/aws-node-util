@@ -31,7 +31,8 @@ function DynamoDbApiParameter(appFrame) {
     //    .css("display", "inline-block")
     //    .css("margin-left", "1em");
     const input = (mandatory, input, caption, remark) => {
-        const enable = (input, state) => {
+        const checkboxId = id => `enable-${id}`;
+        const enableInput = (input, state) => {
             if(state) {
                 input.prop("disabled", false);
                 input.val(input.attr("latest"));
@@ -44,9 +45,9 @@ function DynamoDbApiParameter(appFrame) {
         };
         const applyCheckbox = (cb, input) => {
             if(cb.prop("checked")) {
-                enable(input, true);
+                enableInput(input, true);
             } else {
-                enable(input, false);
+                enableInput(input, false);
             }
         };
         const container = $(`<div/>`)
@@ -63,13 +64,13 @@ function DynamoDbApiParameter(appFrame) {
                     .css("width", "30px"));
         } else {
             container.append(
-                $(`<input type="checkbox" class="optional" id="enable-${input.attr("id")}"/>`)
+                $(`<input type="checkbox" class="optional" id="${checkboxId(input.attr("id"))}"/>`)
                     .css("width", "30px")
                     .bind("click", ()=>{
-                        applyCheckbox($(`#enable-${input.attr("id")}`), input);
+                        applyCheckbox($(`#${checkboxId(input.attr("id"))}`), input);
                     })
             );
-            applyCheckbox($(`#enable-${input.attr("id")}`), input);
+            applyCheckbox($(`#${checkboxId(input.attr("id"))}`), input);
         }
         container
             .append(inputLabel(input, caption))
@@ -83,11 +84,11 @@ function DynamoDbApiParameter(appFrame) {
     appFrame
         .append($(`<h2>DynamoDB Query API Parameter Generator</h2>`))
         .append($(`<h3>Query Specification</h3>`))
-        .append(input(false, this.txtProjectionExpression, "ProjectionExpression", "List of attribute name"))
         .append(input(true, this.txtTableName, "TableName", "Table name (mandatory)"))
         .append(input(true, this.txtKeyConditionExpression, "KeyConditionExpression", "Key condition (mandatory)"))
         .append(input(false, this.txtFilterExpression, "FilterExpression", "Filter (applied after scanning)"))
         .append(input(false, this.txtLimit, "Limit", "Number of result rows. zero means no limit."))
+        .append(input(false, this.txtProjectionExpression, "ProjectionExpression", "List of attribute name"))
         .append($(`<h3>Query API Parameter</h3>`))
         .append(this.preResultParameter).append($(`<br/>`))
         .append(this.btnCopyParam);
