@@ -1,6 +1,7 @@
 *~
 *.swp
 .cache/
+dist/
 node_modules/*
 npm-debug.log
 cert*.json
