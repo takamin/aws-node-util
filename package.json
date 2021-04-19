@@ -1,7 +1,7 @@
 {
   "name": "aws-node-util",
-  "version": "0.9.23",
-  "description": "4ccessing the DynamoDB with SQL-ish statement and AWS services from CLI",
+  "version": "0.9.24",
+  "description": "Accessing the DynamoDB with SQL-ish statement and AWS services from CLI",
   "directries": {
     "lib": "./lib"
   },
