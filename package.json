@@ -55,7 +55,7 @@
   "devDependencies": {
     "ansi-escape-sequences": "^5.1.2",
     "chai": "^4.2.0",
-    "eslint": "^6.8.0",
+    "eslint": "^9.36.0",
     "jsdoc": "^3.6.4",
     "minami": "^1.2.3",
     "mocha": "^10.2.0"
